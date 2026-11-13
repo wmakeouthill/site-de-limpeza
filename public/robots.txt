@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /cms/
+Disallow: /api/
+
+Sitemap: https://falcaolimpeza.com.br/sitemap-index.xml
+Sitemap: https://falcaolimpeza.com.br/sitemap.xml

@@ -1,0 +1,36 @@
+---
+import type { PublicSiteSettings } from '@/lib/server/publicSettings';
+import { buildArticleJsonLd } from '../utils/jsonLdBuilder';
+
+export interface Props {
+  title: string;
+  description: string;
+  canonicalUrl?: string;
+  publishedTime?: string | null;
+  modifiedTime?: string | null;
+  authorName?: string | null;
+  settings: PublicSiteSettings;
+}
+
+const {
+  title,
+  description,
+  canonicalUrl = Astro.url.href,
+  publishedTime,
+  modifiedTime,
+  authorName,
+  settings,
+} = Astro.props;
+
+const schema = buildArticleJsonLd({
+  title,
+  description,
+  canonicalUrl,
+  publishedTime,
+  modifiedTime,
+  authorName,
+  settings,
+});
+---
+
+<script is:inline type="application/ld+json" set:html={JSON.stringify(schema)} />

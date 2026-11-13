@@ -1,0 +1,610 @@
+---
+import type { PublicProduto, PublicSiteSettings } from "@/lib/server/publicCatalog";
+import ProductIllustration from "./ProductIllustration.astro";
+import { ProductQuantitySelector } from "./ProductQuantitySelector";
+import { formatBrl } from "@/features/list/utils/whatsappFormatter";
+import { fotoStyle } from "@/features/catalog/utils/productPhoto";
+
+export interface Props {
+  produto: PublicProduto;
+  relatedProdutos: PublicProduto[];
+  settings: PublicSiteSettings;
+}
+
+const { produto, relatedProdutos, settings } = Astro.props;
+
+const precoDe = produto.preco_de;
+const precoPor = produto.preco_por;
+const isPromo = produto.promo_ativa && Boolean(precoPor);
+
+let economiaPorUnidade: string | null = null;
+if (isPromo && precoPor) {
+  const numDe = parseFloat(precoDe.replace(",", "."));
+  const numPor = parseFloat(precoPor.replace(",", "."));
+  if (!isNaN(numDe) && !isNaN(numPor) && numDe > numPor) {
+    economiaPorUnidade = (numDe - numPor).toLocaleString("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+    });
+  }
+}
+
+let validadeFormatada: string | null = null;
+if (produto.promo_fim) {
+  try {
+    const d = new Date(produto.promo_fim);
+    validadeFormatada = d.toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit" });
+  } catch {
+    validadeFormatada = produto.promo_fim;
+  }
+}
+
+const waDuvidaUrl = `https://wa.me/${settings.whatsapp_numero}?text=Ol%C3%A1%2C%20tenho%20uma%20d%C3%BAvida%20sobre%20o%20produto%20${encodeURIComponent(produto.nome)}%20(${encodeURIComponent(produto.tamanho)}).`;
+---
+
+<div class="pd-view">
+  <!-- Breadcrumbs -->
+  <nav class="pd-crumbs" aria-label="Navegação estrutural">
+    <a href="/">Início</a>
+    <span aria-hidden="true">/</span>
+    <a href="/produtos">Produtos</a>
+    {produto.departamento_nome && (
+      <>
+        <span aria-hidden="true">/</span>
+        <a href={`/produtos?departamento=${produto.departamento_slug || ''}`}>
+          {produto.departamento_nome}
+        </a>
+      </>
+    )}
+    <span aria-hidden="true">/</span>
+    <span aria-current="page">{produto.nome}</span>
+  </nav>
+
+  <div class="pd-grid">
+    <!-- Imagem / Ilustração -->
+    <div class="pd-media" style={{ backgroundColor: produto.cor ? `${produto.cor}15` : "var(--surface-2)" }}>
+      {produto.imagem_url ? (
+        <span class="pd-photo">
+          <img
+            src={produto.imagem_url}
+            alt={produto.nome}
+            class="pd-image"
+            loading="eager"
+            decoding="async"
+            style={fotoStyle(produto.imagem_posicao, produto.imagem_zoom)}
+          />
+        </span>
+      ) : (
+        <div class="pd-illus-wrap">
+          <ProductIllustration forma={produto.forma} cor={produto.cor} width={140} height={196} />
+        </div>
+      )}
+
+      <div class="pd-badges">
+        {produto.embalagem_grande && <span class="badge-grande">Grande</span>}
+        {isPromo && produto.desconto_pct && (
+          <span class="badge-promo">-{produto.desconto_pct}%</span>
+        )}
+      </div>
+    </div>
+
+    <!-- Informações do Produto -->
+    <div class="pd-details">
+      <span class="pd-meta">
+        {produto.marca ? `${produto.marca} · ` : ""}
+        {produto.tamanho}
+      </span>
+
+      <h1 class="pd-title">{produto.nome}</h1>
+      <p class="pd-description">{produto.descricao}</p>
+
+      <!-- Preço -->
+      <div class="pd-pricing-box">
+        {isPromo && precoPor ? (
+          <div class="pd-promo-pricing">
+            <div class="prices-row">
+              <span class="price-de">De {formatBrl(precoDe)}</span>
+              <span class="price-por">Por {formatBrl(precoPor)}</span>
+            </div>
+            <p class="promo-validity">
+              {validadeFormatada && `Oferta válida até ${validadeFormatada}. `}
+              {economiaPorUnidade && `Você economiza ${economiaPorUnidade} em cada unidade.`}
+            </p>
+          </div>
+        ) : (
+          <div class="price-normal-wrap">
+            <span class="price-normal">{formatBrl(precoDe)}</span>
+            <span class="price-label">Preço da loja no balcão</span>
+          </div>
+        )}
+      </div>
+
+      <!-- Seletor de Quantidade e Adição à Lista -->
+      <ProductQuantitySelector client:load produto={produto} />
+
+      <!-- Chamada WhatsApp para tirar dúvidas -->
+      <a class="btn-wa-question" href={waDuvidaUrl} target="_blank" rel="noopener noreferrer" data-whatsapp-target="produto">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+        </svg>
+        Tirar uma dúvida sobre este produto no WhatsApp
+      </a>
+
+      <!-- Chamada para Atacado / Empresas -->
+      <div class="only-emp wholesale-notice">
+        <strong>Comprando em quantidade?</strong>
+        <p>O preço de atacado a gente combina direto pelo WhatsApp, sem burocracia.</p>
+      </div>
+
+      <!-- Instruções de Uso e Cuidados -->
+      <div class="pd-accordions">
+        {produto.como_usar && (
+          <details class="pd-accordion" open>
+            <summary>Como usar</summary>
+            <div class="accordion-content">
+              <p>{produto.como_usar}</p>
+            </div>
+          </details>
+        )}
+
+        <details class="pd-accordion">
+          <summary>Cuidados e conservação</summary>
+          <div class="accordion-content">
+            <p>
+              Mantenha o produto fora do alcance de crianças e animais domésticos. Guarde em local
+              fresco e arejado, longe do calor excessivo e da luz solar direta. Nunca misture
+              diferentes produtos de limpeza a menos que expressamente indicado no rótulo.
+            </p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </div>
+
+  <!-- Produtos Relacionados (Combina com) -->
+  {relatedProdutos.length > 0 && (
+    <section class="related-section">
+      <div class="sec-head">
+        <div>
+          <p class="sec-eyebrow">Pra completar</p>
+          <h2 class="sec-title">Combina com</h2>
+        </div>
+      </div>
+
+      <div class="related-grid">
+        {relatedProdutos.map((rel) => (
+          <a class="rel-card" href={`/produtos/${rel.slug}`}>
+            <div class="rel-thumb" style={{ backgroundColor: rel.cor ? `${rel.cor}15` : "var(--surface-2)" }}>
+              <ProductIllustration forma={rel.forma} cor={rel.cor} width={60} height={84} />
+            </div>
+            <div class="rel-info">
+              <span class="rel-meta">{rel.tamanho}</span>
+              <strong class="rel-name">{rel.nome}</strong>
+              <span class="rel-price">{formatBrl(rel.preco_atual)}</span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </section>
+  )}
+</div>
+
+<style>
+  .pd-view {
+    padding: 24px 0 64px;
+  }
+
+  .pd-crumbs {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85rem;
+    color: var(--ink-2);
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+
+  .pd-crumbs a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .pd-crumbs a:hover {
+    color: var(--brand);
+    text-decoration: underline;
+  }
+
+  .pd-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 48px;
+    align-items: start;
+    margin-bottom: 64px;
+  }
+
+  @media (max-width: 860px) {
+    .pd-grid {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+  }
+
+  /* Media Column */
+  .pd-media {
+    position: relative;
+    border-radius: 16px;
+    border: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    min-height: 380px;
+  }
+
+  .pd-photo {
+    width: min(100%, 360px);
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    border-radius: 12px;
+  }
+
+  .pd-image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .pd-illus-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .pd-badges {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .badge-grande {
+    background: var(--btn);
+    color: var(--btn-ink);
+    font-size: 0.78rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 6px;
+  }
+
+  .badge-promo {
+    background: var(--promo);
+    color: var(--btn-ink);
+    font-size: 0.78rem;
+    font-weight: 800;
+    padding: 4px 10px;
+    border-radius: 6px;
+  }
+
+  /* Details Column */
+  .pd-details {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .pd-meta {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--ink-2);
+    margin-bottom: 6px;
+  }
+
+  .pd-title {
+    font-size: clamp(1.8rem, 3.5vw, 2.4rem);
+    font-weight: 800;
+    color: var(--ink);
+    line-height: 1.2;
+    margin: 0 0 14px;
+    letter-spacing: -0.02em;
+  }
+
+  .pd-description {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: var(--ink);
+    margin: 0 0 24px;
+  }
+
+  /* Pricing */
+  .pd-pricing-box {
+    padding: 16px 20px;
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    margin-bottom: 24px;
+  }
+
+  .prices-row {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+  }
+
+  .price-de {
+    font-size: 1.1rem;
+    color: var(--ink-3);
+    text-decoration: line-through;
+  }
+
+  .price-por {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--zap);
+  }
+
+  .promo-validity {
+    font-size: 0.85rem;
+    color: var(--ink-2);
+    margin: 4px 0 0;
+  }
+
+  .price-normal-wrap {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .price-normal {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--brand);
+  }
+
+  .price-label {
+    font-size: 0.82rem;
+    color: var(--ink-2);
+  }
+
+  /* WhatsApp Link */
+  .btn-wa-question {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--zap);
+    font-size: 0.92rem;
+    font-weight: 700;
+    text-decoration: none;
+    margin: 16px 0;
+  }
+
+  .btn-wa-question:hover {
+    text-decoration: underline;
+  }
+
+  /* Wholesale notice */
+  .wholesale-notice {
+    padding: 12px 16px;
+    background: var(--surface-2);
+    border-left: 4px solid var(--focus);
+    border-radius: 6px;
+    margin: 16px 0;
+    font-size: 0.88rem;
+  }
+
+  .wholesale-notice strong {
+    color: var(--promo);
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  .wholesale-notice p {
+    margin: 0;
+    color: var(--ink);
+  }
+
+  /* Accordions */
+  .pd-accordions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 24px;
+    border-top: 1px solid var(--line);
+    padding-top: 24px;
+  }
+
+  .pd-accordion {
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .pd-accordion summary {
+    padding: 12px 16px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    cursor: pointer;
+    background: var(--surface-2);
+    user-select: none;
+  }
+
+  .accordion-content {
+    padding: 14px 16px;
+    font-size: 0.92rem;
+    line-height: 1.5;
+    color: var(--ink-2);
+  }
+
+  .accordion-content p {
+    margin: 0;
+  }
+
+  /* Related section */
+  .related-section {
+    border-top: 1px solid var(--line);
+    padding-top: 48px;
+  }
+
+  .sec-head {
+    margin-bottom: 24px;
+  }
+
+  .sec-eyebrow {
+    font-size: 0.82rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--brand);
+    margin: 0 0 4px;
+  }
+
+  .sec-title {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--ink);
+    margin: 0;
+  }
+
+  .related-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
+  }
+
+  .rel-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .rel-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+  }
+
+  .rel-thumb {
+    width: 60px;
+    height: 70px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .rel-info {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .rel-meta {
+    font-size: 0.75rem;
+    color: var(--ink-2);
+  }
+
+  .rel-name {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--ink);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 2px 0 4px;
+  }
+
+  .rel-price {
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: var(--brand);
+  }
+</style>
+
+<style is:global>
+  .pd-buy-box {
+    margin: 8px 0 16px;
+  }
+
+  .pd-stepper-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  .pd-stepper {
+    display: inline-flex;
+    align-items: center;
+    border: 1.5px solid var(--line);
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--surface);
+  }
+
+  .pd-step-btn {
+    width: 40px;
+    height: 44px;
+    background: var(--surface-2);
+    border: none;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--ink);
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+  }
+
+  .pd-step-btn:hover:not(:disabled) {
+    background: var(--surface-2);
+  }
+
+  .pd-step-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  .pd-step-qty {
+    min-width: 44px;
+    text-align: center;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  .pd-btn-add {
+    flex: 1;
+    min-width: 180px;
+    height: 44px;
+    background: var(--btn);
+    color: var(--btn-ink);
+    font-size: 1rem;
+    font-weight: 700;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.15s ease, transform 0.15s ease;
+  }
+
+  .pd-btn-add:hover {
+    background: var(--brand-strong);
+    transform: translateY(-1px);
+  }
+
+  .pd-subtotal {
+    font-size: 0.88rem;
+    color: var(--ink-2);
+    margin: 8px 0 0;
+  }
+
+  .pd-subtotal strong {
+    color: var(--ink);
+  }
+</style>

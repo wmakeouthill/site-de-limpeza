@@ -1,0 +1,73 @@
+---
+export interface Props {
+  forma?: string;
+  cor?: string;
+  width?: number;
+  height?: number;
+}
+
+const {
+  forma = "garrafa",
+  cor = "#003399",
+  width = 120,
+  height = 168,
+} = Astro.props;
+---
+
+<div class="product-illustration" style={{ "--c": cor }}>
+  {forma === "galao" ? (
+    <svg viewBox="0 0 100 140" width={width} height={height} aria-hidden="true">
+      <rect x="52" y="16" width="20" height="13" rx="3" fill="#ffe082" />
+      <path d="M24 36h28v-8h20v8h4c6 0 10 4 10 10v76c0 6-4 10-10 10H24c-6 0-10-4-10-10V46c0-6 4-10 10-10z" fill={cor} />
+      <path d="M60 44h14a3 3 0 0 1 3 3v13H63a3 3 0 0 1-3-3z" fill="#ffc727" />
+      <rect x="22" y="72" width="56" height="42" rx="5" fill="#ffffff" />
+      <rect x="30" y="84" width="40" height="5" rx="2.5" fill={cor} />
+      <rect x="30" y="95" width="26" height="4" rx="2" fill={cor} opacity="0.5" />
+    </svg>
+  ) : forma === "spray" ? (
+    <svg viewBox="0 0 100 140" width={width} height={height} aria-hidden="true">
+      <rect x="40" y="40" width="18" height="16" fill="#333333" />
+      <rect x="30" y="22" width="40" height="18" rx="6" fill="#333333" />
+      <rect x="20" y="27" width="14" height="8" rx="2" fill="#333333" />
+      <path d="M46 40l-7 17h6l7-17z" fill="#333333" />
+      <path d="M36 54h28c4 0 7 3 7 7v61c0 6-4 10-10 10H39c-6 0-10-4-10-10V61c0-4 3-7 7-7z" fill={cor} />
+      <rect x="35" y="76" width="30" height="38" rx="4" fill="#ffffff" />
+      <rect x="40" y="88" width="20" height="4" rx="2" fill={cor} />
+      <rect x="40" y="97" width="12" height="3" rx="1.5" fill={cor} opacity="0.5" />
+    </svg>
+  ) : forma === "caixa" ? (
+    <svg viewBox="0 0 100 140" width={width} height={height} aria-hidden="true">
+      <rect x="18" y="32" width="64" height="100" rx="7" fill={cor} />
+      <rect x="18" y="32" width="64" height="16" rx="7" fill="#ffffff" opacity="0.35" />
+      <rect x="26" y="60" width="48" height="50" rx="5" fill="#ffffff" />
+      <circle cx="50" cy="80" r="11" fill={cor} />
+      <rect x="36" y="97" width="28" height="4" rx="2" fill={cor} opacity="0.5" />
+    </svg>
+  ) : forma === "balde" ? (
+    <svg viewBox="0 0 100 140" width={width} height={height} aria-hidden="true">
+      <path d="M22 60C22 22 78 22 78 60" fill="none" stroke="#666666" stroke-width="4" />
+      <path d="M20 58h60l-8 66c-1 5-4 8-9 8H37c-5 0-8-3-9-8z" fill={cor} />
+      <rect x="16" y="52" width="68" height="11" rx="5" fill="#333333" />
+      <rect x="26" y="84" width="48" height="8" rx="4" fill="#ffffff" opacity="0.7" />
+    </svg>
+  ) : (
+    /* garrafa padrão */
+    <svg viewBox="0 0 100 140" width={width} height={height} aria-hidden="true">
+      <rect x="40" y="12" width="20" height="15" rx="3" fill="#ffe082" />
+      <path d="M42 26h16v8c0 3 14 7 14 20v68c0 6-4 10-10 10H38c-6 0-10-4-10-10V54c0-13 14-17 14-20z" fill={cor} />
+      <rect x="33" y="70" width="34" height="42" rx="4" fill="#ffffff" />
+      <rect x="39" y="82" width="22" height="4" rx="2" fill={cor} />
+      <rect x="39" y="92" width="14" height="3" rx="1.5" fill={cor} opacity="0.5" />
+    </svg>
+  )}
+</div>
+
+<style>
+  .product-illustration {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+  }
+</style>

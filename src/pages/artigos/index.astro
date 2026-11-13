@@ -1,0 +1,221 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Nav from '@/components/Nav.astro';
+import Footer from '@/components/Footer.astro';
+import FloatingWhatsApp from '@/components/FloatingWhatsApp.astro';
+import ArticleCard from '@/components/editorial/ArticleCard.astro';
+import {
+  getPublicArticlesList,
+  getPublicSiteSettings,
+  PublicContentUnavailableError,
+} from '@/lib/server/publicContent';
+
+export const prerender = false;
+
+let settings;
+let articles = [];
+
+const url = new URL(Astro.request.url);
+const categoriaParam = url.searchParams.get('categoria') || '';
+
+try {
+  settings = await getPublicSiteSettings();
+  if (!settings.articles_enabled) {
+    return new Response(null, { status: 404, statusText: "Not Found" });
+  }
+  const allArticles = await getPublicArticlesList();
+  if (categoriaParam) {
+    articles = allArticles.filter((a) => (a.categoria || 'geral') === categoriaParam);
+  } else {
+    articles = allArticles;
+  }
+} catch (err) {
+  if (err instanceof PublicContentUnavailableError) {
+    return new Response("503 Service Unavailable: Área editorial temporariamente indisponível", {
+      status: 503,
+      headers: { "Content-Type": "text/plain; charset=utf-8" },
+    });
+  }
+  throw err;
+}
+
+const siteUrl = Astro.site?.toString() || "https://falcaolimpeza.com.br";
+const canonical = new URL("/artigos", siteUrl).href;
+---
+
+<BaseLayout
+  title={`Dicas e Artigos de Limpeza · ${settings.loja_nome}`}
+  description="Dicas práticas, comparativos reais e orientações honestas sobre produtos de limpeza testados por quem entende."
+  canonical={canonical}
+>
+  <Nav
+    articlesEnabled={settings.articles_enabled}
+    guidesEnabled={settings.guides_enabled}
+    settings={settings}
+  />
+
+  <main class="artigos-page">
+    <header class="artigos-header wrap">
+      <nav aria-label="Navegação estrutural" class="breadcrumbs">
+        <a href="/">Início</a>
+        <span aria-hidden="true">/</span>
+        <span>Artigos</span>
+      </nav>
+
+      <h1>Dicas e Artigos de Limpeza</h1>
+      <p>
+        Conteúdo prático para facilitar sua rotina, comparativos de rendimento e avaliações honestas feitas pela nossa equipe.
+      </p>
+
+      <!-- Filtros por Categoria -->
+      <div class="category-filters" role="tablist" aria-label="Filtro por categoria">
+        <a
+          href="/artigos"
+          class={`filter-pill ${!categoriaParam ? 'active' : ''}`}
+        >
+          Todos
+        </a>
+        <a
+          href="/artigos?categoria=dicas"
+          class={`filter-pill ${categoriaParam === 'dicas' ? 'active' : ''}`}
+        >
+          Dicas
+        </a>
+        <a
+          href="/artigos?categoria=empresas"
+          class={`filter-pill ${categoriaParam === 'empresas' ? 'active' : ''}`}
+        >
+          Para Empresas
+        </a>
+        <a
+          href="/artigos?categoria=testamos"
+          class={`filter-pill filter-pill--testamos ${categoriaParam === 'testamos' ? 'active' : ''}`}
+        >
+          A gente testou
+        </a>
+      </div>
+    </header>
+
+    <section class="artigos-content wrap">
+      {articles.length === 0 ? (
+        <div class="empty-state">
+          <p>Nenhum artigo encontrado nesta categoria. Volte em breve!</p>
+        </div>
+      ) : (
+        <div class="artigos-grid">
+          {articles.map((article) => (
+            <ArticleCard article={article} />
+          ))}
+        </div>
+      )}
+    </section>
+  </main>
+
+  <Footer
+    articlesEnabled={settings.articles_enabled}
+    guidesEnabled={settings.guides_enabled}
+    settings={settings}
+  />
+
+  <FloatingWhatsApp settings={settings} />
+</BaseLayout>
+
+<style>
+  .artigos-page {
+    background: var(--bg);
+    min-height: 80vh;
+    padding-bottom: 64px;
+  }
+
+  .artigos-header {
+    padding-top: 40px;
+    padding-bottom: 24px;
+  }
+
+  .breadcrumbs {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--ink-3);
+    margin-bottom: 16px;
+  }
+
+  .breadcrumbs a {
+    color: var(--brand);
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .artigos-header h1 {
+    font-family: var(--font-display, sans-serif);
+    font-size: clamp(28px, 4vw, 42px);
+    font-weight: 800;
+    color: var(--ink);
+    margin: 0 0 12px;
+    line-height: 1.15;
+  }
+
+  .artigos-header p {
+    font-size: 17px;
+    color: var(--ink-2);
+    max-width: 680px;
+    margin: 0 0 24px;
+    line-height: 1.6;
+  }
+
+  .category-filters {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 16px;
+  }
+
+  .filter-pill {
+    padding: 6px 16px;
+    border-radius: 9999px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    color: var(--ink-2);
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.15s ease;
+  }
+
+  .filter-pill:hover {
+    border-color: var(--brand);
+    color: var(--brand);
+  }
+
+  .filter-pill.active {
+    background: var(--btn);
+    border-color: var(--btn);
+    color: var(--btn-ink);
+  }
+
+  .filter-pill--testamos {
+    border-color: var(--brand-line);
+  }
+
+  .artigos-content {
+    margin-top: 24px;
+  }
+
+  .artigos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
+    gap: 24px;
+    align-items: stretch;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 60px 24px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    color: var(--ink-3);
+  }
+</style>

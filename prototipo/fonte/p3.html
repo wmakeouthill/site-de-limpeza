@@ -1,0 +1,145 @@
+
+<section class="page" id="pg-empresas" hidden><div class="wrap">
+<div class="pg-head"><p class="eyebrow">Atacado para empresas</p><h1>Limpeza no atacado, com atendimento de bairro.</h1><p class="lede">Para condomínios, restaurantes, salões, escritórios e comércios da região. O pedido sai pelo WhatsApp, o preço de atacado a gente combina com você e a retirada é rápida no Anil.</p><div class="ctas"><button type="button" class="btn" data-scroll="#cotacao">Pedir cotação</button><button type="button" class="btn btn-sec" data-scroll="#kits">Ver kits prontos</button></div></div>
+<div class="perks">
+<div class="perk"><svg class="ico" aria-hidden="true"><use href="#i-boxes"/></svg><b>Preço de atacado combinado</b><p>Mande o que precisa e quanto; a gente responde com o preço pelo WhatsApp. Sem cadastro.</p></div>
+<div class="perk"><svg class="ico" aria-hidden="true"><use href="#i-clock"/></svg><b>Pedido separado em ~30 min</b><p>Mande a lista e passe pra buscar. Prazo a confirmar com a loja.</p></div>
+<div class="perk"><svg class="ico" aria-hidden="true"><use href="#i-truck"/></svg><b>Entrega na região</b><p>Anil, Rio das Pedras, Freguesia, Gardênia Azul e arredores. Consulte.</p></div>
+</div>
+<div class="sec" id="kits">
+<div class="sec-head"><div><p class="eyebrow">Kits prontos</p><h2>Comece por um kit e ajuste do seu jeito</h2><p>Quantidades sugeridas, com o preço da loja. Ponha na lista, mude o que quiser e peça o preço de atacado pelo WhatsApp.</p></div></div>
+<div class="tabs" id="kit-tabs" role="tablist" aria-label="Kits por tipo de empresa"></div>
+<div id="kit-panel" role="tabpanel"></div>
+</div>
+<div class="sec">
+<div class="sec-head"><div><p class="eyebrow">Como funciona</p><h2>Do pedido à retirada</h2></div></div>
+<ol class="steps s4">
+<li><b>Mande a lista ou peça cotação</b><p>Pelo site ou direto no WhatsApp.</p></li>
+<li><b>A gente confirma preço e prazo</b><p>O preço de atacado sai conforme o seu pedido.</p></li>
+<li><b>Separamos o pedido</b><p>Em cerca de 30 minutos, no horário da loja.</p></li>
+<li><b>Você retira ou recebe</b><p>No Anil, ou entregue na região (consulte).</p></li>
+</ol>
+</div>
+<div id="cotacao">
+<form class="cot" id="cot" novalidate>
+<div class="stack"><p class="eyebrow">Cotação</p><h2>Peça uma cotação pelo WhatsApp</h2><p class="muted">Preencha o básico; a mensagem fica pronta pra você enviar.</p></div>
+<div class="form-grid">
+<div class="field"><label for="c-emp">Empresa *</label><input class="in" id="c-emp" name="empresa" maxlength="80" autocomplete="organization"></div>
+<div class="field"><label for="c-cnpj">CNPJ <small>(opcional)</small></label><input class="in" id="c-cnpj" name="cnpj" maxlength="20" inputmode="numeric"></div>
+<div class="field"><label for="c-seg">Segmento</label><select class="in" id="c-seg" name="seg"><option>Condomínio</option><option>Restaurante ou lanchonete</option><option>Salão ou clínica</option><option>Escritório</option><option>Comércio</option><option>Outro</option></select></div>
+<div class="field"><label for="c-bairro">Bairro</label><input class="in" id="c-bairro" name="bairro" maxlength="60"></div>
+<div class="field"><label for="c-freq">Frequência</label><select class="in" id="c-freq" name="freq"><option>Compra única</option><option>Toda semana</option><option>A cada 15 dias</option><option>Todo mês</option></select></div>
+<div class="field full"><label for="c-itens">Do que você precisa?</label><textarea class="in" id="c-itens" name="itens" maxlength="800" placeholder="Ex.: 12 águas sanitárias 2 L, 4 pacotes de saco de lixo 100 L…"></textarea></div>
+</div>
+<p class="err" id="cot-err" role="alert" hidden></p>
+<div class="row"><button class="btn" type="submit">Montar mensagem</button></div>
+<div id="cot-ok" class="stack" hidden><p><b>Mensagem pronta.</b> Confira e envie:</p><pre id="cot-msg"></pre><div class="row"><a class="btn btn-zap" id="cot-wa" href="#" target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="#i-zap"/></svg>Enviar no WhatsApp</a><button type="button" class="btn btn-sec btn-sm" data-act="copiar" data-src="cot-msg"><svg class="ico" aria-hidden="true"><use href="#i-copy"/></svg>Copiar</button></div></div>
+</form>
+</div>
+</div></section>
+<section class="page" id="pg-guias" hidden><div class="wrap">
+<div class="pg-head"><p class="eyebrow">Como usar</p><h1>Guias pra limpar melhor, gastando menos.</h1><p class="lede">Medida certa, passo a passo e o que nunca misturar. Escritos pela equipe da loja, com os produtos que você encontra aqui.</p></div>
+<div class="gcards" id="g-list"></div>
+</div></section>
+<section class="page" id="pg-guia" hidden><div class="wrap" id="guia-box"></div></section>
+<section class="page" id="pg-testamos" hidden><div class="wrap">
+<nav class="crumbs" aria-label="Você está em"><a href="#" data-go="guias">Como usar</a><span aria-hidden="true">/</span><span>A gente testou</span></nav>
+<div class="pg-head"><p class="eyebrow">A gente testou</p><h1>Qual detergente rende mais pratos?</h1><p class="lede">Lavamos louça de verdade com quatro marcas da loja e contamos quantos pratos cada frasco de 500 ml aguentou.</p></div>
+<div class="t-grid">
+<div class="art-txt">
+<div class="box info"><svg class="ico" aria-hidden="true"><use href="#i-info"/></svg><p>Teste ilustrativo deste protótipo: marcas e números são fictícios. No site real, cada teste traz data, fotos e o método completo.</p></div>
+<h2>Como testamos</h2>
+<ol class="passos"><li>Um frasco de cada marca, comprado na própria loja.</li><li>Uma colher de sopa de detergente por bacia de 2 litros de água morna.</li><li>Trocamos a água quando a espuma sumia e contamos os pratos até o frasco acabar.</li></ol>
+<h2>Pratos por frasco</h2>
+<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Marca</th><th class="r">Preço</th><th>Pratos por frasco</th><th class="r">Por 100 pratos</th></tr></thead><tbody>
+<tr><td><b>Clarim</b> <span class="pill">Melhor custo</span></td><td class="r">R$ 2,19</td><td><div class="bar-row"><div class="bar" style="--v:86.5%"><i></i></div>450</div></td><td class="r">R$ 0,49</td></tr>
+<tr><td><b>Fortex</b> <span class="pill">Rende mais</span></td><td class="r">R$ 3,29</td><td><div class="bar-row"><div class="bar" style="--v:100%"><i></i></div>520</div></td><td class="r">R$ 0,63</td></tr>
+<tr><td><b>Brisanil</b></td><td class="r">R$ 2,79</td><td><div class="bar-row"><div class="bar" style="--v:78.8%"><i></i></div>410</div></td><td class="r">R$ 0,68</td></tr>
+<tr><td><b>Pratiq</b></td><td class="r">R$ 2,49</td><td><div class="bar-row"><div class="bar" style="--v:63.5%"><i></i></div>330</div></td><td class="r">R$ 0,75</td></tr>
+</tbody></table></div>
+<h2>Veredito</h2>
+<p>O Fortex rende mais pratos, mas o Clarim, em oferta, sai mais barato por louça lavada. Pra casa, o Clarim compensa. Pra cozinha de restaurante, vale o galão de 5 L, que derruba ainda mais o custo por prato.</p>
+</div>
+<aside class="precisa"><h2>O que levamos pra casa</h2><div id="t-prod"></div></aside>
+</div>
+</div></section>
+<section class="page" id="pg-loja" hidden><div class="wrap">
+<div class="pg-head"><p class="eyebrow">A loja</p><h1>Venha ver de perto.</h1><p class="lede">No Anil, na Estrada de Jacarepaguá, pertinho de Rio das Pedras. Mande a lista antes e encontre tudo separado.</p></div>
+<div class="loja-grid">
+<div><div class="mapa" data-mapa="l"></div><p class="mapa-nota">Mapa ilustrativo, fora de escala. Use o Google Maps para traçar a rota.</p></div>
+<div class="lcards">
+<div class="lcard"><h3><svg class="ico" aria-hidden="true"><use href="#i-pin"/></svg>Endereço</h3><address id="end-txt">Estrada de Jacarepaguá, 5171<br>Anil, Rio de Janeiro/RJ</address><div class="row"><a class="btn btn-sm" data-maps href="#" target="_blank" rel="noopener">Abrir no Google Maps</a><button type="button" class="btn btn-sec btn-sm" data-act="copiar-end"><svg class="ico" aria-hidden="true"><use href="#i-copy"/></svg>Copiar endereço</button></div></div>
+<div class="lcard"><h3><svg class="ico" aria-hidden="true"><use href="#i-clock"/></svg>Horário (provisório)</h3><p>Segunda a sábado, 8h às 19h<br>Domingo, 8h às 13h</p></div>
+<div class="lcard"><h3><svg class="ico" aria-hidden="true"><use href="#i-zap"/></svg>WhatsApp</h3><p><b>(21) 90000-0000</b> <span class="muted">· número provisório</span></p><div class="row"><a class="btn btn-zap btn-sm" data-wa href="#" target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="#i-zap"/></svg>Chamar no WhatsApp</a></div></div>
+<div class="lcard"><h3><svg class="ico" aria-hidden="true"><use href="#i-receipt"/></svg>Pagamento</h3><p>Pix, cartão de débito e crédito, dinheiro.</p></div>
+</div>
+</div>
+<div class="sec" id="entrega">
+<div class="sec-head"><div><p class="eyebrow">Entrega</p><h2>Entrega no seu bairro?</h2><p>Digite seu bairro pra ver se a gente costuma atender. A confirmação é sempre pelo WhatsApp.</p></div></div>
+<form id="bairro-form" class="bairro-form"><input class="in" id="bairro" maxlength="60" placeholder="Ex.: Freguesia" aria-label="Seu bairro"><button class="btn" type="submit">Consultar</button></form>
+<div id="bairro-res" aria-live="polite"></div>
+<p class="muted small-top">Bairros que costumamos atender:</p>
+<ul class="bairros" id="bairros-lista"></ul>
+</div>
+</div></section>
+<section class="page" id="pg-painel" hidden><div class="wrap">
+<div class="pg-head"><p class="eyebrow">Área do lojista · demonstração</p><h1>Cadastrar produto</h1><p class="lede">É assim que a equipe põe preço e oferta no site. Nesta demonstração, o produto entra no catálogo só enquanto esta página estiver aberta.</p></div>
+<div class="adm">
+<form class="adm-form" id="adm" novalidate>
+<div class="form-grid">
+<div class="field full"><label for="a-nome">Nome do produto *</label><input class="in" id="a-nome" name="nome" maxlength="60" placeholder="Ex.: Desinfetante Floral"></div>
+<div class="field"><label for="a-marca">Marca</label><input class="in" id="a-marca" name="marca" maxlength="30"></div>
+<div class="field"><label for="a-dep">Departamento</label><select class="in" id="a-dep" name="dep"></select></div>
+<div class="field"><label for="a-tam">Tamanho</label><input class="in" id="a-tam" name="tam" maxlength="30" placeholder="Ex.: 2 L"></div>
+<div class="field"><label for="a-forma">Embalagem</label><select class="in" id="a-forma" name="forma"></select></div>
+<div class="field"><label for="a-de">Preço normal (R$) *</label><input class="in" id="a-de" name="de" inputmode="decimal" placeholder="12,90"></div>
+<div class="field"><label for="a-por">Preço de oferta (R$)</label><input class="in" id="a-por" name="por" inputmode="decimal" placeholder="9,90"><small>Vazio = sem oferta.</small></div>
+<div class="field"><label for="a-ate">Oferta válida até</label><input class="in" id="a-ate" name="ate" type="date"></div>
+<div class="field"><label for="a-cor">Cor da embalagem</label><input class="in" id="a-cor" name="cor" type="color" value="#4C9CC2"></div>
+<div class="field full"><label class="chk"><input type="checkbox" name="grande">Embalagem grande ou fardo</label></div>
+<div class="field full"><label for="a-desc">Descrição curta</label><textarea class="in" id="a-desc" name="desc" maxlength="200"></textarea></div>
+</div>
+<ul class="err" id="adm-err" role="alert" hidden></ul>
+<div class="row"><button class="btn" type="submit">Salvar produto</button></div>
+</form>
+<aside class="adm-prev"><p class="eyebrow">Prévia no site</p><div id="adm-card"></div></aside>
+</div>
+</div></section>
+</main>
+<footer class="foot">
+<div class="wrap foot-in">
+<div><a class="logo" href="#" data-go="inicio"><span class="mark" aria-hidden="true"></span><span class="lw"><b>Falcão</b><span>Limpeza</span></span></a><p class="brand-tag">Limpeza pra casa e pra empresa.</p></div>
+<div><h4>Visite</h4><address>Estrada de Jacarepaguá, 5171<br>Anil, Rio de Janeiro/RJ</address><p>Seg a sáb, 8h às 19h · Dom, 8h às 13h</p></div>
+<div><h4>Navegue</h4><ul><li><a href="#" data-go="produtos">Produtos</a></li><li><a href="#" data-go="empresas">Para empresas</a></li><li><a href="#" data-go="guias">Como usar</a></li><li><a href="#" data-go="loja">A loja</a></li><li><a href="#" data-go="painel">Área do lojista</a></li></ul></div>
+</div>
+<div class="wrap"><div class="foot-base"><span>© 2026 Falcão Limpeza · Anil</span><span>Protótipo: marcas, preços e telefone fictícios.</span></div></div>
+</footer>
+<nav class="bbar" aria-label="Atalhos">
+<a href="#" data-go="inicio" data-nav="inicio"><svg class="ico" aria-hidden="true"><use href="#i-home"/></svg>Início</a>
+<a href="#" data-go="produtos" data-nav="produtos"><svg class="ico" aria-hidden="true"><use href="#i-tag"/></svg>Produtos</a>
+<button type="button" data-act="lista"><svg class="ico" aria-hidden="true"><use href="#i-list"/></svg>Lista<span class="badge" data-count="0">0</span></button>
+<a href="#" data-go="loja" data-nav="loja"><svg class="ico" aria-hidden="true"><use href="#i-store"/></svg>Loja</a>
+<a class="zap" data-wa href="#" target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="#i-zap"/></svg>WhatsApp</a>
+</nav>
+<a class="btn btn-zap fab" data-wa href="#" target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="#i-zap"/></svg>Fale com a loja</a>
+<div id="toast" role="status" aria-live="polite"></div>
+<dialog id="dlg-lista" aria-labelledby="dlg-t">
+<div class="dlg-head"><h2 id="dlg-t">Minha lista</h2><button type="button" class="x" data-act="fechar" aria-label="Fechar"><svg class="ico" aria-hidden="true"><use href="#i-close"/></svg></button></div>
+<div class="dlg-body">
+<div id="l-vazio"><p><b>Sua lista está vazia.</b></p><p class="muted">Ponha produtos na lista pra mandar pra loja pelo WhatsApp.</p><a class="btn" href="#" data-go="produtos">Ver produtos</a></div>
+<div id="l-cheia" hidden>
+<ul id="l-itens"></ul>
+<div class="tot" id="l-tot"></div>
+<fieldset class="modo-r"><legend>Como você prefere?</legend>
+<label><input type="radio" name="l-modo" value="retirar" checked>Retirar na loja</label>
+<label><input type="radio" name="l-modo" value="entrega">Perguntar entrega</label>
+</fieldset>
+<div class="field" id="l-end-wrap" hidden><label for="l-end">Bairro ou endereço pra entrega</label><input class="in" id="l-end" maxlength="120"></div>
+<div class="field"><label for="l-nome">Seu nome <small>(opcional)</small></label><input class="in" id="l-nome" maxlength="60" autocomplete="given-name"></div>
+<a class="btn btn-zap btn-full" id="l-wa" href="#" target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="#i-zap"/></svg>Enviar lista no WhatsApp</a>
+<p class="muted note-c">A loja confirma preços e disponibilidade na resposta.</p>
+<div class="l-tools"><button type="button" class="btn btn-sec btn-sm" data-act="copiar" data-src="l-pre"><svg class="ico" aria-hidden="true"><use href="#i-copy"/></svg>Copiar texto</button><button type="button" class="btn btn-sec btn-sm" data-act="limpar">Limpar lista</button></div>
+<details class="l-prev"><summary>Ver a mensagem</summary><pre id="l-pre"></pre></details>
+</div>
+</div>
+</dialog>

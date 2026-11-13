@@ -1,0 +1,40 @@
+.block {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+  font-size: 15px;
+}
+
+/* Cabecalho estilo Notion com o nome da linguagem. */
+.header {
+  padding: 8px 16px;
+  border-bottom: 1px solid var(--line);
+  background: var(--surface-2);
+  color: var(--ink-2);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.body {
+  margin: 0;
+  padding: 16px 20px;
+  overflow-x: auto;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  line-height: 1.6;
+}
+
+/* O Shiki injeta seu proprio <pre class="shiki"> com cores inline; aqui so
+   garantimos o espacamento e a rolagem horizontal. */
+.body :global(pre.shiki) {
+  margin: 0;
+  background: transparent !important;
+}
+
+.body code {
+  padding: 0;
+  background: transparent;
+  font-size: inherit;
+}

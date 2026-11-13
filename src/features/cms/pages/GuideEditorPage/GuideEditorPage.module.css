@@ -1,0 +1,208 @@
+.page {
+  padding: 24px 28px;
+}
+
+.editor {
+  display: grid;
+  gap: 16px;
+}
+
+.header,
+.actions {
+  display: flex;
+  align-items: center;
+}
+
+.header {
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.header span {
+  color: var(--color-orange-700);
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.header h1 {
+  margin-top: 6px;
+  color: var(--color-dark-900);
+  font-size: 26px;
+  line-height: 1.15;
+}
+
+.actions {
+  gap: 8px;
+}
+
+.actions a,
+.actions button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 36px;
+  border: 1px solid rgba(3, 26, 43, 0.1);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--color-dark-900);
+  font-weight: 800;
+  padding: 0 12px;
+}
+
+.actions button[type="submit"] {
+  border-color: transparent;
+  background: var(--btn);
+  color: var(--btn-ink);
+}
+
+.actions button:disabled {
+  opacity: 0.55;
+}
+
+.message {
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: rgba(5, 162, 242, 0.1);
+  color: var(--color-dark-700);
+  font-weight: 700;
+}
+
+.meta {
+  display: grid;
+  gap: 14px;
+  max-width: 840px;
+}
+
+.section {
+  display: grid;
+  gap: 10px;
+  padding: 20px;
+  background: var(--surface);
+  border: 1px solid rgba(3, 26, 43, 0.08);
+  border-radius: 12px;
+}
+
+.sectionHeader h2 {
+  margin: 0;
+  color: var(--color-dark-900);
+  font-size: 18px;
+}
+
+.sectionHeader p {
+  margin: 4px 0 0;
+  color: var(--color-ink-80);
+  font-size: 14px;
+}
+
+.fields {
+  display: grid;
+  gap: 12px;
+}
+
+.twoColumns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.threeColumns {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.productAdder {
+  display: flex;
+  gap: 10px;
+  align-items: flex-end;
+  background: rgba(3, 26, 43, 0.02);
+  padding: 12px;
+  border-radius: 8px;
+}
+
+.productAdder select {
+  flex: 1;
+}
+
+.productAdder input {
+  width: 90px;
+}
+
+.productAdder button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 38px;
+  padding: 0 14px;
+  border: 1px solid var(--brand);
+  border-radius: 8px;
+  background: var(--btn);
+  color: var(--btn-ink);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.productsList {
+  display: grid;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.productRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  background: var(--surface-2);
+  border: 1px solid rgba(3, 26, 43, 0.08);
+  border-radius: 8px;
+}
+
+.productInfo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.productName {
+  font-weight: 700;
+  color: var(--color-dark-900);
+}
+
+.productMeta {
+  font-size: 13px;
+  color: var(--ink-2);
+}
+
+.productBadgeActive {
+  background: #ecfdf5;
+  color: #047857;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.productBadgeInactive {
+  background: #fef2f2;
+  color: #b91c1c;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.removeButton {
+  background: transparent;
+  border: none;
+  color: #ef4444;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+}
+
+.removeButton:hover {
+  background: #fee2e2;
+}

@@ -1,0 +1,162 @@
+.container {
+  margin: 36px 0;
+  padding: 24px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--line);
+}
+
+.titleArea h3 {
+  margin: 0;
+  font-family: var(--font-display, sans-serif);
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--ink);
+}
+
+.titleArea p {
+  margin: 4px 0 0;
+  font-size: 14px;
+  color: var(--ink-3);
+}
+
+.addAllBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  background: var(--btn);
+  color: var(--btn-ink);
+  border: none;
+  border-radius: 9999px;
+  font-family: var(--font-display, sans-serif);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease;
+  box-shadow: var(--shadow);
+}
+
+.addAllBtn:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.addAllBtn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.itemsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+  gap: 14px;
+}
+
+.itemCard {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  transition: border-color 0.15s ease;
+}
+
+.itemCard:hover {
+  border-color: var(--brand-line);
+}
+
+.itemCardInactive {
+  opacity: 0.65;
+  background: var(--surface-2);
+}
+
+.itemThumb {
+  width: 52px;
+  height: 52px;
+  border-radius: 8px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.itemThumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.itemPlaceholder {
+  color: var(--brand);
+}
+
+.itemDetails {
+  flex: 1;
+  min-width: 0;
+}
+
+.itemName {
+  display: block;
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--ink);
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.itemName:hover {
+  color: var(--brand);
+}
+
+.itemMeta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+  font-size: 13px;
+  color: var(--ink-3);
+}
+
+.itemQtd {
+  font-weight: 700;
+  color: var(--brand-strong);
+  background: var(--brand-soft);
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+
+.itemPrice {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.unavailableBadge {
+  display: inline-block;
+  margin-top: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--promo);
+  background: color-mix(in oklab, var(--promo) 14%, var(--surface));
+  padding: 2px 8px;
+  border-radius: 9999px;
+}

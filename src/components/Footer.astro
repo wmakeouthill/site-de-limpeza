@@ -1,0 +1,267 @@
+---
+import { getPublicSiteSettings, type PublicSiteSettings } from '../lib/server/publicSettings';
+
+export interface Props {
+  settings?: PublicSiteSettings;
+  articlesEnabled?: boolean;
+  guidesEnabled?: boolean;
+}
+
+const { settings: propSettings, articlesEnabled, guidesEnabled } = Astro.props;
+const baseSettings = propSettings || await getPublicSiteSettings();
+const settings: PublicSiteSettings = {
+  ...baseSettings,
+  articles_enabled: articlesEnabled !== undefined ? articlesEnabled : baseSettings.articles_enabled,
+  guides_enabled: guidesEnabled !== undefined ? guidesEnabled : baseSettings.guides_enabled,
+};
+const currentYear = new Date().getFullYear();
+const waUrl = `https://wa.me/${settings.whatsapp_numero}?text=Ol%C3%A1%2C%20${encodeURIComponent(settings.loja_nome)}!%20Gostaria%20de%20informa%C3%A7%C3%B5es.`;
+---
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-in">
+      <!-- Coluna 1: Loja & Localização -->
+      <div>
+        <a class="logo" href="/" aria-label="Página Inicial da Falcão Limpeza">
+          <img
+            src="/brand/simbolo-40.webp"
+            alt="Selo Falcão Limpeza"
+            width="40"
+            height="40"
+            loading="lazy"
+            decoding="async"
+          />
+          <span class="lw">
+            <b>{settings.loja_nome}</b>
+            <span>ANIL · JACAREPAGUÁ</span>
+          </span>
+        </a>
+
+        <address class="foot-addr">
+          <p>
+            <strong>{settings.endereco}</strong><br />
+            {settings.bairro_cidade}
+            {settings.referencia_endereco && (
+              <span class="ref">({settings.referencia_endereco})</span>
+            )}
+          </p>
+          {settings.maps_url && (
+            <p>
+              <a href={settings.maps_url} target="_blank" rel="noopener noreferrer" class="foot-link-accent">
+                Ver no Google Maps &rarr;
+              </a>
+            </p>
+          )}
+          <p class="foot-contact">
+            WhatsApp: <a href={waUrl} target="_blank" rel="noopener noreferrer" class="foot-link-accent"><strong>{settings.telefone_exibicao || settings.whatsapp_numero}</strong></a>
+          </p>
+          <p class="foot-hours">
+            Atendimento: <strong>Seg a sáb, 8h às 19h</strong>
+            {settings.horario_obs && <span class="ref"> · {settings.horario_obs}</span>}
+          </p>
+        </address>
+      </div>
+
+      <!-- Coluna 2: Navegação -->
+      <nav aria-label="Links rápidos do rodapé">
+        <h4>Navegação</h4>
+        <ul>
+          <li><a href="/">Início</a></li>
+          <li><a href="/produtos">Produtos</a></li>
+          <li><a href="/produtos?oferta=1">Ofertas da semana</a></li>
+          <li><a href="/produtos?kit=1">Kits prontos</a></li>
+          {settings.guides_enabled && <li><a href="/guias">Guias de limpeza</a></li>}
+          {settings.articles_enabled && <li><a href="/artigos">Dicas do especialista</a></li>}
+          <li><a href="/loja">A Loja Física</a></li>
+          <li><a href="/#como-funciona">Como funciona</a></li>
+          <li><a href="/lista">Minha lista</a></li>
+        </ul>
+      </nav>
+
+      <!-- Coluna 3: Pagamento & Bairros -->
+      <div>
+        <h4>Pagamento &amp; Entrega</h4>
+        <p class="foot-text">
+          <strong>Formas aceitas:</strong><br />
+          {settings.pagamento}
+        </p>
+
+        {settings.prazo_separacao && (
+          <p class="foot-text">
+            <strong>Retirada ou envio:</strong><br />
+            {settings.prazo_separacao}
+          </p>
+        )}
+
+        {settings.bairros_entrega && settings.bairros_entrega.length > 0 && (
+          <div class="foot-bairros">
+            <strong>Bairros na rota:</strong>
+            <p class="foot-bairros-list">
+              {settings.bairros_entrega.join(", ")}
+            </p>
+          </div>
+        )}
+      </div>
+    </div>
+
+    <!-- Barra Inferior -->
+    <div class="foot-base">
+      <p>
+        &copy; {currentYear} {settings.loja_nome}
+        {settings.cnpj && <span> · CNPJ {settings.cnpj}</span>}
+        <span> · Sem cadastro, é só a lista</span>
+      </p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .foot {
+    background: var(--band);
+    color: var(--on-band);
+    margin-top: 56px;
+    border-top: 1px solid var(--band-line);
+  }
+
+  .foot-in {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) minmax(0, 1.1fr);
+    gap: 36px;
+    padding-block: 48px 32px;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    font: 900 1.25rem/1 var(--font-sans);
+    letter-spacing: -0.01em;
+    color: var(--on-band);
+    margin-bottom: 16px;
+  }
+
+  .logo img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+  }
+
+  .lw {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .lw b {
+    color: var(--on-band);
+  }
+
+  .lw span {
+    font: 800 0.52em/1 var(--font-sans);
+    letter-spacing: 0.04em;
+    color: var(--band-accent);
+  }
+
+  .foot-addr {
+    font-style: normal;
+    color: var(--on-band-2);
+    font-size: 0.92rem;
+    line-height: 1.5;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .foot-addr strong {
+    color: var(--on-band);
+  }
+
+  .ref {
+    color: var(--on-band-2);
+    font-size: 0.85rem;
+  }
+
+  .foot-link-accent {
+    color: var(--band-accent);
+    text-decoration: none;
+  }
+
+  .foot-link-accent:hover {
+    text-decoration: underline;
+  }
+
+  .foot h4 {
+    font: 700 0.75rem/1 var(--font-sans);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--band-accent);
+    margin: 0 0 14px;
+  }
+
+  .foot ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .foot a {
+    color: var(--on-band-2);
+    text-decoration: none;
+    font-size: 0.92rem;
+    transition: color 0.15s;
+  }
+
+  .foot a:hover {
+    color: var(--on-band);
+  }
+
+  .foot-text {
+    color: var(--on-band-2);
+    font-size: 0.92rem;
+    line-height: 1.5;
+    margin-bottom: 12px;
+  }
+
+  .foot-text strong {
+    color: var(--on-band);
+  }
+
+  .foot-bairros {
+    margin-top: 12px;
+  }
+
+  .foot-bairros strong {
+    color: var(--on-band);
+    font-size: 0.92rem;
+  }
+
+  .foot-bairros-list {
+    color: var(--on-band-2);
+    font-size: 0.85rem;
+    line-height: 1.4;
+    margin-top: 4px;
+  }
+
+  .foot-base {
+    border-top: 1px solid var(--band-line);
+    padding-block: 20px;
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    font-size: 0.82rem;
+    color: var(--on-band-2);
+  }
+
+  @media (max-width: 860px) {
+    .foot-in {
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+  }
+</style>

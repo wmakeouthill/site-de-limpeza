@@ -1,0 +1,114 @@
+.container {
+  padding: 24px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.headerRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.tableWrapper {
+  overflow-x: auto;
+  background: var(--cms-panel, #ffffff);
+  border: 1px solid var(--cms-border, rgba(0, 0, 0, 0.1));
+  border-radius: 8px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  text-align: left;
+}
+
+.table th {
+  padding: 12px 16px;
+  background: var(--cms-surface-soft, #fafafa);
+  border-bottom: 1px solid var(--cms-border, rgba(0, 0, 0, 0.1));
+  font-weight: 600;
+  color: var(--cms-muted, #666);
+}
+
+.table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--cms-border, rgba(0, 0, 0, 0.06));
+  vertical-align: middle;
+}
+
+.formCard {
+  background: var(--cms-panel, #ffffff);
+  border: 1px solid var(--cms-border, rgba(0, 0, 0, 0.1));
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 24px;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.field label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--cms-muted, #555);
+}
+
+.input,
+.select {
+  padding: 8px 12px;
+  font-size: 13px;
+  border: 1px solid var(--cms-border, rgba(0, 0, 0, 0.15));
+  border-radius: 6px;
+  background: var(--cms-panel, #ffffff);
+  color: var(--cms-text, #111);
+}
+
+.btnPrimary {
+  padding: 8px 16px;
+  background: var(--btn);
+  color: var(--btn-ink);
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btnSecondary {
+  padding: 8px 16px;
+  background: transparent;
+  border: 1px solid var(--cms-border, rgba(0, 0, 0, 0.15));
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+}
+
+.iconBtn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  color: var(--cms-muted, #666);
+}
+
+.iconBtn:hover {
+  color: var(--cms-text, #111);
+}

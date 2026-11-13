@@ -1,0 +1,58 @@
+---
+interface Props {
+  size?: 'sm' | 'md' | 'lg';
+  class?: string;
+}
+
+const { size = 'md', class: className = '' } = Astro.props;
+---
+
+<span class={`tested-badge tested-badge--${size} ${className}`} data-testid="tested-badge">
+  <svg
+    viewBox="0 0 24 24"
+    width="14"
+    height="14"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2.5"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+  >
+    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+    <path d="m9 12 2 2 4-4"></path>
+  </svg>
+  <span>A gente testou</span>
+</span>
+
+<style>
+  .tested-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--btn);
+    color: var(--btn-ink);
+    font-family: var(--font-display, sans-serif);
+    font-weight: 700;
+    border-radius: 9999px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    box-shadow: var(--shadow);
+    white-space: nowrap;
+  }
+
+  .tested-badge--sm {
+    font-size: 11px;
+    padding: 3px 8px;
+  }
+
+  .tested-badge--md {
+    font-size: 12px;
+    padding: 4px 12px;
+  }
+
+  .tested-badge--lg {
+    font-size: 13px;
+    padding: 6px 14px;
+  }
+</style>

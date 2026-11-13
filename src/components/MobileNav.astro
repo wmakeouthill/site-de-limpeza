@@ -1,0 +1,129 @@
+---
+import type { PublicSiteSettings } from '../lib/server/publicSettings';
+
+export interface Props {
+  settings: PublicSiteSettings;
+  currentPath?: string;
+}
+
+const { settings, currentPath = Astro.url.pathname } = Astro.props;
+const waUrl = `https://wa.me/${settings.whatsapp_numero}?text=Ol%C3%A1%2C%20${encodeURIComponent(settings.loja_nome)}!%20Vim%20pelo%20site%20no%20celular.`;
+---
+
+<nav class="bbar" aria-label="Navegação móvel inferior">
+  <a href="/" aria-current={currentPath === "/" ? "page" : undefined}>
+    <svg class="ico" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+      <polyline points="9 22 9 12 15 12 15 22"></polyline>
+    </svg>
+    <span>Início</span>
+  </a>
+
+  <a href="/produtos" aria-current={currentPath.startsWith("/produtos") ? "page" : undefined}>
+    <svg class="ico" viewBox="0 0 24 24" aria-hidden="true">
+      <rect x="3" y="3" width="7" height="7"></rect>
+      <rect x="14" y="3" width="7" height="7"></rect>
+      <rect x="14" y="14" width="7" height="7"></rect>
+      <rect x="3" y="14" width="7" height="7"></rect>
+    </svg>
+    <span>Produtos</span>
+  </a>
+
+  <a href="/lista" aria-current={currentPath === "/lista" ? "page" : undefined}>
+    <svg class="ico" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M9 11l3 3L22 4"></path>
+      <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+    </svg>
+    <span>Lista</span>
+    <span class="badge" id="mobile-list-count" data-count="0" aria-live="polite">0</span>
+  </a>
+
+  <a href="/loja" aria-current={currentPath === "/loja" ? "page" : undefined}>
+    <svg class="ico" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+      <circle cx="12" cy="10" r="3"></circle>
+    </svg>
+    <span>A Loja</span>
+  </a>
+
+  <a href={waUrl} target="_blank" rel="noopener noreferrer" class="zap" aria-label="Enviar mensagem no WhatsApp da loja">
+    <svg class="ico" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+    </svg>
+    <span>WhatsApp</span>
+  </a>
+</nav>
+
+<style>
+  .bbar {
+    display: none;
+  }
+
+  @media (max-width: 760px) {
+    .bbar {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 30;
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      background: var(--surface);
+      border-top: 1px solid var(--line);
+      padding: 6px max(12px, env(safe-area-inset-right, 0px)) calc(6px + env(safe-area-inset-bottom, 0px)) max(12px, env(safe-area-inset-left, 0px));
+    }
+
+    .bbar a {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--ink-3);
+      text-decoration: none;
+      padding: 6px 0;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .bbar a:hover {
+      color: var(--ink);
+    }
+
+    .bbar a[aria-current="page"] {
+      color: var(--brand);
+      font-weight: 700;
+    }
+
+    .bbar .zap {
+      color: var(--zap);
+    }
+
+    .bbar .ico {
+      width: 20px;
+      height: 20px;
+    }
+
+    .badge {
+      position: absolute;
+      top: 0;
+      left: calc(50% + 6px);
+      min-width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      background: var(--brand);
+      color: var(--bg);
+      font-size: 0.68rem;
+      font-weight: 800;
+      display: inline-grid;
+      place-items: center;
+      padding: 0 4px;
+      line-height: 1;
+    }
+
+    .badge[data-count="0"] {
+      display: none;
+    }
+  }
+</style>

@@ -1,0 +1,98 @@
+
+<style>.loja-t h2{font-size:clamp(1.6rem,1.2rem + 1.6vw,2.3rem)}</style>
+<script>
+(()=>{'use strict';
+const ZAP='5521900000000'; // ponytail: número provisório — trocar pelo WhatsApp real da loja
+const MAPS='https://www.google.com/maps/search/?api=1&query=Estrada+de+Jacarepagu%C3%A1%2C+5171%2C+Anil%2C+Rio+de+Janeiro%2C+RJ';
+const ENDERECO='Estrada de Jacarepaguá, 5171 – Anil, Rio de Janeiro/RJ';
+
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const norm=s=>String(s??'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().trim();
+const store={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+const brl=n=>(Math.round(n*100)/100).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+const wa=t=>'https://wa.me/'+ZAP+'?text='+encodeURIComponent(t);
+const ico=n=>`<svg class="ico" aria-hidden="true"><use href="#i-${n}"/></svg>`;
+const art=f=>`<svg viewBox="0 0 100 140" aria-hidden="true"><use href="#s-${f}"/></svg>`;
+const isoLocal=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+const HOJE=(()=>{const d=new Date();return new Date(d.getFullYear(),d.getMonth(),d.getDate())})();
+const SAB=(()=>{const d=new Date(HOJE);d.setDate(d.getDate()+(6-d.getDay()+7)%7);return isoLocal(d)})();
+const fmtDia=iso=>{const [y,m,d]=iso.split('-').map(Number);return new Date(y,m-1,d).toLocaleDateString('pt-BR',{weekday:'short',day:'2-digit',month:'2-digit'})};
+function promoOn(p){if(!(p.por>0)||!(p.por<p.de))return false;if(p.ate){const f=new Date(p.ate+'T23:59:59');if(!(f>=new Date()))return false}return true}
+const varejo=p=>promoOn(p)?p.por:p.de;
+const offPct=p=>promoOn(p)?Math.floor((p.de-p.por)/p.de*100+1e-9):0;
+function parsePrice(s){s=String(s||'').trim().replace(/[R$\s]/g,'');if(!s)return null;if(s.includes(','))s=s.replace(/\./g,'').replace(',','.');const n=Number(s);return Number.isFinite(n)&&n>0?Math.round(n*100)/100:NaN}
+
+
+const DEPS=[
+{id:'casa',nome:'Casa e pisos',ico:'home',sub:'Desinfetante, multiuso, cera'},
+{id:'cozinha',nome:'Cozinha',ico:'pot',sub:'Detergente, esponja, desengordurante'},
+{id:'roupa',nome:'Roupas',ico:'shirt',sub:'Sabão, amaciante, tira-manchas'},
+{id:'banheiro',nome:'Banheiro',ico:'drop',sub:'Sanitária, antilimo, pedra'},
+{id:'descartaveis',nome:'Descartáveis',ico:'roll',sub:'Papel, saco de lixo, toalha'},
+{id:'utensilios',nome:'Utensílios',ico:'bucket',sub:'Rodo, balde, pano'}];
+const DEP=Object.fromEntries(DEPS.map(d=>[d.id,d]));
+const DEP_INFO={
+casa:{uso:'Dilua conforme o rótulo e aplique com pano úmido ou mop. Em piso, passe e deixe secar naturalmente.',cuidado:'Não misture com água sanitária nem outros produtos. Guarde longe de crianças e animais.'},
+cozinha:{uso:'Use pouco produto com água morna. Em gordura pesada, aplique, aguarde 1 a 2 minutos e enxágue.',cuidado:'Enxágue bem as superfícies que tocam alimentos. Evite contato com os olhos.'},
+roupa:{uso:'Siga a medida da tampa conforme a carga. Separe brancas e coloridas e teste peças delicadas antes.',cuidado:'Não aplique direto em tecido seco escuro. Mantenha a embalagem fechada.'},
+banheiro:{uso:'Aplique, deixe agir de 5 a 10 minutos, esfregue e enxágue. Mantenha o ambiente ventilado.',cuidado:'Nunca misture com amoníaco, vinagre ou álcool. Use luvas.'},
+descartaveis:{uso:'Armazene em local seco e arejado, longe do chão molhado.',cuidado:'Não reutilize sacos de lixo rasgados. Feche bem antes de descartar.'},
+utensilios:{uso:'Lave e deixe secar depois do uso. Panos de microfibra vão na máquina, sem amaciante.',cuidado:'Guarde o rodo pendurado para não deformar a borracha.'}};
+
+const P=[
+{id:'desinf-lavanda-2l',nome:'Desinfetante Lavanda',marca:'Brisanil',dep:'casa',tam:'2 L',de:12.9,por:9.9,forma:'galao',cor:'#8E7CC3',pop:1,guia:'diluicao',desc:'Perfume suave que dura no ambiente. Rende até 100 litros diluído.'},
+{id:'desinf-eucalipto-5l',nome:'Desinfetante Eucalipto',marca:'Fortex',dep:'casa',tam:'5 L',de:27.9,por:22.9,forma:'galao',cor:'#4E9F86',pop:4,grande:true,guia:'diluicao',desc:'Galão concentrado para áreas grandes: garagem, quintal e áreas comuns.'},
+{id:'multiuso-500',nome:'Limpa Tudo Multiuso',marca:'Lustrin',dep:'casa',tam:'500 ml',de:6.49,por:4.99,forma:'garrafa',cor:'#3D8BC9',pop:6,desc:'Pronto pra usar em fogão, azulejo, bancada e geladeira.'},
+{id:'lustra-moveis-200',nome:'Lustra-móveis',marca:'Lustrin',dep:'casa',tam:'200 ml',de:8.9,forma:'spray',cor:'#C29A55',pop:15,desc:'Brilho sem deixar a madeira grudenta. Tira o pó e protege.'},
+{id:'cera-750',nome:'Cera Líquida Incolor',marca:'Brisanil',dep:'casa',tam:'750 ml',de:14.9,forma:'garrafa',cor:'#B7A07A',pop:16,desc:'Para pisos frios e laminados. Seca rápido e não amarela.'},
+{id:'detergente-500',nome:'Detergente Neutro',marca:'Clarim',dep:'cozinha',tam:'500 ml',de:2.99,por:2.19,forma:'deterg',cor:'#7DB548',pop:2,desc:'O mais vendido da loja. Faz espuma na medida e é suave com as mãos.'},
+{id:'desengordurante-500',nome:'Desengordurante',marca:'Fortex',dep:'cozinha',tam:'500 ml',de:11.9,por:9.49,forma:'spray',cor:'#D9773F',pop:8,guia:'restaurante',desc:'Tira gordura de fogão, coifa e azulejo em poucos minutos.'},
+{id:'esponja-4',nome:'Esponja Dupla Face',marca:'Pratiq',dep:'cozinha',tam:'pacote c/ 4',de:7.9,forma:'esponja',cor:'#E8BD45',pop:7,desc:'Lado macio para o dia a dia e fibra para panela difícil.'},
+{id:'detergente-5l',nome:'Detergente Neutro',marca:'Clarim',dep:'cozinha',tam:'5 L',de:24.9,por:19.9,forma:'galao',cor:'#6AAE8F',pop:9,grande:true,desc:'O mesmo detergente, em galão. Sai mais barato por lavagem.'},
+{id:'lava-roupas-1600',nome:'Lava-roupas em Pó',marca:'Alvura',dep:'roupa',tam:'1,6 kg',de:21.9,por:17.9,forma:'caixa',cor:'#4A7CCB',pop:5,desc:'Limpeza profunda em água fria. Rende até 32 lavagens.'},
+{id:'amaciante-2l',nome:'Amaciante Concentrado',marca:'Alvura',dep:'roupa',tam:'2 L',de:19.9,forma:'galao',cor:'#D98FB5',pop:10,desc:'Meia tampa por lavagem. Roupa macia e perfumada por dias.'},
+{id:'tira-manchas-1l',nome:'Tira-manchas sem Cloro',marca:'Alvura',dep:'roupa',tam:'1 L',de:13.9,forma:'garrafa',cor:'#D46F96',pop:13,guia:'roupa-branca',desc:'Para brancas e coloridas. Não desbota quando usado na medida.'},
+{id:'sanitaria-2l',nome:'Água Sanitária',marca:'Clarim',dep:'banheiro',tam:'2 L',de:6.9,forma:'galao',cor:'#5AA3D0',pop:3,guia:'mofo',desc:'Desinfeta, alveja e tira mofo. Regularizada na Anvisa.'},
+{id:'limpa-banheiro-500',nome:'Limpa Banheiro Antilimo',marca:'Fortex',dep:'banheiro',tam:'500 ml',de:12.9,forma:'spray',cor:'#3AAFA9',pop:11,guia:'mofo',desc:'Remove limo e marca de água do box e do rejunte.'},
+{id:'pedra-sanitaria-3',nome:'Pedra Sanitária Pinho',marca:'Brisanil',dep:'banheiro',tam:'c/ 3',de:9.9,forma:'caixa',cor:'#62B06A',pop:14,desc:'Perfuma a cada descarga. Cada pedra dura cerca de 30 dias.'},
+{id:'papel-hig-64',nome:'Papel Higiênico Folha Dupla',marca:'Pratiq',dep:'descartaveis',tam:'fardo c/ 64 rolos',de:119.9,por:94.9,forma:'rolo',cor:'#8FB0D6',pop:12,grande:true,desc:'Fardo econômico para escritório, condomínio e família grande.'},
+{id:'saco-lixo-100l',nome:'Saco de Lixo 100 L',marca:'Pratiq',dep:'descartaveis',tam:'pacote c/ 50',de:29.9,forma:'saco',cor:'#4F5D6B',pop:17,grande:true,desc:'Reforçado, aguenta lixeira de condomínio sem rasgar.'},
+{id:'papel-toalha-1000',nome:'Papel Toalha Interfolha',marca:'Pratiq',dep:'descartaveis',tam:'pacote c/ 1.000 folhas',de:22.9,forma:'caixa',cor:'#9DB9C2',pop:18,grande:true,desc:'Para dispenser de banheiro e cozinha profissional.'},
+{id:'pano-microfibra-3',nome:'Pano de Microfibra',marca:'Lustrin',dep:'utensilios',tam:'c/ 3',de:16.9,por:12.9,forma:'pano',cor:'#E58A6A',pop:19,desc:'Limpa vidro e inox sem deixar fiapo. Lava e usa de novo.'},
+{id:'rodo-60',nome:'Rodo de Alumínio 60 cm',marca:'Pratiq',dep:'utensilios',tam:'cabo 1,2 m',de:34.9,forma:'rodo',cor:'#7A8C99',pop:20,desc:'Borracha dupla que puxa a água de uma vez. Cabo firme.'},
+{id:'balde-20l',nome:'Balde com Espremedor',marca:'Pratiq',dep:'utensilios',tam:'20 L',de:69.9,forma:'balde',cor:'#4C9CC2',pop:21,grande:true,desc:'Espreme o mop sem molhar a mão. Rodinhas para áreas grandes.'}];
+const fixP=p=>{if(p.por&&!p.ate)p.ate=SAB;return p};
+P.forEach(fixP);
+const byId=id=>P.find(p=>p.id===id);
+
+const KITS=[
+{id:'condominio',nome:'Condomínio',ico:'building',sub:'Áreas comuns, garagem e lixeira · por mês',itens:[['sanitaria-2l',12],['desinf-eucalipto-5l',4],['saco-lixo-100l',4],['detergente-5l',1],['pano-microfibra-3',3],['rodo-60',1]]},
+{id:'restaurante',nome:'Restaurante',ico:'pot',sub:'Cozinha e salão de até 40 lugares · por semana',itens:[['detergente-5l',4],['desengordurante-500',6],['esponja-4',10],['sanitaria-2l',12],['papel-toalha-1000',5],['saco-lixo-100l',4]]},
+{id:'salao',nome:'Salão de beleza',ico:'sparkle',sub:'Bancadas, lavatórios e banheiro · por mês',itens:[['desinf-lavanda-2l',6],['papel-toalha-1000',5],['limpa-banheiro-500',2],['pano-microfibra-3',2],['saco-lixo-100l',2],['multiuso-500',12]]},
+{id:'escritorio',nome:'Escritório',ico:'boxes',sub:'Até 20 pessoas · por mês',itens:[['papel-hig-64',2],['papel-toalha-1000',5],['multiuso-500',12],['detergente-500',24],['desinf-lavanda-2l',6],['saco-lixo-100l',2]]}];
+
+const GUIAS=[
+{id:'mofo',ico:'drop',modo:'casa',tempo:'20 min',tag:'Banheiro',titulo:'Como tirar mofo do banheiro sem estragar o rejunte',resumo:'A medida certa de água sanitária, o tempo de ação e o que nunca misturar.',
+intro:'Mofo volta quando o banheiro fica úmido e fechado. A boa notícia: com água sanitária na medida certa, ele sai sem esfregar até machucar o rejunte.',
+passos:['Abra a janela, ligue o exaustor e calce luvas.','Misture 1 parte de água sanitária para 3 partes de água no balde.','Aplique com pano úmido sobre as manchas, sem encharcar.','Espere 10 minutos e passe um pano só com água.','Seque bem e deixe a porta aberta por algumas horas.'],
+dica:'Teste antes num cantinho escondido: em rejunte colorido, a sanitária pode clarear.',alerta:'Nunca misture água sanitária com amoníaco, vinagre ou álcool. A mistura solta gases tóxicos.',
+precisa:[['sanitaria-2l',1],['pano-microfibra-3',1],['balde-20l',1]]},
+{id:'diluicao',ico:'cup',modo:'casa',tempo:'4 min de leitura',tag:'Referência',titulo:'Quanto usar de cada produto: a tabela da diluição',resumo:'Usar demais não limpa mais, só gasta. Guarde esta tabela perto do tanque.',
+intro:'O rótulo sempre manda, mas estas medidas valem para a maioria dos produtos da loja. Usar a dose certa faz o galão render o dobro.',
+tabela:[['Desinfetante concentrado','Piso e quintal','1 tampa (≈ 50 ml) em 5 L de água'],['Detergente','Louça','1 colher de sopa em 1 L de água morna'],['Água sanitária','Desinfetar e tirar mofo','1 copo (200 ml) em 5 L de água'],['Multiuso','Fogão, bancada, azulejo','Puro, no pano'],['Amaciante concentrado','Roupa','Meia tampa por lavagem']],
+passos:['Ponha a água primeiro e o produto depois: faz menos espuma e evita respingo.','Use um copo medidor só para limpeza e guarde junto dos produtos.','Prepare só o que vai usar no dia; diluído, o produto perde força.'],
+precisa:[['desinf-eucalipto-5l',1],['detergente-5l',1],['multiuso-500',2]]},
+{id:'roupa-branca',ico:'shirt',modo:'casa',tempo:'40 min',tag:'Roupas',titulo:'Roupa branca branca de novo, sem cloro',resumo:'Molho na medida certa, lavagem fria e secagem à sombra.',
+intro:'Branco amarelado quase sempre é resíduo de sabão e suor acumulado. Dá pra recuperar sem cloro, que enfraquece o tecido.',
+passos:['Separe só as brancas e verifique a etiqueta de cada peça.','Dilua o tira-manchas em água morna conforme o rótulo e deixe de molho por 30 minutos.','Lave na máquina com lava-roupas, em água fria.','Use meia tampa de amaciante no último enxágue.','Seque à sombra: sol forte amarela tecido sintético.'],
+dica:'Mancha de desodorante sai melhor esfregando um pouco de tira-manchas puro antes do molho.',
+precisa:[['tira-manchas-1l',1],['lava-roupas-1600',1],['amaciante-2l',1]]},
+{id:'restaurante',ico:'pot',modo:'emp',tempo:'6 min de leitura',tag:'Para equipes',titulo:'Rotina de limpeza para cozinha de restaurante',resumo:'O que fazer na abertura, no turno, no fechamento e uma vez por semana.',
+intro:'Uma rotina simples, colada na parede da cozinha, evita o retrabalho e deixa a equipe tranquila na visita da vigilância.',
+passos:['Abertura: bancadas e tábuas com detergente e enxágue; piso com sanitária diluída.','Durante o turno: limpe respingos na hora e troque a esponja quando ela ficar escura.','Fechamento: desengordurante no fogão e na coifa, lixo fora e piso lavado.','Uma vez por semana: câmaras, ralos e azulejos com sanitária na medida da tabela.'],
+alerta:'Em cozinha profissional, use só produtos regularizados na Anvisa e guarde-os longe dos alimentos.',
+precisa:[['detergente-5l',2],['desengordurante-500',3],['esponja-4',4],['sanitaria-2l',6],['papel-toalha-1000',2],['saco-lixo-100l',2]]}];
+const guiaById=id=>GUIAS.find(g=>g.id===id);
+
+const BAIRROS=['Anil','Rio das Pedras','Gardênia Azul','Freguesia','Itanhangá','Muzema','Tijuquinha','Cidade de Deus','Jacarepaguá','Taquara','Pechincha','Barra da Tijuca'];

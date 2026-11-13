@@ -1,0 +1,396 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Nav from '@/components/Nav.astro';
+import Footer from '@/components/Footer.astro';
+import FloatingWhatsApp from '@/components/FloatingWhatsApp.astro';
+import TestedBadge from '@/features/content/components/TestedBadge.astro';
+import { ArticleActions } from '@/components/editorial/ArticleActions';
+import { EditorialContent } from '@/components/editorial/EditorialContent';
+import {
+  getPublicArticle,
+  getPublicSiteSettings,
+  PublicContentUnavailableError,
+} from '@/lib/server/publicContent';
+
+export const prerender = false;
+
+const { slug } = Astro.params;
+
+if (!slug) {
+  return new Response(null, { status: 404, statusText: "Not Found" });
+}
+
+let settings;
+let article;
+
+try {
+  settings = await getPublicSiteSettings();
+  if (!settings.articles_enabled) {
+    return new Response(null, { status: 404, statusText: "Not Found" });
+  }
+
+  article = await getPublicArticle(slug);
+  if (!article) {
+    return new Response(null, { status: 404, statusText: "Not Found" });
+  }
+} catch (err) {
+  if (err instanceof PublicContentUnavailableError) {
+    return new Response("503 Service Unavailable: Área editorial temporariamente indisponível", {
+      status: 503,
+      headers: { "Content-Type": "text/plain; charset=utf-8" },
+    });
+  }
+  throw err;
+}
+
+function formatDatePtBr(isoString?: string | null): string {
+  if (!isoString) return "";
+  try {
+    return new Intl.DateTimeFormat("pt-BR", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+      timeZone: "UTC",
+    }).format(new Date(isoString));
+  } catch {
+    return "";
+  }
+}
+
+const siteUrl = Astro.site?.toString() || "https://falcaolimpeza.com.br";
+const canonical = new URL(`/artigos/${article.slug}`, siteUrl).href;
+const formattedDate = formatDatePtBr(article.first_published_at || article.published_at);
+
+const isTestamos = article.categoria === 'testamos';
+---
+
+<BaseLayout
+  title={article.seo_title || `${article.title} · ${settings.loja_nome}`}
+  description={article.seo_description || article.excerpt}
+  canonical={canonical}
+  ogImage={article.thumbnail || undefined}
+  ogType="article"
+  publishedTime={article.first_published_at || article.published_at}
+  modifiedTime={article.updated_at || article.published_at}
+  authorName={article.author}
+  section={article.area}
+>
+  <Nav
+    articlesEnabled={settings?.articles_enabled}
+    guidesEnabled={settings?.guides_enabled}
+    settings={settings}
+  />
+
+  <main class="article-detail-page">
+    <article class="article-content wrap">
+      <!-- Breadcrumbs -->
+      <nav aria-label="Navegação estrutural" class="breadcrumbs">
+        <a href="/">Início</a>
+        <span aria-hidden="true">/</span>
+        <a href="/artigos">Artigos</a>
+        <span aria-hidden="true">/</span>
+        <span>{article.title}</span>
+      </nav>
+
+      <!-- Metadados do Artigo -->
+      <div class="article-badges">
+        {isTestamos && (
+          <TestedBadge size="lg" />
+        )}
+        <span class="badge-area">{article.area || 'Dicas'}</span>
+        <span class="badge-time">{article.reading_time}</span>
+        {formattedDate && (
+          <span class="badge-date">{formattedDate}</span>
+        )}
+      </div>
+
+      <!-- Título Principal -->
+      <h1 class="article-title">{article.title}</h1>
+
+      <!-- Autor -->
+      {article.author && (
+        <div class="author-row">
+          <div class="author-avatar">
+            {article.author_image_url ? (
+              <img src={article.author_image_url} alt={article.author} />
+            ) : (
+              <span>F</span>
+            )}
+          </div>
+          <div>
+            <div class="author-name">{article.author}</div>
+            <div class="author-role">{settings.loja_nome}</div>
+          </div>
+        </div>
+      )}
+
+      <!-- Imagem de Capa -->
+      {article.thumbnail && (
+        <div class="article-cover">
+          <img
+            src={article.thumbnail}
+            alt={article.thumbnail_alt || article.title}
+            loading="eager"
+            decoding="async"
+          />
+        </div>
+      )}
+
+      <!-- Resumo do Artigo -->
+      {article.excerpt && (
+        <div class="article-excerpt">
+          {article.excerpt}
+        </div>
+      )}
+
+      <!-- Conteúdo Sanitizado com Tabelas e Caixas de Destaque -->
+      <section class="article-body">
+        <EditorialContent content={article.body_markdown} client:idle />
+      </section>
+
+      <!-- Interações (Curtida / Ações) -->
+      <div class="article-actions-wrapper">
+        <ArticleActions slug={article.slug} client:visible />
+      </div>
+
+      <!-- Chamada Contextual WhatsApp -->
+      <aside class="article-cta">
+        <div class="cta-text">
+          <h2>Quer saber qual o produto certo para o seu caso?</h2>
+          <p>
+            Mande uma mensagem no WhatsApp da Falcão Limpeza. Ajudamos a escolher o produto e a diluição mais econômica.
+          </p>
+        </div>
+        <a
+          href={`https://wa.me/${settings.whatsapp_numero}?text=${encodeURIComponent(`Olá! Li o artigo "${article.title}" e gostaria de tirar uma dúvida.`)}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="cta-btn"
+        >
+          Falar no WhatsApp
+        </a>
+      </aside>
+
+      <!-- Voltar -->
+      <div class="back-link-wrapper">
+        <a href="/artigos" class="back-link">
+          <span aria-hidden="true">←</span>
+          <span>Voltar para todos os artigos</span>
+        </a>
+      </div>
+    </article>
+  </main>
+
+  <Footer
+    articlesEnabled={settings?.articles_enabled}
+    guidesEnabled={settings?.guides_enabled}
+    settings={settings}
+  />
+
+  <FloatingWhatsApp settings={settings} />
+</BaseLayout>
+
+<style>
+  .article-detail-page {
+    background: var(--bg);
+    min-height: 80vh;
+    padding-top: 32px;
+    padding-bottom: 64px;
+  }
+
+  .article-content {
+    max-width: 860px;
+    margin: 0 auto;
+  }
+
+  .breadcrumbs {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--ink-3);
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+
+  .breadcrumbs a {
+    color: var(--brand);
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .article-badges {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+
+  .badge-area {
+    background: var(--brand-soft);
+    color: var(--brand-strong);
+    font-weight: 700;
+    font-size: 12px;
+    padding: 3px 10px;
+    border-radius: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  .badge-time,
+  .badge-date {
+    color: var(--ink-3);
+    font-size: 13px;
+  }
+
+  .article-title {
+    margin: 0 0 20px;
+    font-family: var(--font-display, sans-serif);
+    font-weight: 800;
+    font-size: clamp(30px, 4vw, 44px);
+    line-height: 1.15;
+    color: var(--ink);
+  }
+
+  .author-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 28px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .author-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--btn);
+    color: var(--btn-ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    overflow: hidden;
+  }
+
+  .author-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .author-name {
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--ink);
+  }
+
+  .author-role {
+    font-size: 13px;
+    color: var(--ink-3);
+  }
+
+  .article-cover {
+    aspect-ratio: 16/9;
+    overflow: hidden;
+    border-radius: 16px;
+    margin-bottom: 32px;
+    box-shadow: var(--shadow);
+  }
+
+  .article-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .article-excerpt {
+    font-size: 18px;
+    line-height: 1.6;
+    color: var(--ink-2);
+    margin-bottom: 28px;
+    padding-left: 16px;
+    border-left: 4px solid var(--brand);
+  }
+
+  .article-body {
+    background: var(--surface);
+    padding: 32px;
+    border-radius: 16px;
+    border: 1px solid var(--line);
+    margin-bottom: 32px;
+  }
+
+  .article-actions-wrapper {
+    margin-bottom: 40px;
+  }
+
+  .article-cta {
+    margin: 40px 0;
+    padding: 32px;
+    background: var(--band);
+    border-radius: 16px;
+    color: var(--on-band);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .cta-text h2 {
+    margin: 0 0 8px;
+    font-family: var(--font-display, sans-serif);
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--on-band);
+  }
+
+  .cta-text p {
+    margin: 0;
+    font-size: 15px;
+    color: var(--on-band-2);
+    max-width: 520px;
+    line-height: 1.5;
+  }
+
+  .cta-btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 12px 24px;
+    background: var(--zap);
+    color: var(--zap-ink);
+    font-family: var(--font-display, sans-serif);
+    font-weight: 700;
+    font-size: 15px;
+    border-radius: 9999px;
+    text-decoration: none;
+    box-shadow: var(--shadow);
+    transition: transform 0.15s ease, background 0.15s ease;
+  }
+
+  .cta-btn:hover {
+    transform: translateY(-2px);
+  }
+
+  .back-link-wrapper {
+    text-align: center;
+    margin-top: 32px;
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--brand);
+    font-weight: 700;
+    font-size: 14px;
+    text-decoration: none;
+  }
+
+  .back-link:hover {
+    text-decoration: underline;
+  }
+</style>

@@ -1,0 +1,126 @@
+---
+import type { PublicDepartamento } from "@/lib/server/publicCatalog";
+
+export interface Props {
+  departamentos: PublicDepartamento[];
+}
+
+const { departamentos } = Astro.props;
+
+function getIconSvg(icone: string) {
+  switch (icone) {
+    case "shirt":
+    case "roupa":
+      return '<path d="M8 3L3 6l2 4 2-1v12h10V9l2 1 2-4-5-3c0 2-1.5 3-4 3S8 5 8 3z" />';
+    case "pot":
+    case "cozinha":
+      return '<path d="M4 10h16v6a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4z"/><path d="M2 10h2M20 10h2M9 6c0-1 1-1 1-2M14 6c0-1 1-1 1-2" />';
+    case "home":
+    case "casa":
+      return '<path d="M4 11l8-7 8 7v9H4z"/><path d="M10 20v-5h4v5" />';
+    case "sparkle":
+    case "brilho":
+      return '<path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z" />';
+    case "bucket":
+    case "balde":
+      return '<path d="M4 8h16l-2 13H6z"/><path d="M6 8a6 6 0 0 1 12 0" />';
+    case "roll":
+    case "rolo":
+      return '<ellipse cx="8" cy="12" rx="4" ry="8"/><path d="M8 4h9c2.2 0 4 3.6 4 8s-1.8 8-4 8H8"/><circle cx="8" cy="12" r="1.3" />';
+    case "boxes":
+    case "caixa":
+      return '<path d="M3 13h8v8H3zM13 13h8v8h-8zM8 3h8v8H8z" />';
+    case "drop":
+    case "gota":
+    default:
+      return '<path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z" />';
+  }
+}
+---
+
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <p class="eyebrow">Departamentos</p>
+        <h2>Tudo pra limpeza, num lugar só</h2>
+      </div>
+    </div>
+
+    <div class="deps">
+      {departamentos.map((dept) => (
+        <a class="dep" href={`/produtos?departamento=${dept.slug}`}>
+          <svg
+            class="ico"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+            set:html={getIconSvg(dept.icone)}
+          />
+          <b>{dept.nome}</b>
+          {dept.descricao ? (
+            <span>{dept.descricao}</span>
+          ) : dept.total_produtos != null && dept.total_produtos > 0 ? (
+            <span>{dept.total_produtos} {dept.total_produtos === 1 ? "produto" : "produtos"}</span>
+          ) : null}
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .deps {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  @media (max-width: 1000px) {
+    .deps {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 520px) {
+    .deps {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .dep {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 18px;
+    border-radius: 18px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .dep:hover {
+    border-color: var(--brand-line);
+    transform: translateY(-2px);
+  }
+
+  .dep .ico {
+    width: 24px;
+    height: 24px;
+    color: var(--brand);
+  }
+
+  .dep b {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin-top: 6px;
+  }
+
+  .dep span {
+    font-size: 0.8rem;
+    color: var(--ink-3);
+    line-height: 1.4;
+  }
+</style>

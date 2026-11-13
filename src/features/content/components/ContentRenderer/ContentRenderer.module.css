@@ -1,0 +1,263 @@
+.content {
+  color: var(--ink-2);
+  font-size: 18px;
+  line-height: 1.75;
+  /* Quebra palavras/URLs muito longas em vez de estourar a largura. */
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+/* Fluxo normal (nao grid) para que imagens com float envolvam o texto. */
+.content > * {
+  margin-block: 0;
+}
+
+.content > * + * {
+  margin-top: 20px;
+}
+
+/* Limpa os floats ao final e antes de titulos, para nao vazar entre secoes. */
+.content::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+.content h1,
+.content h2,
+.content h3 {
+  clear: both;
+}
+
+.content h1,
+.content h2,
+.content h3,
+.content h4 {
+  color: var(--ink);
+  line-height: 1.15;
+}
+
+.content h1 {
+  font-size: clamp(30px, 3vw, 46px);
+}
+
+.content h2 {
+  font-size: clamp(28px, 3vw, 42px);
+}
+
+.content h3 {
+  font-size: clamp(22px, 2vw, 30px);
+}
+
+.content p {
+  white-space: pre-line;
+}
+
+.content ul,
+.content ol {
+  display: grid;
+  gap: 10px;
+  padding-left: 1.2em;
+}
+
+.content ul {
+  list-style: disc;
+}
+
+.content ol {
+  list-style: decimal;
+}
+
+.content a {
+  color: var(--brand);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.content strong {
+  color: var(--ink);
+  font-weight: 800;
+}
+
+.content blockquote {
+  margin: 0;
+  padding: 8px 20px;
+  border-left: 4px solid var(--brand);
+  color: var(--ink-2);
+  font-style: italic;
+}
+
+.content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+}
+
+/* Alinhamento vindo do editor (BlockNote exporta data-text-alignment). */
+.content [data-text-alignment="center"] {
+  text-align: center;
+}
+
+.content [data-text-alignment="right"] {
+  text-align: right;
+}
+
+/* Remove apenas a margem lateral padrao do <figure>; o espacamento vertical
+   vem do fluxo (.content > * + *) e a margem do float vem do style inline. */
+.content figure {
+  margin-inline: 0;
+}
+
+/* Texto que envolve uma imagem flutuante deve comecar alinhado ao topo dela. */
+.content [data-disposition^="float"] + * {
+  margin-top: 0;
+}
+
+.content [data-float-spacer="true"] {
+  clear: both;
+  min-height: 20px;
+}
+
+.content [data-disposition^="float"] + hr,
+.content hr {
+  clear: both;
+}
+
+.content figure img {
+  display: inline-block;
+}
+
+.content figcaption {
+  margin-top: 8px;
+  color: var(--ink-3);
+  font-size: 15px;
+}
+
+.content code {
+  padding: 2px 6px;
+  border-radius: 6px;
+  background: var(--surface-2);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.9em;
+}
+
+.content pre {
+  margin: 0;
+  padding: 16px 20px;
+  border-radius: 12px;
+  background: var(--band);
+  color: var(--on-band);
+  overflow-x: auto;
+}
+
+.content pre code {
+  padding: 0;
+  background: transparent;
+  color: inherit;
+}
+
+.content table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tableResponsive {
+  width: 100%;
+  overflow-x: auto;
+  margin-block: 24px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.tableResponsive table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0;
+}
+
+.tableResponsive th,
+.tableResponsive td,
+.content th,
+.content td {
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  text-align: left;
+}
+
+.tableResponsive th,
+.content th {
+  background: var(--surface-2);
+  color: var(--ink);
+  font-weight: 800;
+}
+
+.tableResponsive tr:nth-child(even) td {
+  background: color-mix(in oklab, var(--surface-2) 45%, var(--surface));
+}
+
+.tableResponsive tr:hover td {
+  background: var(--surface-2);
+}
+
+/* Caixas de Chamada / Callout (Dica e Atencao) */
+.callout {
+  margin-block: 24px;
+  padding: 16px 20px;
+  border-radius: 8px;
+  border-left: 4px solid;
+}
+
+.calloutTip {
+  background: var(--brand-soft);
+  border-color: var(--brand);
+  color: var(--ink);
+}
+
+.calloutWarning {
+  background: color-mix(in oklab, var(--promo) 12%, var(--surface));
+  border-color: var(--promo);
+  color: var(--ink);
+}
+
+.calloutHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 15px;
+  margin-bottom: 8px;
+}
+
+.calloutIcon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+.calloutTip .calloutHeader {
+  color: var(--brand-strong);
+}
+
+.calloutWarning .calloutHeader {
+  color: var(--promo);
+}
+
+.calloutBody {
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.calloutBody > *:first-child {
+  margin-top: 0;
+}
+
+.calloutBody > *:last-child {
+  margin-bottom: 0;
+}
+
+.content hr {
+  border: none;
+  border-top: 1px solid var(--line);
+}

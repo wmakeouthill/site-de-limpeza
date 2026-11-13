@@ -1,0 +1,53 @@
+---
+export const prerender = false;
+
+import CmsApp from '../../features/cms/CmsApp';
+import '../../styles/tokens.css';
+import '@fontsource-variable/nunito';
+---
+
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Painel Editorial | Falcão Limpeza</title>
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <script is:inline>
+      try {
+        const theme = localStorage.getItem('cms-theme');
+        if (theme === 'light' || theme === 'dark') document.documentElement.dataset.theme = theme;
+      } catch {}
+    </script>
+    <style is:global>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: var(--font-sans);
+        -webkit-font-smoothing: antialiased;
+      }
+      /* Sem isto o navegador aplica a fonte própria (Arial) a botões e campos. */
+      button,
+      input,
+      select,
+      textarea {
+        font: inherit;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="cms-root">
+      <CmsApp client:only="react" />
+    </div>
+  </body>
+</html>

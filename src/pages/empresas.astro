@@ -1,0 +1,372 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Nav from '@/components/Nav.astro';
+import Footer from '@/components/Footer.astro';
+import KitCard from '@/features/business/components/KitCard.astro';
+import TestimonialGrid from '@/features/testimonials/components/TestimonialGrid.astro';
+import { QuoteForm } from '@/features/business/components/QuoteForm';
+import { getPublicKits, getPublicSiteSettings } from '@/lib/server/publicCatalog';
+import { DEFAULT_SITE_SETTINGS } from '@/lib/server/publicSettings';
+import { getPublicTestimonials } from '@/lib/server/publicContent';
+
+export const prerender = false;
+
+const [settingsResult, kitsResult, testimonialsResult] = await Promise.allSettled([
+  getPublicSiteSettings(),
+  getPublicKits(),
+  getPublicTestimonials(),
+]);
+
+const settings = settingsResult.status === "fulfilled" ? settingsResult.value : DEFAULT_SITE_SETTINGS;
+const kits = kitsResult.status === "fulfilled" ? kitsResult.value : [];
+const testimonials = testimonialsResult.status === "fulfilled" ? testimonialsResult.value : [];
+---
+
+<BaseLayout
+  title={`Atacado para Empresas · Kits e Cotação · ${settings.loja_nome}`}
+  description="Produtos de limpeza no atacado para condomínios, restaurantes, salões e escritórios em Jacarepaguá e Anil. Kits prontos e cotação rápida pelo WhatsApp."
+  settings={settings}
+>
+  <Nav
+    articlesEnabled={settings.articles_enabled}
+    guidesEnabled={settings.guides_enabled}
+    settings={settings}
+  />
+
+  <main id="main">
+    {/* Cabeçalho da Página */}
+    <section class="emp-hero">
+      <div class="wrap">
+        <p class="eyebrow">Atacado para empresas</p>
+        <h1 class="emp-hero-title">Limpeza no atacado, com atendimento de bairro.</h1>
+        <p class="emp-hero-lede">
+          Para condomínios, restaurantes, salões, escritórios e comércios da região.
+          O pedido sai pelo WhatsApp, o preço de atacado a gente combina com você e a
+          retirada é rápida no Anil.
+        </p>
+        <div class="emp-hero-ctas">
+          <a class="btn btn-primary" href="#cotacao">Pedir cotação</a>
+          <a class="btn btn-secondary" href="#kits">Ver kits prontos</a>
+        </div>
+      </div>
+    </section>
+
+    {/* Faixa de Vantagens */}
+    <section class="emp-perks-section">
+      <div class="wrap">
+        <div class="emp-perks-grid">
+          <div class="emp-perk">
+            <svg class="emp-perk-ico" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+              <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+              <line x1="12" y1="22.08" x2="12" y2="12"></line>
+            </svg>
+            <h3>Preço de atacado combinado</h3>
+            <p>Mande o que precisa e quanto; a gente responde com o preço pelo WhatsApp. Sem burocracia.</p>
+          </div>
+
+          <div class="emp-perk">
+            <svg class="emp-perk-ico" viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+            <h3>Pedido separado em ~30 min</h3>
+            <p>Mande a lista e passe pra buscar. Prazo a confirmar com a loja conforme demanda.</p>
+          </div>
+
+          <div class="emp-perk">
+            <svg class="emp-perk-ico" viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="1" y="3" width="15" height="13"></rect>
+              <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+              <circle cx="5.5" cy="18.5" r="2.5"></circle>
+              <circle cx="18.5" cy="18.5" r="2.5"></circle>
+            </svg>
+            <h3>Entrega na região</h3>
+            <p>Anil, Rio das Pedras, Freguesia, Gardênia Azul e arredores. Consulte disponibilidade.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {/* Seção de Kits Prontos */}
+    <section class="emp-kits-section" id="kits">
+      <div class="wrap">
+        <div class="sec-head">
+          <p class="eyebrow">Kits prontos</p>
+          <h2>Comece por um kit e ajuste do seu jeito</h2>
+          <p class="sec-sub">
+            Quantidades sugeridas, com o preço da loja. Ponha na lista, mude o que quiser e
+            peça o preço de atacado pelo WhatsApp.
+          </p>
+        </div>
+
+        {kits.length === 0 ? (
+          <p class="no-kits-msg">Nenhum kit cadastrado no momento.</p>
+        ) : (
+          <div class="kits-grid">
+            {kits.map((kit) => (
+              <KitCard
+                kit={kit}
+                lojaNome={settings.loja_nome}
+                whatsappNumero={settings.whatsapp_numero}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+    </section>
+
+    {/* Como Funciona */}
+    <section class="emp-steps-section">
+      <div class="wrap">
+        <div class="sec-head">
+          <p class="eyebrow">Como funciona</p>
+          <h2>Do pedido à retirada</h2>
+        </div>
+
+        <ol class="steps-grid">
+          <li class="step-card">
+            <span class="step-num">1</span>
+            <h3>Mande a lista ou peça cotação</h3>
+            <p>Pelo site ou direto no WhatsApp da loja.</p>
+          </li>
+          <li class="step-card">
+            <span class="step-num">2</span>
+            <h3>A gente confirma preço e prazo</h3>
+            <p>O preço de atacado sai conforme o seu pedido.</p>
+          </li>
+          <li class="step-card">
+            <span class="step-num">3</span>
+            <h3>Separamos o pedido</h3>
+            <p>Em cerca de 30 minutos, no horário de funcionamento da loja.</p>
+          </li>
+          <li class="step-card">
+            <span class="step-num">4</span>
+            <h3>Você retira ou recebe</h3>
+            <p>No Anil, ou entregue na região (consulte disponibilidade de rota).</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    {testimonials && testimonials.length > 0 && (
+      <TestimonialGrid
+        testimonials={testimonials}
+        title="O que dizem as empresas parceiras"
+        subtitle="Condomínios, restaurantes, comércios e clínicas que compram no atacado da Falcão Limpeza."
+      />
+    )}
+
+    {/* Formulário de Cotação */}
+    <section class="emp-quote-section" id="cotacao">
+      <div class="wrap">
+        <QuoteForm
+          client:load
+          lojaNome={settings.loja_nome}
+          whatsappNumero={settings.whatsapp_numero}
+        />
+      </div>
+    </section>
+  </main>
+
+  <Footer settings={settings} />
+</BaseLayout>
+
+<style>
+  .emp-hero {
+    padding: 48px 0 32px;
+    background: color-mix(in srgb, var(--surface) 60%, transparent);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .emp-hero-title {
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    font-weight: 900;
+    line-height: 1.15;
+    margin: 8px 0 16px;
+    color: var(--ink);
+    letter-spacing: -0.02em;
+  }
+
+  .emp-hero-lede {
+    font-size: 1.1rem;
+    line-height: 1.5;
+    color: var(--ink-2);
+    max-width: 680px;
+    margin: 0 0 24px;
+  }
+
+  .emp-hero-ctas {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 22px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-decoration: none;
+    cursor: pointer;
+    transition: opacity 0.2s ease, background 0.2s ease;
+  }
+
+  .btn-primary {
+    background: var(--btn);
+    color: var(--btn-ink);
+    border: none;
+  }
+
+  .btn-primary:hover {
+    opacity: 0.92;
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--ink);
+    border: 1px solid var(--line);
+  }
+
+  .btn-secondary:hover {
+    background: color-mix(in srgb, var(--line) 40%, transparent);
+  }
+
+  /* Perks */
+  .emp-perks-section {
+    padding: 36px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .emp-perks-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 24px;
+  }
+
+  .emp-perk {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .emp-perk-ico {
+    width: 28px;
+    height: 28px;
+    stroke: var(--brand);
+    stroke-width: 2;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .emp-perk h3 {
+    font-size: 1.05rem;
+    font-weight: 800;
+    margin: 0;
+    color: var(--ink);
+  }
+
+  .emp-perk p {
+    font-size: 0.88rem;
+    color: var(--ink-2);
+    margin: 0;
+    line-height: 1.45;
+  }
+
+  /* Kits */
+  .emp-kits-section {
+    padding: 48px 0;
+  }
+
+  .sec-head {
+    margin-bottom: 32px;
+  }
+
+  .sec-head h2 {
+    font-size: 1.75rem;
+    font-weight: 900;
+    margin: 6px 0 8px;
+    color: var(--ink);
+  }
+
+  .sec-sub {
+    font-size: 0.95rem;
+    color: var(--ink-2);
+    max-width: 600px;
+    margin: 0;
+  }
+
+  .kits-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+  }
+
+  .no-kits-msg {
+    color: var(--ink-2);
+    font-style: italic;
+  }
+
+  /* Steps */
+  .emp-steps-section {
+    padding: 48px 0;
+    background: color-mix(in srgb, var(--surface) 40%, transparent);
+    border-block: 1px solid var(--line);
+  }
+
+  .steps-grid {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+  }
+
+  .step-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    position: relative;
+  }
+
+  .step-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--brand) 12%, transparent);
+    color: var(--brand);
+    font-weight: 800;
+    font-size: 0.85rem;
+  }
+
+  .step-card h3 {
+    font-size: 0.98rem;
+    font-weight: 800;
+    margin: 0;
+    color: var(--ink);
+  }
+
+  .step-card p {
+    font-size: 0.85rem;
+    color: var(--ink-2);
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  /* Quote */
+  .emp-quote-section {
+    padding: 56px 0;
+  }
+</style>

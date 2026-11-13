@@ -1,0 +1,323 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Nav from '@/components/Nav.astro';
+import Footer from '@/components/Footer.astro';
+import FloatingWhatsApp from '@/components/FloatingWhatsApp.astro';
+import { EditorialContent } from '@/components/editorial/EditorialContent';
+import { GuideIngredientsList } from '@/features/guides/components/GuideIngredientsList';
+import {
+  getPublicGuide,
+  getPublicSiteSettings,
+  PublicContentUnavailableError,
+} from '@/lib/server/publicContent';
+
+export const prerender = false;
+
+const { slug } = Astro.params;
+
+if (!slug) {
+  return new Response(null, { status: 404, statusText: "Not Found" });
+}
+
+let settings;
+let guide;
+
+try {
+  settings = await getPublicSiteSettings();
+  if (!settings.guides_enabled) {
+    return new Response(null, { status: 404, statusText: "Not Found" });
+  }
+
+  guide = await getPublicGuide(slug);
+  if (!guide) {
+    return new Response(null, { status: 404, statusText: "Not Found" });
+  }
+} catch (err) {
+  if (err instanceof PublicContentUnavailableError) {
+    return new Response("503 Service Unavailable: Área de guias temporariamente indisponível", {
+      status: 503,
+      headers: { "Content-Type": "text/plain; charset=utf-8" },
+    });
+  }
+  throw err;
+}
+
+const siteUrl = Astro.site?.toString() || "https://falcaolimpeza.com.br";
+const canonical = new URL(`/guias/${guide.slug}`, siteUrl).href;
+---
+
+<BaseLayout
+  title={guide.seo_title || `${guide.title} · ${settings.loja_nome}`}
+  description={guide.seo_description || guide.excerpt}
+  canonical={canonical}
+  ogImage={guide.cover_url || undefined}
+  ogType="article"
+  publishedTime={guide.first_published_at || guide.published_at}
+  modifiedTime={guide.updated_at || guide.published_at}
+  authorName={guide.author}
+>
+  <Nav
+    articlesEnabled={settings?.articles_enabled}
+    guidesEnabled={settings?.guides_enabled}
+    settings={settings}
+  />
+
+  <main class="guia-detail-page">
+    <article class="guia-article wrap">
+      <!-- Breadcrumbs -->
+      <nav aria-label="Navegação estrutural" class="breadcrumbs">
+        <a href="/">Início</a>
+        <span aria-hidden="true">/</span>
+        <a href="/guias">Guias</a>
+        <span aria-hidden="true">/</span>
+        <span>{guide.title}</span>
+      </nav>
+
+      <!-- Metadados do Guia -->
+      <div class="guia-badges">
+        {guide.etiqueta && (
+          <span class="badge-etiqueta">{guide.etiqueta}</span>
+        )}
+        <span class="badge-tempo">{guide.tempo_display || `${guide.tempo_minutos} min`}</span>
+        {guide.dificuldade && (
+          <span class="badge-dificuldade">{guide.dificuldade}</span>
+        )}
+      </div>
+
+      <!-- Título Principal -->
+      <h1 class="guia-title">{guide.title}</h1>
+
+      <!-- Resumo do Guia -->
+      {guide.excerpt && (
+        <div class="guia-excerpt">
+          {guide.excerpt}
+        </div>
+      )}
+
+      <!-- Capa -->
+      {guide.cover_url && (
+        <div class="guia-cover">
+          <img src={guide.cover_url} alt={guide.title} loading="eager" decoding="async" />
+        </div>
+      )}
+
+      <!-- Seção O que você vai precisar (CA-18) -->
+      {guide.produtos && guide.produtos.length > 0 && (
+        <GuideIngredientsList produtos={guide.produtos} client:load />
+      )}
+
+      <!-- Conteúdo do Passo a Passo (Markdown com Tabelas e Caixas de Destaque) -->
+      <section class="guia-body">
+        <EditorialContent content={guide.body_markdown} client:idle />
+      </section>
+
+      <!-- Chamada Contextual para o WhatsApp da Loja -->
+      <aside class="guia-cta">
+        <div class="cta-text">
+          <h2>Dúvida sobre a diluição ou o produto?</h2>
+          <p>
+            Nossa equipe técnica na loja física do Anil tira sua dúvida direto pelo WhatsApp e separa seu pedido em ~30 minutos.
+          </p>
+        </div>
+        <a
+          href={`https://wa.me/${settings.whatsapp_numero}?text=${encodeURIComponent(`Olá! Li o guia "${guide.title}" e fiquei com uma dúvida sobre os produtos.`)}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="cta-btn"
+        >
+          Tirar dúvida no WhatsApp
+        </a>
+      </aside>
+
+      <!-- Voltar -->
+      <div class="back-link-wrapper">
+        <a href="/guias" class="back-link">
+          <span aria-hidden="true">←</span>
+          <span>Voltar para todos os guias</span>
+        </a>
+      </div>
+    </article>
+  </main>
+
+  <Footer
+    articlesEnabled={settings?.articles_enabled}
+    guidesEnabled={settings?.guides_enabled}
+    settings={settings}
+  />
+
+  <FloatingWhatsApp settings={settings} />
+</BaseLayout>
+
+<style>
+  .guia-detail-page {
+    background: var(--bg);
+    min-height: 80vh;
+    padding-top: 32px;
+    padding-bottom: 64px;
+  }
+
+  .guia-article {
+    max-width: 860px;
+    margin: 0 auto;
+  }
+
+  .breadcrumbs {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--ink-3);
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+
+  .breadcrumbs a {
+    color: var(--brand);
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .guia-badges {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+
+  .badge-etiqueta {
+    background: var(--brand-soft);
+    color: var(--brand-strong);
+    font-weight: 700;
+    font-size: 12px;
+    padding: 3px 10px;
+    border-radius: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  .badge-tempo {
+    background: var(--surface-2);
+    color: var(--ink-2);
+    font-weight: 600;
+    font-size: 12px;
+    padding: 3px 10px;
+    border-radius: 6px;
+  }
+
+  .badge-dificuldade {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    color: var(--ink-3);
+    font-size: 12px;
+    padding: 3px 10px;
+    border-radius: 6px;
+  }
+
+  .guia-title {
+    margin: 0 0 20px;
+    font-family: var(--font-display, sans-serif);
+    font-weight: 800;
+    font-size: clamp(30px, 4vw, 44px);
+    line-height: 1.15;
+    color: var(--ink);
+  }
+
+  .guia-excerpt {
+    font-size: 18px;
+    line-height: 1.6;
+    color: var(--ink-2);
+    margin-bottom: 28px;
+    padding-left: 16px;
+    border-left: 4px solid var(--brand);
+  }
+
+  .guia-cover {
+    aspect-ratio: 16/9;
+    overflow: hidden;
+    border-radius: 16px;
+    margin-bottom: 32px;
+    box-shadow: var(--shadow);
+  }
+
+  .guia-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .guia-body {
+    background: var(--surface);
+    padding: 32px;
+    border-radius: 16px;
+    border: 1px solid var(--line);
+    margin-bottom: 40px;
+  }
+
+  .guia-cta {
+    margin: 40px 0;
+    padding: 32px;
+    background: var(--band);
+    border-radius: 16px;
+    color: var(--on-band);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .cta-text h2 {
+    margin: 0 0 8px;
+    font-family: var(--font-display, sans-serif);
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--on-band);
+  }
+
+  .cta-text p {
+    margin: 0;
+    font-size: 15px;
+    color: var(--on-band-2);
+    max-width: 520px;
+    line-height: 1.5;
+  }
+
+  .cta-btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 12px 24px;
+    background: var(--zap);
+    color: var(--zap-ink);
+    font-family: var(--font-display, sans-serif);
+    font-weight: 700;
+    font-size: 15px;
+    border-radius: 9999px;
+    text-decoration: none;
+    box-shadow: var(--shadow);
+    transition: transform 0.15s ease, background 0.15s ease;
+  }
+
+  .cta-btn:hover {
+    transform: translateY(-2px);
+  }
+
+  .back-link-wrapper {
+    text-align: center;
+    margin-top: 32px;
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--brand);
+    font-weight: 700;
+    font-size: 14px;
+    text-decoration: none;
+  }
+
+  .back-link:hover {
+    text-decoration: underline;
+  }
+</style>

@@ -1,0 +1,151 @@
+/* Tokens de Design da Falcão Limpeza (extraídos do protótipo) */
+:root {
+  --bg: #F5F7FF;
+  --surface: #FFFFFF;
+  --surface-2: #E9EEFC;
+  --ink: #101B3D;
+  --ink-2: #3F4A6B;
+  --ink-3: #566186;
+  --line: #DCE3F7;
+  --brand: #1B3FA0;
+  --brand-strong: #142F7A;
+  --brand-soft: #E2E8FB;
+  --brand-line: #B8C6F0;
+  --promo: #C81E35;
+  --promo-soft: #FDE8EB;
+  --zap: #177A42;
+  --zap-ink: #FFFFFF;
+  --band: #0E1A47;
+  --on-band: #F1F4FF;
+  --on-band-2: #AAB6DC;
+  --band-line: #25346E;
+  --band-accent: #FFC727;
+  --btn: #1B3FA0;
+  --btn-ink: #FFFFFF;
+  --focus: #2563EB;
+  --shadow: 0 1px 2px rgb(16 27 61 / 0.05), 0 12px 32px -16px rgb(16 27 61 / 0.22);
+  --map-bg: #EAEFFB;
+  --map-street: #FFFFFF;
+  --map-road: #FFFFFF;
+  --map-edge: #CBD5EF;
+  --map-green: #D6EBDD;
+  --map-water: #D2E1F7;
+  --logo-a: #1B3FA0;
+  --logo-b: #101B3D;
+
+  /* Fontes e Raios */
+  --font-sans: 'Nunito Variable', 'Nunito', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  /* Aliases usados por componentes editoriais e popup; sem eles caía no sans-serif genérico. */
+  --font-display: var(--font-sans);
+  --font-heading: var(--font-sans);
+  --radius-sm: 4px;
+  --radius: 8px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-full: 9999px;
+  --gap: 16px;
+
+  /* Compatibilidade com componentes CMS / legado */
+  --accent: var(--brand);
+  --accent-soft: var(--brand-soft);
+  --ok: var(--zap);
+  --bad: var(--promo);
+  --bad-soft: var(--promo-soft);
+
+  /* Nomes --color-* herdados do site anterior: sem eles, o fallback claro escapava no tema escuro.
+     Resolvem por var(), então seguem o tema sozinhos. */
+  --color-text: var(--ink);
+  --color-ink: var(--ink);
+  --color-dark-900: var(--ink);
+  --color-text-muted: var(--ink-2);
+  --color-ink-80: var(--ink-2);
+  --color-dark-700: var(--ink-2);
+  --color-ink-60: var(--ink-3);
+  --color-ink-50: var(--ink-3);
+  --color-primary: var(--brand);
+  --color-blue-500: var(--brand);
+  --color-orange-500: var(--brand);
+  --color-orange-700: var(--brand-strong);
+  --color-amber-600: var(--promo);
+  --color-border: var(--line);
+  --color-border-soft: var(--line);
+  --color-surface: var(--surface);
+  --color-white: var(--surface);
+  --color-surface-sunken: var(--surface-2);
+
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0A1230;
+    --surface: #111B40;
+    --surface-2: #17224D;
+    --ink: #E9EDFB;
+    --ink-2: #AEB8DA;
+    --ink-3: #8C97BE;
+    --line: #26326A;
+    --brand: #9DB2FF;
+    --brand-strong: #C3D0FF;
+    --brand-soft: #17245A;
+    --brand-line: #2D3F88;
+    --promo: #FF8F9A;
+    --promo-soft: #3D1522;
+    --zap: #3BC274;
+    --zap-ink: #04210F;
+    --band: #0E1840;
+    --on-band: #E9EDFB;
+    --on-band-2: #A6B1D6;
+    --band-line: #2A3878;
+    --band-accent: #FFC727;
+    --btn: #FFC727;
+    --btn-ink: #101B3D;
+    --focus: #FFC727;
+    --shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 12px 30px -14px rgb(0 0 0 / 0.6);
+    --map-bg: #111B40;
+    --map-street: #18234F;
+    --map-road: #26336B;
+    --map-edge: #0A1230;
+    --map-green: #123129;
+    --map-water: #14264F;
+    --logo-a: #FFFFFF;
+    --logo-b: #FFC727;
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #0A1230;
+  --surface: #111B40;
+  --surface-2: #17224D;
+  --ink: #E9EDFB;
+  --ink-2: #AEB8DA;
+  --ink-3: #8C97BE;
+  --line: #26326A;
+  --brand: #9DB2FF;
+  --brand-strong: #C3D0FF;
+  --brand-soft: #17245A;
+  --brand-line: #2D3F88;
+  --promo: #FF8F9A;
+  --promo-soft: #3D1522;
+  --zap: #3BC274;
+  --zap-ink: #04210F;
+  --band: #0E1840;
+  --on-band: #E9EDFB;
+  --on-band-2: #A6B1D6;
+  --band-line: #2A3878;
+  --band-accent: #FFC727;
+  --btn: #FFC727;
+  --btn-ink: #101B3D;
+  --focus: #FFC727;
+  --shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 12px 30px -14px rgb(0 0 0 / 0.6);
+  --map-bg: #111B40;
+  --map-street: #18234F;
+  --map-road: #26336B;
+  --map-edge: #0A1230;
+  --map-green: #123129;
+  --map-water: #14264F;
+  --logo-a: #FFFFFF;
+  --logo-b: #FFC727;
+  color-scheme: dark;
+}

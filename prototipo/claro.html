@@ -1,0 +1,1029 @@
+<!doctype html><html lang="pt-BR" data-theme="light"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style><title>Falcão Limpeza · Anil</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap">
+<style>
+:root{--bg:#F5F7FF;--surface:#FFFFFF;--surface-2:#E9EEFC;--ink:#101B3D;--ink-2:#3F4A6B;--ink-3:#566186;--line:#DCE3F7;--brand:#1B3FA0;--brand-strong:#142F7A;--brand-soft:#E2E8FB;--brand-line:#B8C6F0;--promo:#C81E35;--promo-soft:#FDE8EB;--zap:#177A42;--zap-ink:#FFFFFF;--band:#0E1A47;--on-band:#F1F4FF;--on-band-2:#AAB6DC;--band-line:#25346E;--band-accent:#FFC727;--btn:#1B3FA0;--btn-ink:#FFFFFF;--focus:#2563EB;--shadow:0 1px 2px rgb(16 27 61/.05),0 12px 32px -16px rgb(16 27 61/.22);--map-bg:#EAEFFB;--map-street:#FFFFFF;--map-road:#FFFFFF;--map-edge:#CBD5EF;--map-green:#D6EBDD;--map-water:#D2E1F7;--logo-a:#1B3FA0;--logo-b:#101B3D}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0A1230;--surface:#111B40;--surface-2:#17224D;--ink:#E9EDFB;--ink-2:#AEB8DA;--ink-3:#8C97BE;--line:#26326A;--brand:#9DB2FF;--brand-strong:#C3D0FF;--brand-soft:#17245A;--brand-line:#2D3F88;--promo:#FF8F9A;--promo-soft:#3D1522;--zap:#3BC274;--zap-ink:#04210F;--band:#0E1840;--on-band:#E9EDFB;--on-band-2:#A6B1D6;--band-line:#2A3878;--band-accent:#FFC727;--btn:#FFC727;--btn-ink:#101B3D;--focus:#FFC727;--shadow:0 1px 2px rgb(0 0 0/.3),0 12px 30px -14px rgb(0 0 0/.6);--map-bg:#111B40;--map-street:#18234F;--map-road:#26336B;--map-edge:#0A1230;--map-green:#123129;--map-water:#14264F;--logo-a:#FFFFFF;--logo-b:#FFC727;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0A1230;--surface:#111B40;--surface-2:#17224D;--ink:#E9EDFB;--ink-2:#AEB8DA;--ink-3:#8C97BE;--line:#26326A;--brand:#9DB2FF;--brand-strong:#C3D0FF;--brand-soft:#17245A;--brand-line:#2D3F88;--promo:#FF8F9A;--promo-soft:#3D1522;--zap:#3BC274;--zap-ink:#04210F;--band:#0E1840;--on-band:#E9EDFB;--on-band-2:#A6B1D6;--band-line:#2A3878;--band-accent:#FFC727;--btn:#FFC727;--btn-ink:#101B3D;--focus:#FFC727;--shadow:0 1px 2px rgb(0 0 0/.3),0 12px 30px -14px rgb(0 0 0/.6);--map-bg:#111B40;--map-street:#18234F;--map-road:#26336B;--map-edge:#0A1230;--map-green:#123129;--map-water:#14264F;--logo-a:#FFFFFF;--logo-b:#FFC727;color-scheme:dark}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.6 Nunito,system-ui,-apple-system,"Segoe UI",sans-serif}
+h1,h2,h3,h4{font-family:Nunito,system-ui,sans-serif;font-weight:800;letter-spacing:-.015em;line-height:1.15;text-wrap:balance;margin:0}
+p{margin:0}a{color:inherit}button{font:inherit;color:inherit}
+[hidden]{display:none!important}
+body:not(.mode-emp) .only-emp,.mode-emp .only-casa{display:none!important}
+.wrap{max-width:1180px;margin-inline:auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.ico{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.skip{position:absolute;left:12px;top:-60px;z-index:99;background:var(--btn);color:var(--btn-ink);padding:10px 14px;border-radius:10px}
+.skip:focus{top:12px}
+.eyebrow{font:600 .72rem/1.2 Nunito,system-ui,sans-serif;text-transform:uppercase;letter-spacing:.14em;color:var(--brand)}
+.display{font-size:clamp(2.4rem,1.5rem + 4vw,4.2rem);line-height:1.04}
+.lede{font-size:1.125rem;color:var(--ink-2);max-width:34em}
+.muted{color:var(--ink-3)}
+/* botões */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:0 20px;border-radius:999px;border:1px solid transparent;background:var(--btn);color:var(--btn-ink);font-weight:600;text-decoration:none;cursor:pointer;transition:transform .2s,border-color .2s,background .2s;white-space:nowrap}
+.btn:hover{transform:translateY(-1px)}
+.btn-sec{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn-sec:hover{border-color:var(--ink-3)}
+.btn-zap{background:var(--zap);color:var(--zap-ink)}
+.btn-soft{background:var(--brand-soft);color:var(--brand-strong)}
+.btn-sm{min-height:38px;padding:0 14px;font-size:.9rem}
+.btn-full{width:100%}
+.link{color:var(--brand);font-weight:600;text-decoration:none;display:inline-flex;align-items:center;gap:6px;background:none;border:0;padding:0;cursor:pointer}
+.link:hover{text-decoration:underline}
+.link .ico{width:16px;height:16px}
+/* barra do protótipo */
+.proto{background:var(--surface-2);border-bottom:1px solid var(--line);font-size:.85rem;color:var(--ink-2)}
+.proto>summary{cursor:pointer;list-style:none;padding-block:8px;display:flex;flex-wrap:wrap;gap:4px 14px;align-items:center}
+.proto>summary::-webkit-details-marker{display:none}
+.proto summary b{color:var(--ink)}
+.proto .u{color:var(--brand);font-weight:600;text-decoration:underline}
+/* topo */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in oklab,var(--bg) 90%,transparent);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top-row{display:flex;align-items:center;gap:16px;padding-block:12px;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;font:900 1.3rem/1 Nunito,system-ui,sans-serif;letter-spacing:-.01em;cursor:pointer;background:none;border:0;padding:0;color:var(--ink)}
+.mark{width:40px;height:40px;flex:none;background:url(data:image/webp;base64,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) center/contain no-repeat}
+.lw{display:flex;flex-direction:column;gap:3px}
+.lw b{font-weight:900;color:var(--logo-a)}
+.lw span{font:800 .56em/1 Nunito,system-ui,sans-serif;letter-spacing:.02em;color:var(--logo-b);border-bottom:2px solid #FFC727;padding-bottom:2px;align-self:flex-start}
+.search{flex:1;max-width:440px;position:relative;display:flex;align-items:center;margin:0}
+.search>.ico{position:absolute;left:14px;color:var(--ink-3);pointer-events:none}
+.search .in{padding-left:42px;border-radius:999px;min-height:42px}
+.seg{display:flex;background:var(--surface-2);border-radius:999px;padding:3px;gap:2px;margin-left:auto}
+.seg button{border:0;background:none;padding:7px 14px;border-radius:999px;font-weight:600;font-size:.85rem;color:var(--ink-2);cursor:pointer;white-space:nowrap}
+.seg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:var(--shadow)}
+.l-short{display:none}
+.lista-btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--surface);border-radius:999px;min-height:42px;padding:0 14px;font-weight:600;cursor:pointer}
+.badge{min-width:20px;height:20px;border-radius:999px;background:var(--brand);color:var(--bg);font-size:.72rem;font-weight:700;display:inline-grid;place-items:center;padding:0 5px;line-height:1}
+.badge[data-count="0"]{display:none}
+.nav{display:flex;gap:4px;padding-bottom:8px;overflow-x:auto;scrollbar-width:none}
+.nav a{padding:6px 12px;border-radius:999px;text-decoration:none;color:var(--ink-2);font-weight:500;font-size:.92rem;white-space:nowrap;cursor:pointer}
+.nav a:hover{color:var(--ink)}
+.nav a[aria-current="page"]{color:var(--ink);background:var(--surface-2)}
+.bbar{display:none}
+.fab{position:fixed;right:calc(20px + env(safe-area-inset-right,0px));bottom:calc(20px + env(safe-area-inset-bottom,0px));z-index:25;box-shadow:var(--shadow)}
+#toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,16px);opacity:0;pointer-events:none;background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:999px;font-weight:600;font-size:.9rem;transition:opacity .25s,transform .25s;z-index:60;max-width:calc(100% - 32px);text-align:center}
+#toast.on{opacity:1;transform:translate(-50%,0)}
+/* campos */
+.in{width:100%;min-height:46px;padding:10px 14px;border:1px solid var(--line);border-radius:12px;background:var(--surface);color:var(--ink);font:inherit;font-size:16px}
+.in:focus{outline:2px solid var(--focus);outline-offset:0;border-color:transparent}
+textarea.in{min-height:110px;resize:vertical}
+input[type="color"].in{padding:4px;height:46px;cursor:pointer}
+.field{display:flex;flex-direction:column;gap:6px;min-width:0}
+.field label,.field .lbl{font-weight:600;font-size:.9rem}
+.field small{color:var(--ink-3);font-size:.8rem}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.form-grid .full{grid-column:1/-1}
+.chk{display:flex;gap:10px;align-items:center;font-weight:500;cursor:pointer}
+.chk input,.opt input{accent-color:var(--brand);width:17px;height:17px;margin:0;flex:none}
+.err{color:var(--promo);font-size:.9rem;margin:0;padding-left:18px}
+/* seções */
+.sec{padding-block:64px}
+.sec-tint{background:var(--surface-2)}
+.sec-head{display:flex;justify-content:space-between;align-items:flex-end;gap:12px 24px;flex-wrap:wrap;margin-bottom:28px}
+.sec-head>div{display:flex;flex-direction:column;gap:8px;min-width:0}
+.sec-head h2{font-size:clamp(1.6rem,1.2rem + 1.6vw,2.3rem)}
+.sec-head p{color:var(--ink-2)}
+.pg-head{padding-block:40px 24px;display:flex;flex-direction:column;gap:12px}
+.pg-head h1{font-size:clamp(2rem,1.4rem + 2.6vw,3.2rem);max-width:20em}
+.pg-head .lede{max-width:40em}
+.crumbs{font-size:.85rem;color:var(--ink-3);display:flex;gap:6px;flex-wrap:wrap;padding-top:24px}
+.crumbs a{color:var(--ink-2);text-decoration:none;cursor:pointer}
+.crumbs a:hover{text-decoration:underline}
+.page:not(#pg-inicio){padding-bottom:72px}
+/* hero */
+.hero{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:48px;align-items:center;padding-block:56px 40px}
+.hero-txt{display:flex;flex-direction:column;gap:20px;min-width:0}
+.ctas{display:flex;flex-wrap:wrap;gap:12px}
+.hero-addr{display:flex;align-items:center;gap:8px;color:var(--ink-3);font-size:.92rem}
+.hero-addr .ico{color:var(--brand);width:18px;height:18px}
+.hero-art{--tile:var(--brand-soft);position:relative;aspect-ratio:1/1;width:100%;max-width:100%}
+.ha-bg{position:absolute;inset:6% 8% 0;background:var(--brand-soft);border-radius:999px 999px 28px 28px}
+.ha-p{position:absolute;bottom:4%;--c2:color-mix(in oklab,var(--c) 18%,#fff);--cap:color-mix(in oklab,var(--c) 55%,#0d2230)}
+.ha-p svg{width:100%;height:auto;display:block}
+.ha-1{left:16%;width:34%}.ha-2{left:46%;width:24%;bottom:5%}.ha-3{left:66%;width:21%}
+#ha-note{position:absolute;top:12%;left:0;background:var(--surface);border-radius:16px;padding:12px 16px;box-shadow:var(--shadow);font-size:.85rem;display:flex;flex-direction:column;gap:2px;max-width:60%}
+#ha-note b{font-weight:600}
+#ha-note .p{display:flex;gap:8px;align-items:baseline}
+#ha-note s{color:var(--ink-3);font-size:.8rem}
+#ha-note .on{color:var(--promo);font-weight:700;font-size:1.05rem}
+.ha-chip{position:absolute;right:0;top:46%;background:var(--surface);border-radius:999px;padding:8px 14px;box-shadow:var(--shadow);font-size:.82rem;font-weight:600;display:flex;gap:8px;align-items:center}
+.ha-chip .ico{color:var(--brand);width:16px;height:16px}
+.trust{list-style:none;margin:0;padding:22px 0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;border-block:1px solid var(--line)}
+.trust li{display:flex;gap:12px;align-items:flex-start;font-size:.9rem;color:var(--ink-2);line-height:1.4}
+.trust b{display:block;color:var(--ink);font-weight:600}
+.trust .ico{color:var(--brand);margin-top:1px}
+.deps{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px}
+.dep{display:flex;flex-direction:column;gap:6px;padding:18px;border-radius:18px;background:var(--surface);border:1px solid var(--line);text-decoration:none;cursor:pointer;transition:border-color .2s,transform .2s}
+.dep:hover{border-color:var(--brand-line);transform:translateY(-2px)}
+.dep .ico{color:var(--brand);width:24px;height:24px}
+.dep b{font-weight:600}
+.dep span{font-size:.8rem;color:var(--ink-3);line-height:1.4}
+/* cards de produto */
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:32px 20px}
+.card{display:flex;flex-direction:column;gap:8px;min-width:0}
+.tile{--tile:color-mix(in oklab,var(--c) 12%,var(--surface));--c2:color-mix(in oklab,var(--c) 18%,#fff);--cap:color-mix(in oklab,var(--c) 55%,#0d2230);background:var(--tile);position:relative;aspect-ratio:1/1;max-width:100%;border-radius:18px;display:grid;place-items:center;overflow:hidden}
+.tile svg{width:44%;height:auto;transition:transform .3s}
+.card .tile{cursor:pointer;margin-bottom:6px}
+.card:hover .tile svg{transform:translateY(-4px)}
+.off{position:absolute;top:10px;left:10px;background:var(--surface);color:var(--promo);font-size:.75rem;font-weight:700;line-height:1;padding:6px 9px;border-radius:999px}
+.marca{font-size:.72rem;color:var(--ink-3);text-transform:uppercase;letter-spacing:.1em;font-weight:600}
+.card .nm{font-weight:600;text-decoration:none;line-height:1.3;cursor:pointer}
+.card .nm:hover{text-decoration:underline}
+.tam{font-size:.85rem;color:var(--ink-3)}
+.price{display:flex;flex-direction:column;line-height:1.25}
+.price .de{font-size:.8rem;color:var(--ink-3)}
+.price .por{font-weight:700;font-size:1.25rem;color:var(--ink)}
+.price .por.on{color:var(--promo)}
+.price .por small{font-size:.75rem;font-weight:500;color:var(--ink-3);margin-right:4px}
+.acts{margin-top:auto;padding-top:6px}
+.stepper{display:flex;align-items:center;border:1px solid var(--line);border-radius:999px;justify-content:space-between;background:var(--surface)}
+.stepper button{width:40px;height:40px;border:0;background:none;border-radius:999px;display:grid;place-items:center;cursor:pointer;color:var(--ink)}
+.stepper button:hover{background:var(--surface-2)}
+.stepper .ico{width:16px;height:16px}
+.stepper output{font-weight:600;font-size:.9rem;text-align:center}
+.acts .btn{width:100%}
+.empty{padding:48px 24px;text-align:center;border:1px dashed var(--line);border-radius:18px;display:flex;flex-direction:column;align-items:center;gap:12px;grid-column:1/-1;color:var(--ink-2)}
+/* faixa empresas */
+.band{background:var(--band);color:var(--on-band)}
+.band .eyebrow{color:var(--band-accent)}
+.band-in{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:40px;align-items:center}
+.band-in>div:first-child{display:flex;flex-direction:column;gap:16px}
+.band h2{font-size:clamp(1.6rem,1.2rem + 1.6vw,2.3rem)}
+.band p{color:var(--on-band-2)}
+.band .btn{background:var(--on-band);color:var(--band);align-self:flex-start}
+.kits-mini{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.kitp{display:flex;flex-direction:column;gap:4px;padding:18px;border:1px solid var(--band-line);border-radius:16px;text-decoration:none;cursor:pointer;transition:border-color .2s}
+.kitp:hover{border-color:var(--band-accent)}
+.kitp b{font-weight:600}
+.kitp small{color:var(--on-band-2);line-height:1.4}
+.kitp .v{color:var(--band-accent);font-weight:700;margin-top:6px}
+/* passos */
+.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;list-style:none;padding:0;margin:0;counter-reset:s}
+.steps.s4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.steps li{padding:24px;border-radius:18px;background:var(--surface);border:1px solid var(--line);display:flex;flex-direction:column;gap:8px}
+.steps li::before{counter-increment:s;content:counter(s,decimal-leading-zero);font:800 1.6rem/1 Nunito,system-ui,sans-serif;color:var(--brand)}
+.steps b{font-weight:600}
+.steps p{color:var(--ink-2);font-size:.95rem}
+/* guias */
+.gcards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.gcard{display:flex;flex-direction:column;gap:10px;padding:24px;border-radius:18px;background:var(--surface);border:1px solid var(--line);text-decoration:none;cursor:pointer;transition:border-color .2s}
+.gcard:hover{border-color:var(--brand-line)}
+.g-ico{width:44px;height:44px;border-radius:12px;background:var(--brand-soft);color:var(--brand-strong);display:grid;place-items:center}
+.gcard .meta{font-size:.8rem;color:var(--ink-3);display:flex;gap:10px;flex-wrap:wrap}
+.gcard h3{font-size:1.25rem}
+.gcard p{color:var(--ink-2);font-size:.95rem}
+.gcard .link{margin-top:auto}
+/* mapa e loja */
+.loja-t{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:40px;align-items:center}
+.loja-t>div:last-child{display:flex;flex-direction:column;gap:14px}
+.mapa{border-radius:20px;overflow:hidden;border:1px solid var(--line);background:var(--map-bg)}
+.mapa svg{display:block;width:100%;height:auto}
+.mapa-nota{font-size:.78rem;color:var(--ink-3);margin-top:8px}
+.m-st{fill:none;stroke:var(--map-street);stroke-width:6;stroke-linecap:round}
+.m-edge{fill:none;stroke:var(--map-edge);stroke-width:20;stroke-linecap:round}
+.m-road{fill:none;stroke:var(--map-road);stroke-width:14;stroke-linecap:round}
+.m-lbl{font:600 11px Nunito,sans-serif;letter-spacing:.14em;fill:var(--ink-3)}
+.m-rd{font:600 10px Nunito,sans-serif;letter-spacing:.06em;fill:var(--ink-2)}
+.m-b{font:800 15px Nunito,system-ui,sans-serif;fill:var(--ink)}
+.m-s{font:500 11px Nunito,sans-serif;fill:var(--ink-2)}
+.loja-grid{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:24px;align-items:start}
+.lcards{display:grid;gap:14px}
+.lcard{padding:20px;border-radius:18px;background:var(--surface);border:1px solid var(--line);display:flex;flex-direction:column;gap:8px}
+.lcard h3{font:600 .75rem/1.2 Nunito,sans-serif;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-3);display:flex;gap:8px;align-items:center}
+.lcard h3 .ico{color:var(--brand);width:18px;height:18px}
+address{font-style:normal}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.bairro-form{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.bairro-form .in{flex:1 1 220px;min-width:0}
+.res{padding:14px 16px;border-radius:14px;background:var(--surface);border:1px solid var(--line);margin-top:12px;display:flex;flex-direction:column;gap:10px}
+.bairros{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px;list-style:none;padding:0}
+.bairros li{font-size:.8rem;padding:4px 10px;border-radius:999px;background:var(--surface-2);color:var(--ink-2)}
+/* catálogo */
+.cat{display:grid;grid-template-columns:240px minmax(0,1fr);gap:36px;align-items:start}
+.filtros{position:sticky;top:calc(124px + env(safe-area-inset-top,0px))}
+#f-box>summary{list-style:none;cursor:pointer}
+#f-box>summary::-webkit-details-marker{display:none}
+.fgroup{border:0;margin:0 0 18px;padding:0 0 18px;display:flex;flex-direction:column;gap:4px;border-bottom:1px solid var(--line);min-width:0}
+.fgroup legend{font-weight:600;font-size:.75rem;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-3);padding:0;margin-bottom:8px}
+.opt{display:flex;align-items:center;gap:10px;font-size:.93rem;cursor:pointer;padding:3px 0}
+.opt .n{margin-left:auto;color:var(--ink-3);font-size:.8rem}
+.cat-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.cat-bar select.in{width:auto;min-height:40px;padding:6px 12px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.chips:empty{display:none}
+.chip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--brand-line);background:var(--brand-soft);color:var(--brand-strong);border-radius:999px;padding:5px 8px 5px 12px;font-size:.85rem;font-weight:600;cursor:pointer}
+.chip .ico{width:14px;height:14px}
+.chip.clear{background:none;border-color:transparent;color:var(--ink-2);text-decoration:underline}
+/* produto */
+.pd{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:48px;align-items:start;padding-block:16px 40px}
+.pd-art{position:sticky;top:calc(124px + env(safe-area-inset-top,0px));border-radius:24px}
+.pd-art svg{width:40%}
+.pd-info{display:flex;flex-direction:column;gap:16px;min-width:0}
+.pd-h{font-size:clamp(1.8rem,1.3rem + 2vw,2.6rem)}
+.pd-desc{color:var(--ink-2);max-width:36em}
+.pd .price .por{font-size:2rem}
+.pd-save{font-size:.9rem;color:var(--ink-2)}
+.pd-buy{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.pd-buy .stepper{width:150px}
+#pd-sum{font-weight:600}
+.acc{border-top:1px solid var(--line)}
+.acc details{border-bottom:1px solid var(--line)}
+.acc summary{padding:14px 0;font-weight:600;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.acc summary::-webkit-details-marker{display:none}
+.acc summary::after{content:"+";font-size:1.3rem;line-height:1;color:var(--ink-3)}
+.acc details[open] summary::after{content:"−"}
+.acc-b{padding:0 0 16px;color:var(--ink-2);display:flex;flex-direction:column;gap:8px}
+/* empresas */
+.perks{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.perk{padding:22px;border-radius:18px;background:var(--surface);border:1px solid var(--line);display:flex;flex-direction:column;gap:8px}
+.perk .ico{color:var(--brand);width:24px;height:24px}
+.perk b{font-weight:600;line-height:1.3}
+.perk p{color:var(--ink-2);font-size:.92rem}
+#kits,#cotacao{scroll-margin-top:140px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+.tab{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:9px 16px;font-weight:600;cursor:pointer;color:var(--ink-2)}
+.tab[aria-selected="true"]{background:var(--btn);color:var(--btn-ink);border-color:transparent}
+.kit{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:28px;background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:28px}
+.tbl-wrap{overflow-x:auto;min-width:0}
+.tbl{width:100%;border-collapse:collapse;min-width:480px;font-size:.93rem}
+.tbl th{text-align:left;font-weight:600;color:var(--ink-3);font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;padding:8px 10px;border-bottom:1px solid var(--line)}
+.tbl td{padding:12px 10px;border-bottom:1px solid var(--line);vertical-align:middle}
+.tbl .r{text-align:right;white-space:nowrap}
+.tbl s{color:var(--ink-3);font-size:.82rem}
+@media (max-width:560px){.tbl{min-width:0;font-size:.88rem}.tbl s{display:block}.tbl th.r{white-space:normal}.tbl th,.tbl td{padding-left:6px;padding-right:6px}}
+.kit-tot{display:flex;flex-direction:column;gap:10px;justify-content:center}
+.kit-tot .big{font-weight:700;font-size:2rem;line-height:1.1}
+.kit-tot .eco{color:var(--brand);font-weight:600}
+.cot{background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:28px;display:flex;flex-direction:column;gap:18px}
+.cot pre,.l-prev pre{white-space:pre-wrap;word-break:break-word;font:.82rem/1.5 ui-monospace,Consolas,monospace;background:var(--surface-2);padding:12px;border-radius:12px;margin:0}
+/* guia */
+.guia{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:48px;align-items:start;padding-block:16px 40px}
+.art-txt{display:flex;flex-direction:column;gap:18px;max-width:42em;min-width:0}
+.art-txt h1{font-size:clamp(2rem,1.4rem + 2.4vw,3rem)}
+.art-txt h2{font-size:1.5rem;margin-top:12px}
+.passos{margin:0;padding:0;list-style:none;counter-reset:p;display:flex;flex-direction:column;gap:14px}
+.passos li{display:grid;grid-template-columns:36px minmax(0,1fr);gap:14px;align-items:start}
+.passos li::before{counter-increment:p;content:counter(p);width:36px;height:36px;border-radius:50%;background:var(--brand-soft);color:var(--brand-strong);display:grid;place-items:center;font-weight:700}
+.box{padding:16px 18px;border-radius:14px;display:flex;gap:12px;font-size:.95rem;line-height:1.5}
+.box.dica{background:var(--brand-soft)}.box.dica .ico{color:var(--brand)}
+.box.alerta{background:var(--promo-soft)}.box.alerta .ico{color:var(--promo)}
+.box.info{background:var(--surface-2)}.box.info .ico{color:var(--ink-2)}
+.precisa{position:sticky;top:calc(124px + env(safe-area-inset-top,0px));background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:14px}
+.precisa h2{font-size:1.2rem}
+.mini{display:grid;grid-template-columns:52px minmax(0,1fr) auto;gap:12px;align-items:center;text-decoration:none;cursor:pointer}
+.mini .tile{width:52px;border-radius:12px}
+.mini .tile svg{width:52%}
+.mini b{font-size:.92rem;font-weight:600;display:block;line-height:1.3}
+.mini small{color:var(--ink-3);font-size:.8rem}
+.mini .r{font-weight:600;font-size:.92rem;white-space:nowrap}
+.tudo{display:flex;justify-content:space-between;border-top:1px solid var(--line);padding-top:12px;font-weight:600}
+/* testamos */
+.bar{height:10px;background:var(--surface-2);border-radius:999px;overflow:hidden;min-width:100px}
+.bar i{display:block;height:100%;width:var(--v);background:var(--brand);border-radius:inherit}
+.pill{display:inline-block;padding:3px 10px;border-radius:999px;background:var(--brand-soft);color:var(--brand-strong);font-size:.72rem;font-weight:700;white-space:nowrap}
+.t-grid{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:40px;align-items:start}
+/* painel */
+.adm{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:36px;align-items:start}
+.adm-form{background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:28px;display:flex;flex-direction:column;gap:18px}
+.adm-prev{position:sticky;top:calc(124px + env(safe-area-inset-top,0px));display:flex;flex-direction:column;gap:12px;padding:24px;border-radius:20px;background:var(--surface-2)}
+.adm-prev .card{max-width:260px}
+/* lista (dialog) */
+dialog{border:0;padding:0;background:var(--surface);color:var(--ink);border-radius:22px;width:min(560px,calc(100% - 32px));max-height:min(88vh,860px);box-shadow:var(--shadow)}
+dialog[open]{display:flex;flex-direction:column}
+dialog::backdrop{background:rgb(10 24 34/.5)}
+.dlg-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 20px;border-bottom:1px solid var(--line)}
+.dlg-head h2{font-size:1.4rem}
+.x{width:40px;height:40px;border-radius:50%;border:0;background:var(--surface-2);display:grid;place-items:center;cursor:pointer}
+.dlg-body{overflow:auto;min-height:0;padding:8px 20px 22px;display:flex;flex-direction:column;gap:16px}
+#l-vazio{padding:32px 0;text-align:center;display:flex;flex-direction:column;gap:12px;align-items:center;color:var(--ink-2)}
+#l-cheia{display:flex;flex-direction:column;gap:16px}
+#l-itens{list-style:none;margin:0;padding:0}
+.li{display:grid;grid-template-columns:56px minmax(0,1fr);gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+.li .tile{width:56px;border-radius:12px}
+.li .tile svg{width:52%}
+.li-n{font-weight:600;line-height:1.3}
+.li-m{font-size:.82rem;color:var(--ink-3)}
+.li-m s{margin-right:4px}
+.li-ctl{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:6px}
+.li .stepper{width:124px}
+.li .stepper button{width:34px;height:34px}
+.li-sub{font-weight:700}
+.tot{display:flex;flex-direction:column;gap:6px;padding:14px 16px;border-radius:14px;background:var(--surface-2);font-size:.95rem}
+.tot div{display:flex;justify-content:space-between;gap:12px}
+.tot .eco{color:var(--brand)}
+.tot .fim{font-weight:700;font-size:1.1rem}
+.modo-r{border:0;padding:0;margin:0;display:grid;grid-template-columns:1fr 1fr;gap:8px;min-width:0}
+.modo-r legend{font-weight:600;font-size:.9rem;padding:0;margin-bottom:8px}
+.modo-r label{border:1px solid var(--line);border-radius:12px;padding:12px;display:flex;gap:8px;align-items:center;cursor:pointer;font-weight:600;font-size:.92rem}
+.modo-r label:has(input:checked){border-color:var(--brand);background:var(--brand-soft)}
+.modo-r input{accent-color:var(--brand);margin:0}
+.l-tools{display:flex;gap:8px;flex-wrap:wrap}
+.l-prev summary{cursor:pointer;font-size:.85rem;color:var(--ink-2);margin-bottom:8px}
+/* rodapé */
+.foot{background:var(--band);color:var(--on-band);margin-top:40px}
+.foot-in{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr) minmax(0,1fr);gap:32px;padding-block:48px 28px}
+.foot .lw b{color:var(--on-band)}
+.foot .lw span{color:var(--band-accent)}
+.foot p,.foot address{color:var(--on-band-2);font-size:.92rem}
+.foot h4{font:600 .72rem/1 Nunito,sans-serif;text-transform:uppercase;letter-spacing:.14em;color:var(--band-accent);margin:0 0 12px}
+.foot ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.foot a{color:var(--on-band-2);text-decoration:none;cursor:pointer;font-size:.92rem}
+.foot a:hover{color:var(--on-band)}
+.foot-base{border-top:1px solid var(--band-line);padding-block:18px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:.82rem;color:var(--on-band-2)}
+.brand-tag{margin-top:12px}
+/* responsivo */
+@media (max-width:1000px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.deps{grid-template-columns:repeat(3,minmax(0,1fr))}.perks{grid-template-columns:repeat(2,minmax(0,1fr))}.steps.s4{grid-template-columns:repeat(2,minmax(0,1fr))}.guia{grid-template-columns:minmax(0,1fr) 280px;gap:32px}}
+@media (max-width:860px){.hero{grid-template-columns:minmax(0,1fr);gap:28px;padding-top:36px}.hero-art{max-width:420px;margin-inline:auto}.band-in,.loja-t,.loja-grid,.adm,.kit,.pd,.guia,.t-grid{grid-template-columns:minmax(0,1fr)}.pd-art,.precisa,.adm-prev{position:static}.pd-art{max-width:460px;width:100%}.trust{grid-template-columns:repeat(2,minmax(0,1fr))}.gcards{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:760px){
+body{padding-bottom:calc(72px + env(safe-area-inset-bottom,0px))}
+.top{position:static}
+.top-row{gap:10px}
+.search{order:5;flex-basis:100%;max-width:none}
+.lb-t,.n-ini,.fab{display:none}
+.l-long{display:none}.l-short{display:inline}
+.seg button{padding:7px 12px}
+.bbar{position:fixed;left:0;right:0;bottom:0;z-index:30;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));background:var(--surface);border-top:1px solid var(--line);padding:6px max(16px,env(safe-area-inset-right,0px)) calc(6px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.bbar a,.bbar button{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:.7rem;font-weight:600;color:var(--ink-2);background:none;border:0;text-decoration:none;padding:6px 0;cursor:pointer;position:relative}
+.bbar [aria-current="page"]{color:var(--brand)}
+.bbar .zap{color:var(--zap)}
+.bbar .badge{position:absolute;top:0;left:calc(50% + 4px)}
+#toast{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
+.sec{padding-block:48px}
+.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:24px 12px}
+.cat{grid-template-columns:minmax(0,1fr);gap:16px}
+.filtros{position:static}
+#f-box{border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+#f-box>summary{padding:12px 16px;font-weight:600;display:flex;gap:8px;align-items:center}
+#f-form{padding:4px 16px 0}
+.steps,.gcards,.foot-in,.form-grid{grid-template-columns:minmax(0,1fr)}
+.kit,.cot,.adm-form{padding:20px}
+}
+@media (min-width:761px){#f-box>summary{display:none}}
+@media (max-width:560px){
+dialog{width:100%;max-width:100%;margin:auto 0 0;border-radius:22px 22px 0 0;max-height:92vh}
+.dlg-body{padding-bottom:calc(22px + env(safe-area-inset-bottom,0px))}
+.steps.s4,.perks{grid-template-columns:minmax(0,1fr)}
+#ha-note{max-width:70%}
+}
+@media (max-width:420px){.deps{grid-template-columns:repeat(2,minmax(0,1fr))}.trust{grid-template-columns:minmax(0,1fr)}.ha-chip{font-size:.75rem}.logo{font-size:1.15rem}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important}html{scroll-behavior:auto}}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+<symbol id="s-galao" viewBox="0 0 100 140"><rect x="52" y="16" width="20" height="13" rx="3" style="fill:var(--cap)"/><path d="M24 36h28v-8h20v8h4c6 0 10 4 10 10v76c0 6-4 10-10 10H24c-6 0-10-4-10-10V46c0-6 4-10 10-10z" style="fill:var(--c)"/><path d="M60 44h14a3 3 0 0 1 3 3v13H63a3 3 0 0 1-3-3z" style="fill:var(--tile)"/><rect x="22" y="72" width="56" height="42" rx="5" style="fill:var(--c2)"/><rect x="30" y="84" width="40" height="5" rx="2.5" style="fill:var(--c)"/><rect x="30" y="95" width="26" height="4" rx="2" style="fill:var(--c)" opacity=".5"/></symbol>
+<symbol id="s-garrafa" viewBox="0 0 100 140"><rect x="40" y="12" width="20" height="15" rx="3" style="fill:var(--cap)"/><path d="M42 26h16v8c0 3 14 7 14 20v68c0 6-4 10-10 10H38c-6 0-10-4-10-10V54c0-13 14-17 14-20z" style="fill:var(--c)"/><rect x="33" y="70" width="34" height="42" rx="4" style="fill:var(--c2)"/><rect x="39" y="82" width="22" height="4" rx="2" style="fill:var(--c)"/><rect x="39" y="92" width="14" height="3" rx="1.5" style="fill:var(--c)" opacity=".5"/></symbol>
+<symbol id="s-spray" viewBox="0 0 100 140"><rect x="40" y="40" width="18" height="16" style="fill:var(--cap)"/><rect x="30" y="22" width="40" height="18" rx="6" style="fill:var(--cap)"/><rect x="20" y="27" width="14" height="8" rx="2" style="fill:var(--cap)"/><path d="M46 40l-7 17h6l7-17z" style="fill:var(--cap)"/><path d="M36 54h28c4 0 7 3 7 7v61c0 6-4 10-10 10H39c-6 0-10-4-10-10V61c0-4 3-7 7-7z" style="fill:var(--c)"/><rect x="35" y="76" width="30" height="38" rx="4" style="fill:var(--c2)"/><rect x="40" y="88" width="20" height="4" rx="2" style="fill:var(--c)"/><rect x="40" y="97" width="12" height="3" rx="1.5" style="fill:var(--c)" opacity=".5"/></symbol>
+<symbol id="s-deterg" viewBox="0 0 100 140"><path d="M44 10h12l3 18H41z" style="fill:var(--cap)"/><path d="M40 27h20l7 17v78c0 6-4 10-10 10H43c-6 0-10-4-10-10V44z" style="fill:var(--c)"/><rect x="38" y="68" width="24" height="44" rx="4" style="fill:var(--c2)"/><circle cx="50" cy="84" r="6" style="fill:var(--c)"/><rect x="42" y="98" width="16" height="3" rx="1.5" style="fill:var(--c)" opacity=".5"/></symbol>
+<symbol id="s-caixa" viewBox="0 0 100 140"><rect x="18" y="32" width="64" height="100" rx="7" style="fill:var(--c)"/><rect x="18" y="32" width="64" height="16" rx="7" style="fill:var(--cap)" opacity=".35"/><rect x="26" y="60" width="48" height="50" rx="5" style="fill:var(--c2)"/><circle cx="50" cy="80" r="11" style="fill:var(--c)"/><rect x="36" y="97" width="28" height="4" rx="2" style="fill:var(--c)" opacity=".5"/></symbol>
+<symbol id="s-rolo" viewBox="0 0 100 140"><path d="M34 42c0-14 32-14 32 0" fill="none" stroke-width="5" stroke-linecap="round" style="stroke:var(--cap)"/><rect x="12" y="42" width="76" height="90" rx="12" style="fill:var(--c)"/><circle cx="32" cy="68" r="15" style="fill:var(--c2)"/><circle cx="68" cy="68" r="15" style="fill:var(--c2)"/><circle cx="32" cy="106" r="15" style="fill:var(--c2)"/><circle cx="68" cy="106" r="15" style="fill:var(--c2)"/><circle cx="32" cy="68" r="5" style="fill:var(--c)"/><circle cx="68" cy="68" r="5" style="fill:var(--c)"/><circle cx="32" cy="106" r="5" style="fill:var(--c)"/><circle cx="68" cy="106" r="5" style="fill:var(--c)"/></symbol>
+<symbol id="s-saco" viewBox="0 0 100 140"><path d="M40 36c0-14 20-14 20 0" fill="none" stroke-width="5" stroke-linecap="round" style="stroke:var(--cap)"/><path d="M24 46c0-8 8-12 26-12s26 4 26 12v76c0 6-4 10-10 10H34c-6 0-10-4-10-10z" style="fill:var(--c)"/><rect x="32" y="72" width="36" height="34" rx="4" style="fill:var(--c2)"/><rect x="38" y="84" width="24" height="4" rx="2" style="fill:var(--c)"/><rect x="38" y="93" width="14" height="3" rx="1.5" style="fill:var(--c)" opacity=".5"/></symbol>
+<symbol id="s-esponja" viewBox="0 0 100 140"><rect x="14" y="60" width="72" height="18" rx="6" style="fill:#3F8F5C"/><rect x="14" y="72" width="72" height="48" rx="10" style="fill:var(--c)"/><circle cx="30" cy="90" r="3" style="fill:var(--cap)" opacity=".35"/><circle cx="48" cy="100" r="2.5" style="fill:var(--cap)" opacity=".35"/><circle cx="66" cy="88" r="3" style="fill:var(--cap)" opacity=".35"/><circle cx="72" cy="106" r="2" style="fill:var(--cap)" opacity=".35"/><circle cx="36" cy="108" r="2" style="fill:var(--cap)" opacity=".35"/></symbol>
+<symbol id="s-pano" viewBox="0 0 100 140"><path d="M16 56h68v64c0 5-4 9-9 9H25c-5 0-9-4-9-9z" style="fill:var(--c)"/><path d="M16 56h68l-12 22H28z" style="fill:var(--cap)" opacity=".3"/><path d="M24 120h52" fill="none" stroke-width="2" stroke-dasharray="4 4" style="stroke:var(--c2)"/></symbol>
+<symbol id="s-rodo" viewBox="0 0 100 140"><rect x="47" y="8" width="6" height="100" rx="3" style="fill:var(--c)"/><rect x="45" y="8" width="10" height="18" rx="4" style="fill:var(--cap)"/><rect x="14" y="102" width="72" height="16" rx="4" style="fill:var(--c)"/><rect x="14" y="116" width="72" height="6" rx="2" style="fill:#2B3A44"/></symbol>
+<symbol id="s-balde" viewBox="0 0 100 140"><path d="M22 60C22 22 78 22 78 60" fill="none" stroke-width="4" style="stroke:var(--cap)"/><path d="M20 58h60l-8 66c-1 5-4 8-9 8H37c-5 0-8-3-9-8z" style="fill:var(--c)"/><rect x="56" y="38" width="22" height="18" rx="3" style="fill:var(--c2)"/><rect x="16" y="52" width="68" height="11" rx="5" style="fill:var(--cap)"/><rect x="26" y="84" width="48" height="8" rx="4" style="fill:var(--c2)" opacity=".7"/></symbol>
+<symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></symbol>
+<symbol id="i-list" viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11M4.5 6h.01M4.5 12h.01M4.5 18h.01"/></symbol>
+<symbol id="i-zap" viewBox="0 0 24 24"><path d="M20.5 11.5a8.5 8.5 0 0 1-12.4 7.6L3.5 20.5l1.4-4.4a8.5 8.5 0 1 1 15.6-4.6z"/><path d="M8.5 11.5h.01M12 11.5h.01M15.5 11.5h.01"/></symbol>
+<symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></symbol>
+<symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+<symbol id="i-truck" viewBox="0 0 24 24"><path d="M3 6h11v10H3zM14 9h4l3 3v4h-7"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/></symbol>
+<symbol id="i-tag" viewBox="0 0 24 24"><path d="M3 12V4h8l10 10-8 8z"/><circle cx="7.5" cy="8.5" r="1.3"/></symbol>
+<symbol id="i-boxes" viewBox="0 0 24 24"><path d="M3 13h8v8H3zM13 13h8v8h-8zM8 3h8v8H8z"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+<symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+<symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+<symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+<symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
+<symbol id="i-sparkle" viewBox="0 0 24 24"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/></symbol>
+<symbol id="i-home" viewBox="0 0 24 24"><path d="M4 11l8-7 8 7v9H4z"/><path d="M10 20v-5h4v5"/></symbol>
+<symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/></symbol>
+<symbol id="i-flask" viewBox="0 0 24 24"><path d="M9 3h6M10 3v6L4.5 18.5A1.7 1.7 0 0 0 6 21h12a1.7 1.7 0 0 0 1.5-2.5L14 9V3"/><path d="M7 15h10"/></symbol>
+<symbol id="i-store" viewBox="0 0 24 24"><path d="M4 9l1.5-5h13L20 9M4 9v11h16V9M4 9h16"/><path d="M9 20v-6h6v6"/></symbol>
+<symbol id="i-pot" viewBox="0 0 24 24"><path d="M4 10h16v6a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4z"/><path d="M2 10h2M20 10h2M9 6c0-1 1-1 1-2M14 6c0-1 1-1 1-2"/></symbol>
+<symbol id="i-shirt" viewBox="0 0 24 24"><path d="M8 3L3 6l2 4 2-1v12h10V9l2 1 2-4-5-3c0 2-1.5 3-4 3S8 5 8 3z"/></symbol>
+<symbol id="i-drop" viewBox="0 0 24 24"><path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/></symbol>
+<symbol id="i-roll" viewBox="0 0 24 24"><ellipse cx="8" cy="12" rx="4" ry="8"/><path d="M8 4h9c2.2 0 4 3.6 4 8s-1.8 8-4 8H8"/><circle cx="8" cy="12" r="1.3"/></symbol>
+<symbol id="i-bucket" viewBox="0 0 24 24"><path d="M4 8h16l-2 13H6z"/><path d="M6 8a6 6 0 0 1 12 0"/></symbol>
+<symbol id="i-cup" viewBox="0 0 24 24"><path d="M5 4h14l-1.5 15a2 2 0 0 1-2 2h-7a2 2 0 0 1-2-2z"/><path d="M6 9h12"/></symbol>
+<symbol id="i-receipt" viewBox="0 0 24 24"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6"/></symbol>
+<symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3l9.5 17h-19z"/><path d="M12 10v4M12 17h.01"/></symbol>
+<symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5h.01"/></symbol>
+<symbol id="i-filter" viewBox="0 0 24 24"><path d="M4 6h16M7 12h10M10 18h4"/></symbol>
+<symbol id="i-building" viewBox="0 0 24 24"><path d="M5 21V4h10v17M15 9h4v12M3 21h18"/><path d="M9 8h2M9 12h2M9 16h2"/></symbol>
+</defs></svg>
+<a class="skip" href="#main">Pular para o conteúdo</a>
+<div class="proto"><p class="wrap">Protótipo navegável · marcas e preços fictícios · telefone e horário provisórios</p></div>
+<header class="top">
+<div class="wrap top-row">
+<a class="logo" href="#" data-go="inicio"><span class="mark" aria-hidden="true"></span><span class="lw"><b>Falcão</b><span>Limpeza</span></span></a>
+<form class="search" id="busca-form" role="search"><svg class="ico" aria-hidden="true"><use href="#i-search"/></svg><input class="in" id="q" type="search" placeholder="Buscar desinfetante, saco de lixo…" autocomplete="off" aria-label="Buscar produtos"></form>
+<div class="seg" role="group" aria-label="Estou comprando">
+<button type="button" data-act="modo" data-m="casa" aria-pressed="true"><span class="l-long">Pra casa</span><span class="l-short">Casa</span></button>
+<button type="button" data-act="modo" data-m="emp" aria-pressed="false"><span class="l-long">Pra empresa</span><span class="l-short">Empresa</span></button>
+</div>
+<button type="button" class="lista-btn" data-act="lista" aria-label="Minha lista"><svg class="ico" aria-hidden="true"><use href="#i-list"/></svg><span class="lb-t">Minha lista</span><span class="badge" data-count="0">0</span></button>
+</div>
+<nav class="wrap nav" aria-label="Principal">
+<a href="#" class="n-ini" data-go="inicio" data-nav="inicio">Início</a>
+<a href="#" data-go="produtos" data-nav="produtos">Produtos</a>
+<a href="#" data-go="empresas" data-nav="empresas">Para empresas</a>
+<a href="#" data-go="guias" data-nav="guias">Como usar</a>
+<a href="#" data-go="loja" data-nav="loja">A loja</a>
+</nav>
+</header>
+<main id="main" tabindex="-1">
+<section class="page" id="pg-inicio">
+<div class="wrap hero">
+<div class="hero-txt">
+<p class="eyebrow"><span class="only-casa">Loja de limpeza no Anil · Jacarepaguá</span><span class="only-emp">Atacado de limpeza no Anil · Jacarepaguá</span></p>
+<h1 class="display">Tudo limpo, sem complicar.</h1>
+<p class="lede only-casa">Veja o preço antes de sair de casa, monte sua lista com calma e retire no Anil — ou pergunte se a gente entrega no seu bairro.</p>
+<p class="lede only-emp">Condomínios, restaurantes, salões e escritórios: pedido pelo WhatsApp, preço de atacado combinado com você e tudo separado quando você chegar.</p>
+<div class="ctas"><a class="btn" href="#" data-go="produtos">Ver produtos<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a><a class="btn btn-sec" href="#" data-go="loja">Como chegar</a></div>
+<p class="hero-addr"><svg class="ico" aria-hidden="true"><use href="#i-pin"/></svg>Estrada de Jacarepaguá, 5171 · Anil, pertinho de Rio das Pedras</p>
+</div>
+<div class="hero-art" aria-hidden="true">
+<div class="ha-bg"></div>
+<div class="ha-p ha-1" style="--c:#8E7CC3"><svg viewBox="0 0 100 140"><use href="#s-galao"/></svg></div>
+<div class="ha-p ha-2" style="--c:#3AAFA9"><svg viewBox="0 0 100 140"><use href="#s-spray"/></svg></div>
+<div class="ha-p ha-3" style="--c:#7DB548"><svg viewBox="0 0 100 140"><use href="#s-deterg"/></svg></div>
+<div id="ha-note"></div>
+<div class="ha-chip"><svg class="ico"><use href="#i-clock"/></svg>Separado em ~30 min</div>
+</div>
+</div>
+<div class="wrap"><ul class="trust">
+<li><svg class="ico" aria-hidden="true"><use href="#i-tag"/></svg><span><b>Preço da loja, na tela</b>O mesmo que você paga no balcão.</span></li>
+<li><svg class="ico" aria-hidden="true"><use href="#i-clock"/></svg><span><b>Separado em ~30 min</b>Mande a lista e passe pra buscar.</span></li>
+<li><svg class="ico" aria-hidden="true"><use href="#i-truck"/></svg><span><b>Entrega na região</b>Consulte seu bairro no WhatsApp.</span></li>
+<li><svg class="ico" aria-hidden="true"><use href="#i-boxes"/></svg><span><b>Atacado pra empresas</b>Preço combinado pelo WhatsApp.</span></li>
+</ul></div>
+<section class="sec"><div class="wrap">
+<div class="sec-head"><div><p class="eyebrow">Departamentos</p><h2>Tudo pra limpeza, num lugar só</h2></div></div>
+<div class="deps" id="home-deps"></div>
+</div></section>
+<section class="sec sec-tint"><div class="wrap">
+<div class="sec-head"><div><p class="eyebrow">Ofertas da semana</p><h2>O que está valendo a pena</h2><p>Válido até <span data-sab></span> ou enquanto durar o estoque.</p></div><a class="link" href="#" data-go="produtos" data-arg="oferta">Ver todas as ofertas<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>
+<div class="grid" id="home-ofertas"></div>
+</div></section>
+<section class="sec band"><div class="wrap band-in">
+<div><p class="eyebrow">Para empresas</p><h2>Compra pra empresa? A gente separa pra você.</h2><p>Condomínio, restaurante, salão ou escritório: faça o pedido pelo WhatsApp e combine o preço de atacado com a gente.</p><a class="btn" href="#" data-go="empresas">Conhecer o atacado<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>
+<div class="kits-mini" id="home-kits"></div>
+</div></section>
+<section class="sec"><div class="wrap">
+<div class="sec-head"><div><p class="eyebrow">Sem carrinho, sem cadastro</p><h2>Como funciona a lista</h2></div></div>
+<ol class="steps">
+<li><b>Veja com calma</b><p>Preço da loja, ofertas da semana e dicas de uso de cada produto.</p></li>
+<li><b>Monte sua lista</b><p>Toque em “Pôr na lista”. Ela fica guardada neste aparelho, sem cadastro.</p></li>
+<li><b>Mande no WhatsApp</b><p>A gente confirma, separa e você retira no Anil — ou pergunta da entrega.</p></li>
+</ol>
+</div></section>
+<section class="sec sec-tint"><div class="wrap">
+<div class="sec-head"><div><p class="eyebrow">Como usar</p><h2>Limpar melhor, gastando menos</h2></div><a class="link" href="#" data-go="guias">Todos os guias<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>
+<div class="gcards" id="home-guias"></div>
+</div></section>
+<section class="sec"><div class="wrap loja-t">
+<div><div class="mapa" data-mapa="h"></div><p class="mapa-nota">Mapa ilustrativo, fora de escala.</p></div>
+<div><p class="eyebrow">Visite a loja</p><h2>No Anil, pertinho de Rio das Pedras</h2><address>Estrada de Jacarepaguá, 5171<br>Anil, Rio de Janeiro/RJ</address><p class="muted">Seg a sáb, 8h às 19h · Dom, 8h às 13h (horário provisório)</p><div class="row"><a class="btn" data-maps href="#" target="_blank" rel="noopener">Abrir no Google Maps</a><a class="link" href="#" data-go="loja">Detalhes da loja<svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></a></div></div>
+</div></section>
+</section>
+<section class="page" id="pg-produtos" hidden><div class="wrap">
+<div class="pg-head"><p class="eyebrow">Catálogo da loja</p><h1>Produtos</h1><p class="lede">Preços da loja física, atualizados pela equipe. <span class="only-emp">Comprando em quantidade? O preço de atacado a gente combina pelo WhatsApp.</span></p></div>
+<div class="cat">
+<aside class="filtros"><details id="f-box" open><summary><svg class="ico" aria-hidden="true"><use href="#i-filter"/></svg>Filtrar</summary>
+<form id="f-form">
+<fieldset class="fgroup"><legend>Departamento</legend><div id="f-dep"></div></fieldset>
+<fieldset class="fgroup"><legend>Preço</legend>
+<label class="opt"><input type="radio" name="preco" value="" checked>Qualquer preço</label>
+<label class="opt"><input type="radio" name="preco" value="10">Até R$ 10</label>
+<label class="opt"><input type="radio" name="preco" value="30">De R$ 10 a R$ 30</label>
+<label class="opt"><input type="radio" name="preco" value="30+">Acima de R$ 30</label>
+</fieldset>
+<fieldset class="fgroup"><legend>Mostrar</legend>
+<label class="opt"><input type="checkbox" name="oferta">Só ofertas</label>
+<label class="opt"><input type="checkbox" name="grande">Embalagem grande</label>
+</fieldset>
+<fieldset class="fgroup"><legend>Marca</legend><div id="f-marca"></div></fieldset>
+</form></details></aside>
+<div>
+<div class="cat-bar"><p id="f-count" aria-live="polite"></p><label class="row">Ordenar <select class="in" id="f-ordem"><option value="pop">Mais procurados</option><option value="menor">Menor preço</option><option value="desc">Maior desconto</option><option value="az">A a Z</option></select></label></div>
+<div class="chips" id="f-chips"></div>
+<div class="grid" id="f-grid"></div>
+</div>
+</div>
+</div></section>
+<section class="page" id="pg-produto" hidden><div class="wrap" id="pd-box"></div></section>
+
+<section class="page" id="pg-empresas" hidden><div class="wrap">
+<div class="pg-head"><p class="eyebrow">Atacado para empresas</p><h1>Limpeza no atacado, com atendimento de bairro.</h1><p class="lede">Para condomínios, restaurantes, salões, escritórios e comércios da região. O pedido sai pelo WhatsApp, o preço de atacado a gente combina com você e a retirada é rápida no Anil.</p><div class="ctas"><button type="button" class="btn" data-scroll="#cotacao">Pedir cotação</button><button type="button" class="btn btn-sec" data-scroll="#kits">Ver kits prontos</button></div></div>
+<div class="perks">
+<div class="perk"><svg class="ico" aria-hidden="true"><use href="#i-boxes"/></svg><b>Preço de atacado combinado</b><p>Mande o que precisa e quanto; a gente responde com o preço pelo WhatsApp. Sem cadastro.</p></div>
+<div class="perk"><svg class="ico" aria-hidden="true"><use href="#i-clock"/></svg><b>Pedido separado em ~30 min</b><p>Mande a lista e passe pra buscar. Prazo a confirmar com a loja.</p></div>
+<div class="perk"><svg class="ico" aria-hidden="true"><use href="#i-truck"/></svg><b>Entrega na região</b><p>Anil, Rio das Pedras, Freguesia, Gardênia Azul e arredores. Consulte.</p></div>
+</div>
+<div class="sec" id="kits">
+<div class="sec-head"><div><p class="eyebrow">Kits prontos</p><h2>Comece por um kit e ajuste do seu jeito</h2><p>Quantidades sugeridas, com o preço da loja. Ponha na lista, mude o que quiser e peça o preço de atacado pelo WhatsApp.</p></div></div>
+<div class="tabs" id="kit-tabs" role="tablist" aria-label="Kits por tipo de empresa"></div>
+<div id="kit-panel" role="tabpanel"></div>
+</div>
+<div class="sec">
+<div class="sec-head"><div><p class="eyebrow">Como funciona</p><h2>Do pedido à retirada</h2></div></div>
+<ol class="steps s4">
+<li><b>Mande a lista ou peça cotação</b><p>Pelo site ou direto no WhatsApp.</p></li>
+<li><b>A gente confirma preço e prazo</b><p>O preço de atacado sai conforme o seu pedido.</p></li>
+<li><b>Separamos o pedido</b><p>Em cerca de 30 minutos, no horário da loja.</p></li>
+<li><b>Você retira ou recebe</b><p>No Anil, ou entregue na região (consulte).</p></li>
+</ol>
+</div>
+<div id="cotacao">
+<form class="cot" id="cot" novalidate>
+<div class="stack"><p class="eyebrow">Cotação</p><h2>Peça uma cotação pelo WhatsApp</h2><p class="muted">Preencha o básico; a mensagem fica pronta pra você enviar.</p></div>
+<div class="form-grid">
+<div class="field"><label for="c-emp">Empresa *</label><input class="in" id="c-emp" name="empresa" maxlength="80" autocomplete="organization"></div>
+<div class="field"><label for="c-cnpj">CNPJ <small>(opcional)</small></label><input class="in" id="c-cnpj" name="cnpj" maxlength="20" inputmode="numeric"></div>
+<div class="field"><label for="c-seg">Segmento</label><select class="in" id="c-seg" name="seg"><option>Condomínio</option><option>Restaurante ou lanchonete</option><option>Salão ou clínica</option><option>Escritório</option><option>Comércio</option><option>Outro</option></select></div>
+<div class="field"><label for="c-bairro">Bairro</label><input class="in" id="c-bairro" name="bairro" maxlength="60"></div>
+<div class="field"><label for="c-freq">Frequência</label><select class="in" id="c-freq" name="freq"><option>Compra única</option><option>Toda semana</option><option>A cada 15 dias</option><option>Todo mês</option></select></div>
+<div class="field full"><label for="c-itens">Do que você precisa?</label><textarea class="in" id="c-itens" name="itens" maxlength="800" placeholder="Ex.: 12 águas sanitárias 2 L, 4 pacotes de saco de lixo 100 L…"></textarea></div>
+</div>
+<p class="err" id="cot-err" role="alert" hidden></p>
+<div class="row"><button class="btn" type="submit">Montar mensagem</button></div>
+<div id="cot-ok" class="stack" hidden><p><b>Mensagem pronta.</b> Confira e envie:</p><pre id="cot-msg"></pre><div class="row"><a class="btn btn-zap" id="cot-wa" href="#" target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="#i-zap"/></svg>Enviar no WhatsApp</a><button type="button" class="btn btn-sec btn-sm" data-act="copiar" data-src="cot-msg"><svg class="ico" aria-hidden="true"><use href="#i-copy"/></svg>Copiar</button></div></div>
+</form>
+</div>
+</div></section>
+<section class="page" id="pg-guias" hidden><div class="wrap">
+<div class="pg-head"><p class="eyebrow">Como usar</p><h1>Guias pra limpar melhor, gastando menos.</h1><p class="lede">Medida certa, passo a passo e o que nunca misturar. Escritos pela equipe da loja, com os produtos que você encontra aqui.</p></div>
+<div class="gcards" id="g-list"></div>
+</div></section>
+<section class="page" id="pg-guia" hidden><div class="wrap" id="guia-box"></div></section>
+<section class="page" id="pg-testamos" hidden><div class="wrap">
+<nav class="crumbs" aria-label="Você está em"><a href="#" data-go="guias">Como usar</a><span aria-hidden="true">/</span><span>A gente testou</span></nav>
+<div class="pg-head"><p class="eyebrow">A gente testou</p><h1>Qual detergente rende mais pratos?</h1><p class="lede">Lavamos louça de verdade com quatro marcas da loja e contamos quantos pratos cada frasco de 500 ml aguentou.</p></div>
+<div class="t-grid">
+<div class="art-txt">
+<div class="box info"><svg class="ico" aria-hidden="true"><use href="#i-info"/></svg><p>Teste ilustrativo deste protótipo: marcas e números são fictícios. No site real, cada teste traz data, fotos e o método completo.</p></div>
+<h2>Como testamos</h2>
+<ol class="passos"><li>Um frasco de cada marca, comprado na própria loja.</li><li>Uma colher de sopa de detergente por bacia de 2 litros de água morna.</li><li>Trocamos a água quando a espuma sumia e contamos os pratos até o frasco acabar.</li></ol>
+<h2>Pratos por frasco</h2>
+<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Marca</th><th class="r">Preço</th><th>Pratos por frasco</th><th class="r">Por 100 pratos</th></tr></thead><tbody>
+<tr><td><b>Clarim</b> <span class="pill">Melhor custo</span></td><td class="r">R$ 2,19</td><td><div class="bar-row"><div class="bar" style="--v:86.5%"><i></i></div>450</div></td><td class="r">R$ 0,49</td></tr>
+<tr><td><b>Fortex</b> <span class="pill">Rende mais</span></td><td class="r">R$ 3,29</td><td><div class="bar-row"><div class="bar" style="--v:100%"><i></i></div>520</div></td><td class="r">R$ 0,63</td></tr>
+<tr><td><b>Brisanil</b></td><td class="r">R$ 2,79</td><td><div class="bar-row"><div class="bar" style="--v:78.8%"><i></i></div>410</div></td><td class="r">R$ 0,68</td></tr>
+<tr><td><b>Pratiq</b></td><td class="r">R$ 2,49</td><td><div class="bar-row"><div class="bar" style="--v:63.5%"><i></i></div>330</div></td><td class="r">R$ 0,75</td></tr>
+</tbody></table></div>
+<h2>Veredito</h2>
+<p>O Fortex rende mais pratos, mas o Clarim, em oferta, sai mais barato por louça lavada. Pra casa, o Clarim compensa. Pra cozinha de restaurante, vale o galão de 5 L, que derruba ainda mais o custo por prato.</p>
+</div>
+<aside class="precisa"><h2>O que levamos pra casa</h2><div id="t-prod"></div></aside>
+</div>
+</div></section>
+<section class="page" id="pg-loja" hidden><div class="wrap">
+<div class="pg-head"><p class="eyebrow">A loja</p><h1>Venha ver de perto.</h1><p class="lede">No Anil, na Estrada de Jacarepaguá, pertinho de Rio das Pedras. Mande a lista antes e encontre tudo separado.</p></div>
+<div class="loja-grid">
+<div><div class="mapa" data-mapa="l"></div><p class="mapa-nota">Mapa ilustrativo, fora de escala. Use o Google Maps para traçar a rota.</p></div>
+<div class="lcards">
+<div class="lcard"><h3><svg class="ico" aria-hidden="true"><use href="#i-pin"/></svg>Endereço</h3><address id="end-txt">Estrada de Jacarepaguá, 5171<br>Anil, Rio de Janeiro/RJ</address><div class="row"><a class="btn btn-sm" data-maps href="#" target="_blank" rel="noopener">Abrir no Google Maps</a><button type="button" class="btn btn-sec btn-sm" data-act="copiar-end"><svg class="ico" aria-hidden="true"><use href="#i-copy"/></svg>Copiar endereço</button></div></div>
+<div class="lcard"><h3><svg class="ico" aria-hidden="true"><use href="#i-clock"/></svg>Horário (provisório)</h3><p>Segunda a sábado, 8h às 19h<br>Domingo, 8h às 13h</p></div>
+<div class="lcard"><h3><svg class="ico" aria-hidden="true"><use href="#i-zap"/></svg>WhatsApp</h3><p><b>(21) 90000-0000</b> <span class="muted">· número provisório</span></p><div class="row"><a class="btn btn-zap btn-sm" data-wa href="#" target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="#i-zap"/></svg>Chamar no WhatsApp</a></div></div>
+<div class="lcard"><h3><svg class="ico" aria-hidden="true"><use href="#i-receipt"/></svg>Pagamento</h3><p>Pix, cartão de débito e crédito, dinheiro.</p></div>
+</div>
+</div>
+<div class="sec" id="entrega">
+<div class="sec-head"><div><p class="eyebrow">Entrega</p><h2>Entrega no seu bairro?</h2><p>Digite seu bairro pra ver se a gente costuma atender. A confirmação é sempre pelo WhatsApp.</p></div></div>
+<form id="bairro-form" class="bairro-form"><input class="in" id="bairro" maxlength="60" placeholder="Ex.: Freguesia" aria-label="Seu bairro"><button class="btn" type="submit">Consultar</button></form>
+<div id="bairro-res" aria-live="polite"></div>
+<p class="muted small-top">Bairros que costumamos atender:</p>
+<ul class="bairros" id="bairros-lista"></ul>
+</div>
+</div></section>
+<section class="page" id="pg-painel" hidden><div class="wrap">
+<div class="pg-head"><p class="eyebrow">Área do lojista · demonstração</p><h1>Cadastrar produto</h1><p class="lede">É assim que a equipe põe preço e oferta no site. Nesta demonstração, o produto entra no catálogo só enquanto esta página estiver aberta.</p></div>
+<div class="adm">
+<form class="adm-form" id="adm" novalidate>
+<div class="form-grid">
+<div class="field full"><label for="a-nome">Nome do produto *</label><input class="in" id="a-nome" name="nome" maxlength="60" placeholder="Ex.: Desinfetante Floral"></div>
+<div class="field"><label for="a-marca">Marca</label><input class="in" id="a-marca" name="marca" maxlength="30"></div>
+<div class="field"><label for="a-dep">Departamento</label><select class="in" id="a-dep" name="dep"></select></div>
+<div class="field"><label for="a-tam">Tamanho</label><input class="in" id="a-tam" name="tam" maxlength="30" placeholder="Ex.: 2 L"></div>
+<div class="field"><label for="a-forma">Embalagem</label><select class="in" id="a-forma" name="forma"></select></div>
+<div class="field"><label for="a-de">Preço normal (R$) *</label><input class="in" id="a-de" name="de" inputmode="decimal" placeholder="12,90"></div>
+<div class="field"><label for="a-por">Preço de oferta (R$)</label><input class="in" id="a-por" name="por" inputmode="decimal" placeholder="9,90"><small>Vazio = sem oferta.</small></div>
+<div class="field"><label for="a-ate">Oferta válida até</label><input class="in" id="a-ate" name="ate" type="date"></div>
+<div class="field"><label for="a-cor">Cor da embalagem</label><input class="in" id="a-cor" name="cor" type="color" value="#4C9CC2"></div>
+<div class="field full"><label class="chk"><input type="checkbox" name="grande">Embalagem grande ou fardo</label></div>
+<div class="field full"><label for="a-desc">Descrição curta</label><textarea class="in" id="a-desc" name="desc" maxlength="200"></textarea></div>
+</div>
+<ul class="err" id="adm-err" role="alert" hidden></ul>
+<div class="row"><button class="btn" type="submit">Salvar produto</button></div>
+</form>
+<aside class="adm-prev"><p class="eyebrow">Prévia no site</p><div id="adm-card"></div></aside>
+</div>
+</div></section>
+</main>
+<footer class="foot">
+<div class="wrap foot-in">
+<div><a class="logo" href="#" data-go="inicio"><span class="mark" aria-hidden="true"></span><span class="lw"><b>Falcão</b><span>Limpeza</span></span></a><p class="brand-tag">Limpeza pra casa e pra empresa.</p></div>
+<div><h4>Visite</h4><address>Estrada de Jacarepaguá, 5171<br>Anil, Rio de Janeiro/RJ</address><p>Seg a sáb, 8h às 19h · Dom, 8h às 13h</p></div>
+<div><h4>Navegue</h4><ul><li><a href="#" data-go="produtos">Produtos</a></li><li><a href="#" data-go="empresas">Para empresas</a></li><li><a href="#" data-go="guias">Como usar</a></li><li><a href="#" data-go="loja">A loja</a></li><li><a href="#" data-go="painel">Área do lojista</a></li></ul></div>
+</div>
+<div class="wrap"><div class="foot-base"><span>© 2026 Falcão Limpeza · Anil</span><span>Protótipo: marcas, preços e telefone fictícios.</span></div></div>
+</footer>
+<nav class="bbar" aria-label="Atalhos">
+<a href="#" data-go="inicio" data-nav="inicio"><svg class="ico" aria-hidden="true"><use href="#i-home"/></svg>Início</a>
+<a href="#" data-go="produtos" data-nav="produtos"><svg class="ico" aria-hidden="true"><use href="#i-tag"/></svg>Produtos</a>
+<button type="button" data-act="lista"><svg class="ico" aria-hidden="true"><use href="#i-list"/></svg>Lista<span class="badge" data-count="0">0</span></button>
+<a href="#" data-go="loja" data-nav="loja"><svg class="ico" aria-hidden="true"><use href="#i-store"/></svg>Loja</a>
+<a class="zap" data-wa href="#" target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="#i-zap"/></svg>WhatsApp</a>
+</nav>
+<a class="btn btn-zap fab" data-wa href="#" target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="#i-zap"/></svg>Fale com a loja</a>
+<div id="toast" role="status" aria-live="polite"></div>
+<dialog id="dlg-lista" aria-labelledby="dlg-t">
+<div class="dlg-head"><h2 id="dlg-t">Minha lista</h2><button type="button" class="x" data-act="fechar" aria-label="Fechar"><svg class="ico" aria-hidden="true"><use href="#i-close"/></svg></button></div>
+<div class="dlg-body">
+<div id="l-vazio"><p><b>Sua lista está vazia.</b></p><p class="muted">Ponha produtos na lista pra mandar pra loja pelo WhatsApp.</p><a class="btn" href="#" data-go="produtos">Ver produtos</a></div>
+<div id="l-cheia" hidden>
+<ul id="l-itens"></ul>
+<div class="tot" id="l-tot"></div>
+<fieldset class="modo-r"><legend>Como você prefere?</legend>
+<label><input type="radio" name="l-modo" value="retirar" checked>Retirar na loja</label>
+<label><input type="radio" name="l-modo" value="entrega">Perguntar entrega</label>
+</fieldset>
+<div class="field" id="l-end-wrap" hidden><label for="l-end">Bairro ou endereço pra entrega</label><input class="in" id="l-end" maxlength="120"></div>
+<div class="field"><label for="l-nome">Seu nome <small>(opcional)</small></label><input class="in" id="l-nome" maxlength="60" autocomplete="given-name"></div>
+<a class="btn btn-zap btn-full" id="l-wa" href="#" target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="#i-zap"/></svg>Enviar lista no WhatsApp</a>
+<p class="muted note-c">A loja confirma preços e disponibilidade na resposta.</p>
+<div class="l-tools"><button type="button" class="btn btn-sec btn-sm" data-act="copiar" data-src="l-pre"><svg class="ico" aria-hidden="true"><use href="#i-copy"/></svg>Copiar texto</button><button type="button" class="btn btn-sec btn-sm" data-act="limpar">Limpar lista</button></div>
+<details class="l-prev"><summary>Ver a mensagem</summary><pre id="l-pre"></pre></details>
+</div>
+</div>
+</dialog>
+
+<style>.loja-t h2{font-size:clamp(1.6rem,1.2rem + 1.6vw,2.3rem)}</style>
+<script>
+(()=>{'use strict';
+const ZAP='5521900000000'; // ponytail: número provisório — trocar pelo WhatsApp real da loja
+const MAPS='https://www.google.com/maps/search/?api=1&query=Estrada+de+Jacarepagu%C3%A1%2C+5171%2C+Anil%2C+Rio+de+Janeiro%2C+RJ';
+const ENDERECO='Estrada de Jacarepaguá, 5171 – Anil, Rio de Janeiro/RJ';
+
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const norm=s=>String(s??'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().trim();
+const store={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+const brl=n=>(Math.round(n*100)/100).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+const wa=t=>'https://wa.me/'+ZAP+'?text='+encodeURIComponent(t);
+const ico=n=>`<svg class="ico" aria-hidden="true"><use href="#i-${n}"/></svg>`;
+const art=f=>`<svg viewBox="0 0 100 140" aria-hidden="true"><use href="#s-${f}"/></svg>`;
+const isoLocal=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+const HOJE=(()=>{const d=new Date();return new Date(d.getFullYear(),d.getMonth(),d.getDate())})();
+const SAB=(()=>{const d=new Date(HOJE);d.setDate(d.getDate()+(6-d.getDay()+7)%7);return isoLocal(d)})();
+const fmtDia=iso=>{const [y,m,d]=iso.split('-').map(Number);return new Date(y,m-1,d).toLocaleDateString('pt-BR',{weekday:'short',day:'2-digit',month:'2-digit'})};
+function promoOn(p){if(!(p.por>0)||!(p.por<p.de))return false;if(p.ate){const f=new Date(p.ate+'T23:59:59');if(!(f>=new Date()))return false}return true}
+const varejo=p=>promoOn(p)?p.por:p.de;
+const offPct=p=>promoOn(p)?Math.floor((p.de-p.por)/p.de*100+1e-9):0;
+function parsePrice(s){s=String(s||'').trim().replace(/[R$\s]/g,'');if(!s)return null;if(s.includes(','))s=s.replace(/\./g,'').replace(',','.');const n=Number(s);return Number.isFinite(n)&&n>0?Math.round(n*100)/100:NaN}
+
+
+const DEPS=[
+{id:'casa',nome:'Casa e pisos',ico:'home',sub:'Desinfetante, multiuso, cera'},
+{id:'cozinha',nome:'Cozinha',ico:'pot',sub:'Detergente, esponja, desengordurante'},
+{id:'roupa',nome:'Roupas',ico:'shirt',sub:'Sabão, amaciante, tira-manchas'},
+{id:'banheiro',nome:'Banheiro',ico:'drop',sub:'Sanitária, antilimo, pedra'},
+{id:'descartaveis',nome:'Descartáveis',ico:'roll',sub:'Papel, saco de lixo, toalha'},
+{id:'utensilios',nome:'Utensílios',ico:'bucket',sub:'Rodo, balde, pano'}];
+const DEP=Object.fromEntries(DEPS.map(d=>[d.id,d]));
+const DEP_INFO={
+casa:{uso:'Dilua conforme o rótulo e aplique com pano úmido ou mop. Em piso, passe e deixe secar naturalmente.',cuidado:'Não misture com água sanitária nem outros produtos. Guarde longe de crianças e animais.'},
+cozinha:{uso:'Use pouco produto com água morna. Em gordura pesada, aplique, aguarde 1 a 2 minutos e enxágue.',cuidado:'Enxágue bem as superfícies que tocam alimentos. Evite contato com os olhos.'},
+roupa:{uso:'Siga a medida da tampa conforme a carga. Separe brancas e coloridas e teste peças delicadas antes.',cuidado:'Não aplique direto em tecido seco escuro. Mantenha a embalagem fechada.'},
+banheiro:{uso:'Aplique, deixe agir de 5 a 10 minutos, esfregue e enxágue. Mantenha o ambiente ventilado.',cuidado:'Nunca misture com amoníaco, vinagre ou álcool. Use luvas.'},
+descartaveis:{uso:'Armazene em local seco e arejado, longe do chão molhado.',cuidado:'Não reutilize sacos de lixo rasgados. Feche bem antes de descartar.'},
+utensilios:{uso:'Lave e deixe secar depois do uso. Panos de microfibra vão na máquina, sem amaciante.',cuidado:'Guarde o rodo pendurado para não deformar a borracha.'}};
+
+const P=[
+{id:'desinf-lavanda-2l',nome:'Desinfetante Lavanda',marca:'Brisanil',dep:'casa',tam:'2 L',de:12.9,por:9.9,forma:'galao',cor:'#8E7CC3',pop:1,guia:'diluicao',desc:'Perfume suave que dura no ambiente. Rende até 100 litros diluído.'},
+{id:'desinf-eucalipto-5l',nome:'Desinfetante Eucalipto',marca:'Fortex',dep:'casa',tam:'5 L',de:27.9,por:22.9,forma:'galao',cor:'#4E9F86',pop:4,grande:true,guia:'diluicao',desc:'Galão concentrado para áreas grandes: garagem, quintal e áreas comuns.'},
+{id:'multiuso-500',nome:'Limpa Tudo Multiuso',marca:'Lustrin',dep:'casa',tam:'500 ml',de:6.49,por:4.99,forma:'garrafa',cor:'#3D8BC9',pop:6,desc:'Pronto pra usar em fogão, azulejo, bancada e geladeira.'},
+{id:'lustra-moveis-200',nome:'Lustra-móveis',marca:'Lustrin',dep:'casa',tam:'200 ml',de:8.9,forma:'spray',cor:'#C29A55',pop:15,desc:'Brilho sem deixar a madeira grudenta. Tira o pó e protege.'},
+{id:'cera-750',nome:'Cera Líquida Incolor',marca:'Brisanil',dep:'casa',tam:'750 ml',de:14.9,forma:'garrafa',cor:'#B7A07A',pop:16,desc:'Para pisos frios e laminados. Seca rápido e não amarela.'},
+{id:'detergente-500',nome:'Detergente Neutro',marca:'Clarim',dep:'cozinha',tam:'500 ml',de:2.99,por:2.19,forma:'deterg',cor:'#7DB548',pop:2,desc:'O mais vendido da loja. Faz espuma na medida e é suave com as mãos.'},
+{id:'desengordurante-500',nome:'Desengordurante',marca:'Fortex',dep:'cozinha',tam:'500 ml',de:11.9,por:9.49,forma:'spray',cor:'#D9773F',pop:8,guia:'restaurante',desc:'Tira gordura de fogão, coifa e azulejo em poucos minutos.'},
+{id:'esponja-4',nome:'Esponja Dupla Face',marca:'Pratiq',dep:'cozinha',tam:'pacote c/ 4',de:7.9,forma:'esponja',cor:'#E8BD45',pop:7,desc:'Lado macio para o dia a dia e fibra para panela difícil.'},
+{id:'detergente-5l',nome:'Detergente Neutro',marca:'Clarim',dep:'cozinha',tam:'5 L',de:24.9,por:19.9,forma:'galao',cor:'#6AAE8F',pop:9,grande:true,desc:'O mesmo detergente, em galão. Sai mais barato por lavagem.'},
+{id:'lava-roupas-1600',nome:'Lava-roupas em Pó',marca:'Alvura',dep:'roupa',tam:'1,6 kg',de:21.9,por:17.9,forma:'caixa',cor:'#4A7CCB',pop:5,desc:'Limpeza profunda em água fria. Rende até 32 lavagens.'},
+{id:'amaciante-2l',nome:'Amaciante Concentrado',marca:'Alvura',dep:'roupa',tam:'2 L',de:19.9,forma:'galao',cor:'#D98FB5',pop:10,desc:'Meia tampa por lavagem. Roupa macia e perfumada por dias.'},
+{id:'tira-manchas-1l',nome:'Tira-manchas sem Cloro',marca:'Alvura',dep:'roupa',tam:'1 L',de:13.9,forma:'garrafa',cor:'#D46F96',pop:13,guia:'roupa-branca',desc:'Para brancas e coloridas. Não desbota quando usado na medida.'},
+{id:'sanitaria-2l',nome:'Água Sanitária',marca:'Clarim',dep:'banheiro',tam:'2 L',de:6.9,forma:'galao',cor:'#5AA3D0',pop:3,guia:'mofo',desc:'Desinfeta, alveja e tira mofo. Regularizada na Anvisa.'},
+{id:'limpa-banheiro-500',nome:'Limpa Banheiro Antilimo',marca:'Fortex',dep:'banheiro',tam:'500 ml',de:12.9,forma:'spray',cor:'#3AAFA9',pop:11,guia:'mofo',desc:'Remove limo e marca de água do box e do rejunte.'},
+{id:'pedra-sanitaria-3',nome:'Pedra Sanitária Pinho',marca:'Brisanil',dep:'banheiro',tam:'c/ 3',de:9.9,forma:'caixa',cor:'#62B06A',pop:14,desc:'Perfuma a cada descarga. Cada pedra dura cerca de 30 dias.'},
+{id:'papel-hig-64',nome:'Papel Higiênico Folha Dupla',marca:'Pratiq',dep:'descartaveis',tam:'fardo c/ 64 rolos',de:119.9,por:94.9,forma:'rolo',cor:'#8FB0D6',pop:12,grande:true,desc:'Fardo econômico para escritório, condomínio e família grande.'},
+{id:'saco-lixo-100l',nome:'Saco de Lixo 100 L',marca:'Pratiq',dep:'descartaveis',tam:'pacote c/ 50',de:29.9,forma:'saco',cor:'#4F5D6B',pop:17,grande:true,desc:'Reforçado, aguenta lixeira de condomínio sem rasgar.'},
+{id:'papel-toalha-1000',nome:'Papel Toalha Interfolha',marca:'Pratiq',dep:'descartaveis',tam:'pacote c/ 1.000 folhas',de:22.9,forma:'caixa',cor:'#9DB9C2',pop:18,grande:true,desc:'Para dispenser de banheiro e cozinha profissional.'},
+{id:'pano-microfibra-3',nome:'Pano de Microfibra',marca:'Lustrin',dep:'utensilios',tam:'c/ 3',de:16.9,por:12.9,forma:'pano',cor:'#E58A6A',pop:19,desc:'Limpa vidro e inox sem deixar fiapo. Lava e usa de novo.'},
+{id:'rodo-60',nome:'Rodo de Alumínio 60 cm',marca:'Pratiq',dep:'utensilios',tam:'cabo 1,2 m',de:34.9,forma:'rodo',cor:'#7A8C99',pop:20,desc:'Borracha dupla que puxa a água de uma vez. Cabo firme.'},
+{id:'balde-20l',nome:'Balde com Espremedor',marca:'Pratiq',dep:'utensilios',tam:'20 L',de:69.9,forma:'balde',cor:'#4C9CC2',pop:21,grande:true,desc:'Espreme o mop sem molhar a mão. Rodinhas para áreas grandes.'}];
+const fixP=p=>{if(p.por&&!p.ate)p.ate=SAB;return p};
+P.forEach(fixP);
+const byId=id=>P.find(p=>p.id===id);
+
+const KITS=[
+{id:'condominio',nome:'Condomínio',ico:'building',sub:'Áreas comuns, garagem e lixeira · por mês',itens:[['sanitaria-2l',12],['desinf-eucalipto-5l',4],['saco-lixo-100l',4],['detergente-5l',1],['pano-microfibra-3',3],['rodo-60',1]]},
+{id:'restaurante',nome:'Restaurante',ico:'pot',sub:'Cozinha e salão de até 40 lugares · por semana',itens:[['detergente-5l',4],['desengordurante-500',6],['esponja-4',10],['sanitaria-2l',12],['papel-toalha-1000',5],['saco-lixo-100l',4]]},
+{id:'salao',nome:'Salão de beleza',ico:'sparkle',sub:'Bancadas, lavatórios e banheiro · por mês',itens:[['desinf-lavanda-2l',6],['papel-toalha-1000',5],['limpa-banheiro-500',2],['pano-microfibra-3',2],['saco-lixo-100l',2],['multiuso-500',12]]},
+{id:'escritorio',nome:'Escritório',ico:'boxes',sub:'Até 20 pessoas · por mês',itens:[['papel-hig-64',2],['papel-toalha-1000',5],['multiuso-500',12],['detergente-500',24],['desinf-lavanda-2l',6],['saco-lixo-100l',2]]}];
+
+const GUIAS=[
+{id:'mofo',ico:'drop',modo:'casa',tempo:'20 min',tag:'Banheiro',titulo:'Como tirar mofo do banheiro sem estragar o rejunte',resumo:'A medida certa de água sanitária, o tempo de ação e o que nunca misturar.',
+intro:'Mofo volta quando o banheiro fica úmido e fechado. A boa notícia: com água sanitária na medida certa, ele sai sem esfregar até machucar o rejunte.',
+passos:['Abra a janela, ligue o exaustor e calce luvas.','Misture 1 parte de água sanitária para 3 partes de água no balde.','Aplique com pano úmido sobre as manchas, sem encharcar.','Espere 10 minutos e passe um pano só com água.','Seque bem e deixe a porta aberta por algumas horas.'],
+dica:'Teste antes num cantinho escondido: em rejunte colorido, a sanitária pode clarear.',alerta:'Nunca misture água sanitária com amoníaco, vinagre ou álcool. A mistura solta gases tóxicos.',
+precisa:[['sanitaria-2l',1],['pano-microfibra-3',1],['balde-20l',1]]},
+{id:'diluicao',ico:'cup',modo:'casa',tempo:'4 min de leitura',tag:'Referência',titulo:'Quanto usar de cada produto: a tabela da diluição',resumo:'Usar demais não limpa mais, só gasta. Guarde esta tabela perto do tanque.',
+intro:'O rótulo sempre manda, mas estas medidas valem para a maioria dos produtos da loja. Usar a dose certa faz o galão render o dobro.',
+tabela:[['Desinfetante concentrado','Piso e quintal','1 tampa (≈ 50 ml) em 5 L de água'],['Detergente','Louça','1 colher de sopa em 1 L de água morna'],['Água sanitária','Desinfetar e tirar mofo','1 copo (200 ml) em 5 L de água'],['Multiuso','Fogão, bancada, azulejo','Puro, no pano'],['Amaciante concentrado','Roupa','Meia tampa por lavagem']],
+passos:['Ponha a água primeiro e o produto depois: faz menos espuma e evita respingo.','Use um copo medidor só para limpeza e guarde junto dos produtos.','Prepare só o que vai usar no dia; diluído, o produto perde força.'],
+precisa:[['desinf-eucalipto-5l',1],['detergente-5l',1],['multiuso-500',2]]},
+{id:'roupa-branca',ico:'shirt',modo:'casa',tempo:'40 min',tag:'Roupas',titulo:'Roupa branca branca de novo, sem cloro',resumo:'Molho na medida certa, lavagem fria e secagem à sombra.',
+intro:'Branco amarelado quase sempre é resíduo de sabão e suor acumulado. Dá pra recuperar sem cloro, que enfraquece o tecido.',
+passos:['Separe só as brancas e verifique a etiqueta de cada peça.','Dilua o tira-manchas em água morna conforme o rótulo e deixe de molho por 30 minutos.','Lave na máquina com lava-roupas, em água fria.','Use meia tampa de amaciante no último enxágue.','Seque à sombra: sol forte amarela tecido sintético.'],
+dica:'Mancha de desodorante sai melhor esfregando um pouco de tira-manchas puro antes do molho.',
+precisa:[['tira-manchas-1l',1],['lava-roupas-1600',1],['amaciante-2l',1]]},
+{id:'restaurante',ico:'pot',modo:'emp',tempo:'6 min de leitura',tag:'Para equipes',titulo:'Rotina de limpeza para cozinha de restaurante',resumo:'O que fazer na abertura, no turno, no fechamento e uma vez por semana.',
+intro:'Uma rotina simples, colada na parede da cozinha, evita o retrabalho e deixa a equipe tranquila na visita da vigilância.',
+passos:['Abertura: bancadas e tábuas com detergente e enxágue; piso com sanitária diluída.','Durante o turno: limpe respingos na hora e troque a esponja quando ela ficar escura.','Fechamento: desengordurante no fogão e na coifa, lixo fora e piso lavado.','Uma vez por semana: câmaras, ralos e azulejos com sanitária na medida da tabela.'],
+alerta:'Em cozinha profissional, use só produtos regularizados na Anvisa e guarde-os longe dos alimentos.',
+precisa:[['detergente-5l',2],['desengordurante-500',3],['esponja-4',4],['sanitaria-2l',6],['papel-toalha-1000',2],['saco-lixo-100l',2]]}];
+const guiaById=id=>GUIAS.find(g=>g.id===id);
+
+const BAIRROS=['Anil','Rio das Pedras','Gardênia Azul','Freguesia','Itanhangá','Muzema','Tijuquinha','Cidade de Deus','Jacarepaguá','Taquara','Pechincha','Barra da Tijuca'];
+
+const NOME='Falcão Limpeza';
+const oi=()=>'Olá, '+NOME+'!';
+let modo=store.get('falcao-modo','casa')==='emp'?'emp':'casa';
+let lista=(()=>{const raw=store.get('falcao-lista',{}),o={};if(raw&&typeof raw==='object')for(const [k,v] of Object.entries(raw)){const q=Math.floor(Number(v));if(byId(k)&&q>=1)o[k]=Math.min(q,999)}return o})();
+let atual='inicio',kitAtual='condominio',pd={id:null,q:1};
+const F0=()=>({dep:'',preco:'',oferta:false,grande:false,marcas:[],q:'',ordem:'pop'});
+let F=F0();
+const dlg=$('#dlg-lista');
+
+function precoHTML(p){return promoOn(p)
+?`<div class="price"><span class="de">de <s>${brl(p.de)}</s></span><span class="por on"><small>por</small>${brl(p.por)}</span></div>`
+:`<div class="price"><span class="de" aria-hidden="true">&nbsp;</span><span class="por">${brl(p.de)}</span></div>`}
+const stepper=(p,q,long)=>`<div class="stepper"><button type="button" data-act="dec" data-id="${p.id}" aria-label="Tirar um: ${esc(p.nome)}">${ico('minus')}</button><output aria-live="polite">${long?q+' na lista':q}</output><button type="button" data-act="inc" data-id="${p.id}" aria-label="Pôr mais um: ${esc(p.nome)}">${ico('plus')}</button></div>`;
+const actsHTML=p=>lista[p.id]?stepper(p,lista[p.id],true):`<button type="button" class="btn btn-soft btn-sm" data-act="add" data-id="${p.id}">${ico('plus')}Pôr na lista</button>`;
+function card(p,o={}){const off=offPct(p),nav=o.preview?'':` data-go="produto" data-arg="${p.id}"`;
+return `<article class="card"><div class="tile"${nav} style="--c:${p.cor}">${art(p.forma)}${off?`<span class="off">−${off}%</span>`:''}</div><span class="marca">${esc(p.marca)}</span>${o.preview?`<span class="nm">${esc(p.nome)}</span>`:`<a class="nm" href="#"${nav}>${esc(p.nome)}</a>`}<span class="tam">${esc(p.tam)}</span>${precoHTML(p)}${o.preview?`<div class="acts"><button type="button" class="btn btn-soft btn-sm" disabled>${ico('plus')}Pôr na lista</button></div>`:`<div class="acts" data-acts="${p.id}">${actsHTML(p)}</div>`}</article>`}
+const mini=(p,q)=>`<a class="mini" href="#" data-go="produto" data-arg="${p.id}"><div class="tile" style="--c:${p.cor}">${art(p.forma)}</div><span><b>${q>1?q+'× ':''}${esc(p.nome)}</b><small>${esc(p.tam)}</small></span><span class="r">${brl(varejo(p)*q)}</span></a>`;
+
+const PAGES=['inicio','produtos','produto','empresas','guias','guia','testamos','loja','painel'];
+const GRUPO={produto:'produtos',guia:'guias',testamos:'guias'};
+function go(pg,arg,o={}){if(!PAGES.includes(pg))pg='inicio';
+if(dlg.open)dlg.close();
+if(pg==='produto'){const p=byId(arg);if(!p)pg='produtos';else{pd={id:p.id,q:lista[p.id]||1};renderProduto()}}
+if(pg==='guia'){if(!guiaById(arg))pg='guias';else renderGuia(arg)}
+if(pg==='produtos'){if(arg){const ordem=F.ordem;F=F0();F.ordem=ordem;if(arg==='oferta')F.oferta=true;else if(arg.startsWith('dep:'))F.dep=arg.slice(4);$('#q').value='';syncForm()}renderGrid()}
+atual=pg;
+$$('.page').forEach(s=>s.hidden=s.id!=='pg-'+pg);
+const g=GRUPO[pg]||pg;$$('[data-nav]').forEach(a=>a.dataset.nav===g?a.setAttribute('aria-current','page'):a.removeAttribute('aria-current'));
+if(pg==='empresas'&&KITS.some(k=>k.id===arg)){kitAtual=arg;renderKit();$('#kits').scrollIntoView({behavior:'instant'})}else window.scrollTo({top:0,behavior:'instant'});
+if(o.focus!==false){const h=$('#pg-'+pg+' h1');if(h){h.tabIndex=-1;h.focus({preventScroll:true})}}}
+
+function keepFocus(box,fn){const a=document.activeElement,had=a&&box.contains(a),act=had&&a.dataset.act,id=had&&a.dataset.id;fn();if(!had)return;
+const q=s=>box.querySelector(s),el=(act&&q(`[data-act="${act}"][data-id="${id}"]`))||q(`[data-act="inc"][data-id="${id}"]`)||q(`[data-act="add"][data-id="${id}"]`)||q('button');el&&el.focus()}
+function syncLista(){store.set('falcao-lista',lista);
+const n=Object.values(lista).reduce((a,b)=>a+b,0);
+$$('.badge').forEach(b=>{b.textContent=n>99?'99+':n;b.dataset.count=n});
+$('.lista-btn').setAttribute('aria-label',n?`Minha lista, ${n} ${n===1?'item':'itens'}`:'Minha lista');
+$$('[data-acts]').forEach(box=>{const p=byId(box.dataset.acts);if(p)keepFocus(box,()=>box.innerHTML=actsHTML(p))});
+if(dlg.open)renderLista();
+if(atual==='produto')pdUpdate()}
+function setQty(id,q){q=Math.max(0,Math.min(999,Math.floor(q)||0));if(q)lista[id]=q;else delete lista[id];syncLista()}
+function setModo(m){modo=m==='emp'?'emp':'casa';document.body.classList.toggle('mode-emp',modo==='emp');
+$$('[data-act="modo"]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.m===modo)));store.set('falcao-modo',modo);if(dlg.open)updMsg()}
+
+let toastT;
+function toast(msg){const t=$('#toast'),host=dlg.open?dlg:document.body;if(t.parentNode!==host)host.appendChild(t);
+t.textContent=msg;t.classList.add('on');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('on'),2400)}
+async function copiar(txt,sel){try{await navigator.clipboard.writeText(txt);toast('Copiado')}catch(e){
+if(sel){const d=sel.closest('details');if(d)d.open=true;const r=document.createRange();r.selectNodeContents(sel);const s=getSelection();s.removeAllRanges();s.addRange(r)}toast('Texto selecionado — é só copiar')}}
+
+function calcLista(){const itens=Object.entries(lista).map(([id,q])=>{const p=byId(id);if(!p)return null;const u=varejo(p);return {p,q,u,sub:Math.round(u*q*100)/100}}).filter(Boolean);
+const total=itens.reduce((a,i)=>a+i.sub,0),cheio=itens.reduce((a,i)=>a+i.p.de*i.q,0);return {itens,total,eco:cheio-total,n:itens.reduce((a,i)=>a+i.q,0)}}
+function renderLista(){const c=calcLista(),vazio=!c.itens.length;$('#l-vazio').hidden=!vazio;$('#l-cheia').hidden=vazio;if(vazio){if(dlg.open&&!dlg.contains(document.activeElement))$('#l-vazio .btn').focus();return}
+const ul=$('#l-itens');
+keepFocus(ul,()=>ul.innerHTML=c.itens.map(({p,q,u,sub})=>{
+return `<li class="li"><div class="tile" style="--c:${p.cor}">${art(p.forma)}</div><div><div class="li-n">${esc(p.nome)} <span class="li-m">${esc(p.tam)}</span></div><div class="li-m">${u<p.de?`<s>${brl(p.de)}</s>`:''}${brl(u)} cada</div><div class="li-ctl">${stepper(p,q)}<span class="li-sub">${brl(sub)}</span></div></div></li>`}).join(''));
+$('#l-tot').innerHTML=`<div><span>${c.n} ${c.n===1?'item':'itens'}</span><span>${brl(c.total+c.eco)}</span></div>${c.eco>0.004?`<div class="eco"><span>Ofertas da semana</span><span>− ${brl(c.eco)}</span></div>`:''}<div class="fim"><span>Total estimado</span><span>${brl(c.total)}</span></div>`;
+updMsg()}
+function msgLista(){const c=calcLista(),m=$('input[name="l-modo"]:checked').value,end=$('#l-end').value.trim(),nome=$('#l-nome').value.trim();
+const L=[`${oi()} Montei esta lista no site:`,'',...c.itens.map(i=>`• ${i.q}x ${i.p.nome} ${i.p.tam} — ${brl(i.u)} un. = ${brl(i.sub)}`),'',`Total estimado: ${brl(c.total)}`,'',m==='entrega'?`Vocês entregam em: ${end||'(meu bairro)'}?`:'Quero retirar na loja. Podem separar?'];
+if(nome||modo==='emp')L.push('',[nome&&`Nome: ${nome}`,modo==='emp'&&'(Compra para empresa)'].filter(Boolean).join(' '));
+return L.join('\n')}
+function updMsg(){$('#l-end-wrap').hidden=$('input[name="l-modo"]:checked').value!=='entrega';if($('#l-cheia').hidden)return;const t=msgLista();$('#l-pre').textContent=t;$('#l-wa').href=wa(t)}
+function abrirLista(){renderLista();if(!dlg.open)dlg.showModal()}
+
+const CRUMB=(links,atual)=>`<nav class="crumbs" aria-label="Você está em">${links.map(([t,go,arg])=>`<a href="#" data-go="${go}"${arg?` data-arg="${arg}"`:''}>${t}</a><span aria-hidden="true">/</span>`).join('')}<span aria-current="page">${esc(atual)}</span></nav>`;
+
+/* catálogo */
+function filtrar(){const ws=norm(F.q).split(/\s+/).filter(Boolean);
+const r=P.filter(p=>{const hay=norm([p.nome,p.marca,p.tam,DEP[p.dep]?.nome,p.desc].join(' ')),v=varejo(p);
+if(ws.some(w=>!hay.includes(w)))return false;
+if(F.dep&&p.dep!==F.dep)return false;
+if(F.preco==='10'&&v>10)return false;
+if(F.preco==='30'&&(v<=10||v>30))return false;
+if(F.preco==='30+'&&v<=30)return false;
+if(F.oferta&&!promoOn(p))return false;
+if(F.grande&&!p.grande)return false;
+if(F.marcas.length&&!F.marcas.includes(p.marca))return false;
+return true});
+const S={pop:(a,b)=>a.pop-b.pop,menor:(a,b)=>varejo(a)-varejo(b),desc:(a,b)=>offPct(b)-offPct(a)||a.pop-b.pop,az:(a,b)=>a.nome.localeCompare(b.nome,'pt-BR')};
+return r.sort(S[F.ordem]||S.pop)}
+function renderFiltros(){const n=f=>P.filter(f).length;
+$('#f-dep').innerHTML=`<label class="opt"><input type="radio" name="dep" value="">Todos<span class="n">${P.length}</span></label>`+DEPS.map(d=>`<label class="opt"><input type="radio" name="dep" value="${d.id}">${d.nome}<span class="n">${n(p=>p.dep===d.id)}</span></label>`).join('');
+$('#f-marca').innerHTML=[...new Set(P.map(p=>p.marca))].sort((a,b)=>a.localeCompare(b,'pt-BR')).map(m=>`<label class="opt"><input type="checkbox" name="marca" value="${esc(m)}">${esc(m)}<span class="n">${n(p=>p.marca===m)}</span></label>`).join('');
+syncForm()}
+function syncForm(){const f=$('#f-form');
+$$('input[name="dep"]',f).forEach(i=>i.checked=i.value===F.dep);
+$$('input[name="preco"]',f).forEach(i=>i.checked=i.value===F.preco);
+f.elements.oferta.checked=F.oferta;f.elements.grande.checked=F.grande;
+$$('input[name="marca"]',f).forEach(i=>i.checked=F.marcas.includes(i.value));
+$('#f-ordem').value=F.ordem}
+function lerForm(){const f=$('#f-form'),v=n=>(f.querySelector(`input[name="${n}"]:checked`)||{}).value||'';
+F.dep=v('dep');F.preco=v('preco');F.oferta=f.elements.oferta.checked;F.grande=f.elements.grande.checked;
+F.marcas=$$('input[name="marca"]:checked',f).map(i=>i.value)}
+const PRECO_N={'10':'Até R$ 10','30':'R$ 10 a R$ 30','30+':'Acima de R$ 30'};
+function chips(){const c=[];
+if(F.q)c.push(['q',`“${F.q}”`]);
+if(F.dep)c.push(['dep',DEP[F.dep]?.nome||F.dep]);
+if(F.preco)c.push(['preco',PRECO_N[F.preco]]);
+if(F.oferta)c.push(['oferta','Só ofertas']);
+if(F.grande)c.push(['grande','Embalagem grande']);
+F.marcas.forEach(m=>c.push(['marca:'+m,m]));
+return c.map(([k,t])=>`<button type="button" class="chip" data-act="chip" data-k="${esc(k)}" aria-label="Tirar filtro: ${esc(t)}">${esc(t)}${ico('close')}</button>`).join('')+(c.length>1?`<button type="button" class="chip clear" data-act="chip" data-k="*">Limpar tudo</button>`:'')}
+function tiraChip(k){
+if(k==='*'){const o=F.ordem;F=F0();F.ordem=o;$('#q').value=''}
+else if(k==='q'){F.q='';$('#q').value=''}
+else if(k.startsWith('marca:'))F.marcas=F.marcas.filter(m=>'marca:'+m!==k);
+else if(k in F)F[k]=typeof F[k]==='boolean'?false:'';
+syncForm();renderGrid();($('#f-chips .chip')||$('#f-ordem')).focus()}
+function renderGrid(){const r=filtrar();
+$('#f-count').textContent=r.length===1?'1 produto':r.length+' produtos';
+$('#f-chips').innerHTML=chips();
+$('#f-grid').innerHTML=r.length?r.map(p=>card(p)).join(''):`<div class="empty"><h3>Nada com esses filtros</h3><p class="muted">A loja tem mais coisa do que cabe aqui. Se não achou, pergunte: a gente confere na prateleira.</p><div class="row"><button type="button" class="chip clear" data-act="chip" data-k="*">Limpar filtros</button><a class="btn btn-sec btn-sm" target="_blank" rel="noopener" href="${wa(`${oi()} Procurei no site e não achei: ${F.q||'um produto'}. Vocês têm?`)}">${ico('zap')}Perguntar à loja</a></div></div>`}
+
+/* produto */
+function renderProduto(){const p=byId(pd.id);if(!p)return;
+const info=DEP_INFO[p.dep]||{},g=p.guia&&guiaById(p.guia),v=varejo(p),off=offPct(p);
+const comb=P.filter(x=>x.id!==p.id&&(x.dep===p.dep||(p.guia&&x.guia===p.guia))).sort((a,b)=>a.pop-b.pop).slice(0,4);
+$('#pd-box').innerHTML=CRUMB([['Início','inicio'],[DEP[p.dep]?.nome||'Produtos','produtos','dep:'+p.dep]],p.nome)+
+`<div class="pd"><div class="pd-art tile" style="--c:${p.cor}">${art(p.forma)}${off?`<span class="off">−${off}%</span>`:''}</div>
+<div class="pd-info"><span class="marca">${esc(p.marca)} · ${esc(p.tam)}</span><h1 class="pd-h">${esc(p.nome)}</h1><p class="pd-desc">${esc(p.desc)}</p>${precoHTML(p)}
+${promoOn(p)?`<p class="pd-save">${p.ate?`Oferta até ${fmtDia(p.ate)}. `:''}Você economiza ${brl(p.de-p.por)} em cada um.</p>`:''}
+<div class="pd-buy"><div class="stepper"><button type="button" data-act="pd-dec" aria-label="Diminuir quantidade">${ico('minus')}</button><output id="pd-q" aria-live="polite">${pd.q}</output><button type="button" data-act="pd-inc" aria-label="Aumentar quantidade">${ico('plus')}</button></div><button type="button" class="btn" id="pd-add" data-act="pd-add">Pôr na lista</button></div>
+<p id="pd-sum"></p>
+<a class="link" target="_blank" rel="noopener" href="${wa(`${oi()} Tenho uma dúvida sobre ${p.nome} ${p.tam}.`)}">${ico('zap')}Tirar uma dúvida sobre ele</a>
+<div class="acc"><details open><summary>Como usar</summary><div class="acc-b"><p>${info.uso||'Siga as instruções do rótulo.'}</p></div></details><details><summary>Cuidados</summary><div class="acc-b"><p>${info.cuidado||'Mantenha fora do alcance de crianças.'}</p></div></details>${g?`<details><summary>Guia relacionado</summary><div class="acc-b"><p>${esc(g.resumo)}</p><a class="link" href="#" data-go="guia" data-arg="${g.id}">${esc(g.titulo)}${ico('arrow')}</a></div></details>`:''}</div>
+</div></div>
+${comb.length?`<section class="sec"><div class="sec-head"><div><p class="eyebrow">Pra completar</p><h2>Combina com</h2></div></div><div class="grid">${comb.map(x=>card(x)).join('')}</div></section>`:''}`;
+pdUpdate()}
+function pdUpdate(){const p=byId(pd.id);if(!p||!$('#pd-q'))return;const q=pd.q,u=varejo(p);
+$('#pd-q').textContent=q;
+$('#pd-sum').textContent=`${q} × ${brl(u)} = ${brl(u*q)}`;
+$('#pd-add').textContent=!lista[p.id]?'Pôr na lista':lista[p.id]===q?'Já está na lista':'Atualizar lista'}
+
+/* guias */
+function renderGuia(id){const g=guiaById(id);if(!g)return;
+const its=g.precisa.map(([i,q])=>[byId(i),q]).filter(x=>x[0]),tot=its.reduce((a,[p,q])=>a+varejo(p)*q,0);
+$('#guia-box').innerHTML=CRUMB([['Início','inicio'],['Como usar','guias']],g.tag)+
+`<div class="guia"><article class="art-txt"><p class="eyebrow">${esc(g.tag)} · ${esc(g.tempo)}</p><h1>${esc(g.titulo)}</h1><p class="lede">${esc(g.intro)}</p>
+${g.tabela?`<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Produto</th><th>Pra quê</th><th>Medida</th></tr></thead><tbody>${g.tabela.map(r=>`<tr>${r.map(c=>`<td>${esc(c)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`:''}
+${g.passos?.length?`<h2>Passo a passo</h2><ol class="passos">${g.passos.map(s=>`<li><span>${esc(s)}</span></li>`).join('')}</ol>`:''}
+${g.dica?`<div class="box dica">${ico('sparkle')}<p><b>Dica:</b> ${esc(g.dica)}</p></div>`:''}
+${g.alerta?`<div class="box alerta">${ico('alert')}<p><b>Atenção:</b> ${esc(g.alerta)}</p></div>`:''}
+</article>
+<aside class="precisa"><h2>Você vai precisar</h2>${its.map(([p,q])=>mini(p,q)).join('')}<div class="tudo"><span>Tudo junto</span><span>${brl(tot)}</span></div><button type="button" class="btn btn-soft btn-full" data-act="guia-lista" data-id="${g.id}">${ico('list')}Pôr tudo na lista</button></aside></div>`}
+const gcard=(g,cls='')=>`<a class="gcard ${cls}" href="#" data-go="guia" data-arg="${g.id}"><span class="g-ico">${ico(g.ico)}</span><span class="meta"><span>${esc(g.tag)}</span><span>${esc(g.tempo)}</span></span><h3>${esc(g.titulo)}</h3><p>${esc(g.resumo)}</p><span class="link">Ler o guia${ico('arrow')}</span></a>`;
+const TESTCARD=`<a class="gcard" href="#" data-go="testamos"><span class="g-ico">${ico('flask')}</span><span class="meta"><span>A gente testou</span><span>5 min de leitura</span></span><h3>Qual detergente rende mais pratos?</h3><p>Quatro marcas, louça de verdade e a conta de quanto sai cada lavada.</p><span class="link">Ver o teste${ico('arrow')}</span></a>`;
+
+/* kits */
+function kitCalc(k){const itens=k.itens.map(([id,q])=>{const p=byId(id);return p&&{p,q,u:varejo(p)}}).filter(Boolean);
+return {itens,total:itens.reduce((a,i)=>a+i.u*i.q,0),eco:itens.reduce((a,i)=>a+(i.p.de-i.u)*i.q,0)}}
+function renderKit(){const tabs=$('#kit-tabs'),panel=$('#kit-panel');
+if(!tabs.children.length)tabs.innerHTML=KITS.map(k=>`<button type="button" class="tab" role="tab" id="tab-${k.id}" aria-controls="kit-panel" data-act="kit" data-id="${k.id}">${esc(k.nome)}</button>`).join('');
+$$('.tab',tabs).forEach(b=>{const on=b.dataset.id===kitAtual;b.setAttribute('aria-selected',String(on));b.tabIndex=on?0:-1});
+const k=KITS.find(x=>x.id===kitAtual)||KITS[0],c=kitCalc(k);panel.setAttribute('aria-labelledby','tab-'+k.id);
+panel.innerHTML=`<div class="kit"><div class="tbl-wrap"><table class="tbl"><thead><tr><th>Item</th><th class="r">Qtd.</th><th class="r">Cada</th><th class="r">Subtotal</th></tr></thead><tbody>${c.itens.map(({p,q,u})=>`<tr><td><a href="#" data-go="produto" data-arg="${p.id}">${esc(p.nome)}</a> <span class="muted">${esc(p.tam)}</span></td><td class="r">${q}</td><td class="r">${u<p.de?`<s>${brl(p.de)}</s> `:''}${brl(u)}</td><td class="r">${brl(u*q)}</td></tr>`).join('')}</tbody></table></div>
+<div class="kit-tot"><p class="eyebrow">${esc(k.sub)}</p><span class="big">${brl(c.total)}</span>${c.eco>0.004?`<span class="eco">${brl(c.eco)} a menos com as ofertas da semana</span>`:''}<button type="button" class="btn" data-act="kit-lista" data-id="${k.id}">${ico('list')}Pôr o kit na lista</button><a class="btn btn-sec" target="_blank" rel="noopener" href="${wa(`${oi()} Queria a cotação do kit ${k.nome} (${k.sub}).`)}">${ico('zap')}Pedir cotação deste kit</a></div></div>`}
+
+/* início */
+function renderOfertas(){$('#home-ofertas').innerHTML=P.filter(promoOn).sort((a,b)=>offPct(b)-offPct(a)||a.pop-b.pop).slice(0,8).map(p=>card(p)).join('')}
+function renderHome(){
+$('#home-deps').innerHTML=DEPS.map(d=>`<a class="dep" href="#" data-go="produtos" data-arg="dep:${d.id}">${ico(d.ico)}<b>${d.nome}</b><span>${d.sub}</span></a>`).join('');
+renderOfertas();
+$('#home-kits').innerHTML=KITS.map(k=>`<a class="kitp" href="#" data-go="empresas" data-arg="${k.id}"><b>Kit ${esc(k.nome)}</b><small>${esc(k.sub)}</small><span class="v">${brl(kitCalc(k).total)}</span></a>`).join('');
+$('#home-guias').innerHTML=gcard(guiaById('diluicao'))+gcard(guiaById('mofo'),'only-casa')+gcard(guiaById('restaurante'),'only-emp')+TESTCARD;
+const h=P.filter(promoOn).sort((a,b)=>a.pop-b.pop)[0];
+$('#ha-note').innerHTML=h?`<b>Esta semana</b><span>${esc(h.nome)} ${esc(h.tam)}</span><span class="p"><s>${brl(h.de)}</s><span class="on">${brl(h.por)}</span></span>`:''}
+
+/* painel da equipe */
+const FORMA_N={galao:'Galão',garrafa:'Garrafa',spray:'Borrifador',deterg:'Frasco de detergente',caixa:'Caixa',rolo:'Rolo',saco:'Pacote',esponja:'Esponja',pano:'Pano',rodo:'Rodo',balde:'Balde'};
+const FORMAS=Object.keys(FORMA_N);
+function admInit(){$('#a-dep').innerHTML=DEPS.map(d=>`<option value="${d.id}">${d.nome}</option>`).join('');
+$('#a-forma').innerHTML=FORMAS.map(f=>`<option value="${f}">${FORMA_N[f]}</option>`).join('');
+$('#a-ate').min=isoLocal(HOJE);admPrev()}
+function admLer(){const f=$('#adm').elements,e=[],val=n=>f[n].value.trim();
+const nome=val('nome'),de=parsePrice(val('de')),por=parsePrice(val('por')),ate=val('ate');
+if(!nome)e.push('Dê um nome ao produto.');
+if(de==null)e.push('Informe o preço normal (“de”).');else if(Number.isNaN(de))e.push('Preço “de” inválido. Use algo como 12,90.');
+if(Number.isNaN(por))e.push('Preço “por” inválido. Use algo como 9,90.');else if(por!=null&&de>0&&!(por<de))e.push('O preço “por” precisa ser menor que o “de”.');
+if(ate&&!(por>0))e.push('A data de fim só vale para oferta com preço “por”.');else if(ate&&ate<isoLocal(HOJE))e.push('A oferta não pode terminar no passado.');
+const cor=/^#[0-9a-f]{6}$/i.test(val('cor'))?val('cor'):'#4C9CC2';
+const p={id:'novo-'+(P.length+1),nome:nome||'Nome do produto',marca:val('marca')||'Marca',dep:DEP[val('dep')]?val('dep'):'casa',tam:val('tam')||'Tamanho',
+de:de>0?de:0,por:por>0?por:undefined,ate:ate||undefined,forma:FORMAS.includes(val('forma'))?val('forma'):'garrafa',cor,pop:99,grande:f.grande.checked,desc:val('desc')||'Descrição curta do produto.'};
+return {p,e}}
+const admPrev=()=>{$('#adm-card').innerHTML=card(admLer().p,{preview:true})};
+
+/* mapa ilustrativo */
+const RD='M90 400 C150 320 220 270 300 210 S430 110 470 0';
+const mapa=s=>`<svg viewBox="0 0 600 400" role="img" aria-labelledby="mt-${s}"><title id="mt-${s}">Mapa ilustrativo: a loja fica na Estrada de Jacarepaguá, 5171, no Anil, no caminho entre a Freguesia e Rio das Pedras.</title>
+<rect width="600" height="400" fill="var(--map-bg)"/>
+<path fill="var(--map-green)" d="M430 0h170v190c-50 8-95-12-120-48S438 52 430 0z"/>
+<path fill="var(--map-green)" d="M0 200c45-14 92 4 108 42s-14 74-58 80S0 312 0 312z"/>
+<path fill="var(--map-water)" d="M600 296c-70-6-128 22-160 60s-34 44-34 44h194z"/>
+<g class="m-st"><path d="M300 210l150 70M300 210l-40 120M380 150l110 50M228 268l-120-40M170 330l70 70M410 110l-90-60"/></g>
+<path id="rd-${s}" class="m-edge" d="${RD}"/><path class="m-road" d="${RD}"/>
+<text class="m-rd" dy="3.5"><textPath href="#rd-${s}" startOffset="12%">ESTRADA DE JACAREPAGUÁ</textPath></text>
+<text class="m-lbl" x="488" y="84">FREGUESIA</text><text class="m-lbl" x="322" y="262">ANIL</text><text class="m-lbl" x="215" y="262" text-anchor="end">GARDÊNIA AZUL</text>
+<text class="m-lbl" x="30" y="110">CIDADE DE DEUS</text><text class="m-lbl" x="175" y="340">RIO DAS PEDRAS</text><text class="m-lbl" x="112" y="392">ITANHANGÁ</text>
+<g transform="translate(300 210)"><ellipse cx="0" cy="2" rx="9" ry="3.5" fill="rgba(15,38,56,.22)"/><path d="M0 0c-11-13-17-21-17-29a17 17 0 0 1 34 0c0 8-6 16-17 29z" fill="var(--brand)"/><circle cy="-29" r="6" fill="var(--surface)"/></g>
+<g transform="translate(96 140)"><rect width="180" height="50" rx="12" fill="var(--surface)"/><text class="m-b" x="14" y="22">${esc(NOME)}</text><text class="m-s" x="14" y="39">Estr. de Jacarepaguá, 5171</text></g></svg>`;
+
+/* eventos */
+const REDUZ=matchMedia('(prefers-reduced-motion: reduce)');
+document.addEventListener('click',e=>{const t=e.target.closest('[data-scroll],[data-go],[data-act]');if(!t)return;
+if(t.dataset.scroll){e.preventDefault();const el=$(t.dataset.scroll);if(el)el.scrollIntoView({behavior:REDUZ.matches?'auto':'smooth'});return}
+if(t.dataset.go){e.preventDefault();go(t.dataset.go,t.dataset.arg);return}
+const id=t.dataset.id,p=id&&byId(id);
+switch(t.dataset.act){
+case 'add':if(p){setQty(id,1);toast(`${p.nome} na lista`)}break;
+case 'inc':if(p)setQty(id,(lista[id]||0)+1);break;
+case 'dec':if(p)setQty(id,(lista[id]||0)-1);break;
+case 'lista':abrirLista();break;
+case 'fechar':dlg.close();break;
+case 'modo':setModo(t.dataset.m);break;
+case 'chip':tiraChip(t.dataset.k);break;
+case 'kit':kitAtual=id;renderKit();$('#tab-'+id).focus();break;
+case 'kit-lista':case 'guia-lista':{const its=t.dataset.act==='kit-lista'?(KITS.find(k=>k.id===id)||{}).itens:(guiaById(id)||{}).precisa;if(!its)break;
+its.forEach(([i,q])=>{if(byId(i))lista[i]=Math.max(lista[i]||0,q)});syncLista();toast('Itens na lista');break}
+case 'pd-inc':pd.q=Math.min(999,pd.q+1);pdUpdate();break;
+case 'pd-dec':pd.q=Math.max(1,pd.q-1);pdUpdate();break;
+case 'pd-add':setQty(pd.id,pd.q);toast('Lista atualizada');break;
+case 'copiar':{const el=$('#'+t.dataset.src);if(el)copiar(el.textContent,el);break}
+case 'copiar-end':copiar(ENDERECO,$('#end-txt'));break;
+case 'limpar':if(t.dataset.armed){lista={};syncLista();delete t.dataset.armed;t.textContent='Limpar lista';$('#l-vazio .btn').focus()}
+else{t.dataset.armed='1';t.textContent='Toque de novo pra limpar';setTimeout(()=>{delete t.dataset.armed;t.textContent='Limpar lista'},3000)}break}});
+dlg.addEventListener('click',e=>{if(e.target===dlg)dlg.close()});
+dlg.addEventListener('input',e=>{if(e.target.id==='l-nome')store.set('falcao-nome',e.target.value);updMsg()});
+dlg.addEventListener('change',updMsg);
+$('#kit-tabs').addEventListener('keydown',e=>{const i=KITS.findIndex(k=>k.id===kitAtual),n=KITS.length,j={ArrowRight:i+1,ArrowLeft:i-1,Home:0,End:n-1}[e.key];
+if(j==null)return;e.preventDefault();kitAtual=KITS[(j+n)%n].id;renderKit();$('#tab-'+kitAtual).focus()});
+$('#busca-form').addEventListener('submit',e=>{e.preventDefault();F.q=$('#q').value.trim();go('produtos',null,{focus:false});$('#f-count').scrollIntoView({block:'center'})});
+$('#q').addEventListener('input',e=>{F.q=e.target.value.trim();if(atual==='produtos')renderGrid()});
+$('#f-form').addEventListener('change',()=>{lerForm();renderGrid()});
+$('#f-form').addEventListener('submit',e=>e.preventDefault());
+$('#f-ordem').addEventListener('change',e=>{F.ordem=e.target.value;renderGrid()});
+$('#cot').addEventListener('submit',e=>{e.preventDefault();const f=e.target.elements,emp=f.empresa.value.trim(),err=$('#cot-err');
+if(!emp){f.empresa.setAttribute('aria-invalid','true');err.textContent='Diga o nome da empresa pra gente saber com quem fala.';err.hidden=false;f.empresa.focus();return}
+f.empresa.removeAttribute('aria-invalid');err.hidden=true;
+const L=[`${oi()} Quero uma cotação para empresa.`,'',`Empresa: ${emp}`];
+if(f.cnpj.value.trim())L.push(`CNPJ: ${f.cnpj.value.trim()}`);
+L.push(`Segmento: ${f.seg.value}`);if(f.bairro.value.trim())L.push(`Bairro: ${f.bairro.value.trim()}`);L.push(`Frequência: ${f.freq.value}`);
+if(f.itens.value.trim())L.push('','Preciso de:',f.itens.value.trim());
+const txt=L.join('\n');$('#cot-msg').textContent=txt;$('#cot-wa').href=wa(txt);$('#cot-ok').hidden=false;$('#cot-wa').focus()});
+$('#bairro-form').addEventListener('submit',e=>{e.preventDefault();const v=$('#bairro').value.trim(),res=$('#bairro-res');
+if(v.length<3){res.innerHTML='<div class="res"><p>Digite pelo menos 3 letras do bairro.</p></div>';return}
+const n=norm(v),hit=BAIRROS.find(b=>norm(b).includes(n)||n.includes(norm(b)));
+res.innerHTML=hit?`<div class="res"><p><b>${esc(hit)}</b> está na nossa rota de entrega. Combine dia e horário pelo WhatsApp.</p><div class="row"><a class="btn btn-zap btn-sm" target="_blank" rel="noopener" href="${wa(`${oi()} Moro em ${hit}. Como funciona a entrega?`)}">${ico('zap')}Combinar entrega</a></div></div>`
+:`<div class="res"><p>${esc(v)} ainda não está na lista, mas vale perguntar: dependendo do pedido, a gente leva.</p><div class="row"><a class="btn btn-sec btn-sm" target="_blank" rel="noopener" href="${wa(`${oi()} Vocês entregam em ${v}?`)}">${ico('zap')}Perguntar</a></div></div>`});
+$('#adm').addEventListener('input',admPrev);$('#adm').addEventListener('change',admPrev);
+$('#adm').addEventListener('submit',e=>{e.preventDefault();const {p,e:er}=admLer(),ul=$('#adm-err');
+if(er.length){ul.innerHTML=er.map(x=>`<li>${esc(x)}</li>`).join('');ul.hidden=false;ul.scrollIntoView({block:'nearest'});return}
+ul.hidden=true;P.push(p);renderFiltros();renderOfertas();toast(`${p.nome} entrou no catálogo`);e.target.reset();admPrev()});
+
+/* início */
+$$('a[data-maps]').forEach(a=>a.href=MAPS);
+if(matchMedia('(max-width:760px)').matches)$('#f-box').removeAttribute('open');
+$$('[data-sab]').forEach(el=>el.textContent=fmtDia(SAB));
+
+$$('[data-mapa]').forEach(m=>m.insertAdjacentHTML('afterbegin',mapa(m.dataset.mapa)));
+renderFiltros();renderHome();
+$('#g-list').innerHTML=GUIAS.map(g=>gcard(g)).join('')+TESTCARD;
+$('#t-prod').innerHTML=[['detergente-500',1],['detergente-5l',1]].map(([i,q])=>byId(i)&&mini(byId(i),q)).filter(Boolean).join('');
+$('#bairros-lista').innerHTML=BAIRROS.map(b=>`<li>${esc(b)}</li>`).join('');
+renderKit();admInit();
+$('#l-nome').value=store.get('falcao-nome','');
+setModo(modo);syncLista();
+$$('[data-wa]').forEach(a=>a.href=wa(`${oi()} Vim pelo site e queria tirar uma dúvida.`));
+})();</script>

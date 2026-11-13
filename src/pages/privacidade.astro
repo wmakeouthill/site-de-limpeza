@@ -1,0 +1,219 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Nav from "@/components/Nav.astro";
+import Footer from "@/components/Footer.astro";
+import FloatingWhatsApp from "@/components/FloatingWhatsApp.astro";
+import { getPublicSiteSettings } from "@/lib/server/publicSettings";
+
+export const prerender = false;
+
+const settings = await getPublicSiteSettings();
+---
+
+<BaseLayout
+  title={`Privacidade e Proteção de Dados · ${settings.loja_nome}`}
+  description="Conheça nossa política de privacidade, conformidade com a LGPD e saiba como sua lista e dados são tratados na Falcão Limpeza."
+  settings={settings}
+>
+  <Nav
+    articlesEnabled={settings.articles_enabled}
+    guidesEnabled={settings.guides_enabled}
+    settings={settings}
+  />
+
+  <main id="main" class="privacidade-page wrap">
+    <header class="privacidade-header">
+      <p class="eyebrow">Transparência e LGPD</p>
+      <h1>Política de Privacidade</h1>
+      <p class="subtitle">
+        Na {settings.loja_nome}, sua privacidade e o controle sobre os seus dados são levados a sério.
+      </p>
+    </header>
+
+    <section class="privacidade-content">
+      <article class="privacidade-card">
+        <h2>1. Sua Lista de Produtos fica no seu aparelho</h2>
+        <p>
+          Quando você navega pelo nosso catálogo e clica em <strong>Pôr na lista</strong>, as quantidades e os itens selecionados são salvos <em>exclusivamente na memória local do seu navegador</em> (<code>localStorage</code>).
+        </p>
+        <p>
+          Nenhum produto da sua lista é enviado para servidores externos ou bancos de dados remotos enquanto você monta seu pedido. A sua lista pertence ao seu dispositivo.
+        </p>
+      </article>
+
+      <article class="privacidade-card">
+        <h2>2. Cotação e Atendimento pelo WhatsApp</h2>
+        <p>
+          Ao finalizar sua lista ou solicitar uma cotação, você clica no botão para abrir uma conversa no WhatsApp da nossa loja ({settings.whatsapp_numero}).
+        </p>
+        <p>
+          O texto com a lista de produtos ou os dados da sua empresa é transferido diretamente para a sua conversa com a nossa equipe. <strong>Nenhum dado pessoal, número de telefone, mensagem ou CNPJ é salvo nos nossos servidores web</strong>.
+        </p>
+      </article>
+
+      <article class="privacidade-card">
+        <h2>3. Métricas Anônimas e Técnicas</h2>
+        <p>
+          Utilizamos medições anônimas de primeira parte com a única finalidade de entender o volume de visitas, termos pesquisados para repor nosso estoque e a estabilidade da página.
+        </p>
+        <p>
+          Não compartilhamos seus dados de navegação com terceiros, corretores de dados ou redes de anúncios invasivas.
+        </p>
+      </article>
+
+      <article class="privacidade-card privacidade-action-card">
+        <h2>4. Seus Direitos e Esquecimento de Dados (LGPD)</h2>
+        <p>
+          Conforme a Lei Geral de Proteção de Dados (Lei nº 13.709/2018), você tem o direito de revogar preferências e solicitar a exclusão de qualquer identificador de navegação associado ao seu dispositivo.
+        </p>
+        <div class="forget-actions">
+          <button type="button" id="btn-forget-privacy-page" class="btn-forget">
+            Esquecer meu dispositivo agora
+          </button>
+          <div id="forget-feedback-page" class="forget-feedback" style="display:none;" role="status">
+            ✓ Dados de navegação e identificadores locais apagados com sucesso!
+          </div>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <Footer
+    articlesEnabled={settings.articles_enabled}
+    guidesEnabled={settings.guides_enabled}
+    settings={settings}
+  />
+
+  <FloatingWhatsApp settings={settings} />
+</BaseLayout>
+
+<script>
+  const btn = document.getElementById("btn-forget-privacy-page");
+  const feedback = document.getElementById("forget-feedback-page");
+
+  if (btn) {
+    btn.addEventListener("click", async () => {
+      try {
+        btn.setAttribute("disabled", "true");
+        btn.textContent = "Apagando...";
+
+        // Limpa storage local
+        try {
+          const keys = ["talimpo-lista", "falcao-promo-vista", "talimpo-promo-vista", "talimpo_track_session", "talimpo_privacy:falcao"];
+          keys.forEach((k) => localStorage.removeItem(k));
+        } catch {}
+
+        // Envia requisição de esquecimento anônimo se houver identificador
+        try {
+          await fetch("/api/public/tracking/forget", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ attribution_id: "atr-00000000-0000-0000-0000-000000000000" }),
+          });
+        } catch {}
+
+        if (feedback) {
+          feedback.style.display = "block";
+        }
+        btn.textContent = "Dispositivo esquecido";
+      } catch {
+        btn.removeAttribute("disabled");
+        btn.textContent = "Tentar novamente";
+      }
+    });
+  }
+</script>
+
+<style>
+  .privacidade-page {
+    max-width: 840px;
+    margin: 40px auto 80px;
+    padding: 0 20px;
+  }
+  .privacidade-header {
+    margin-bottom: 40px;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 24px;
+  }
+  .eyebrow {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 700;
+    color: var(--brand);
+    margin-bottom: 8px;
+  }
+  .privacidade-header h1 {
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--ink);
+    margin: 0 0 12px;
+  }
+  .subtitle {
+    font-size: 16px;
+    color: var(--ink-2);
+    line-height: 1.6;
+    margin: 0;
+  }
+  .privacidade-content {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  .privacidade-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 24px 28px;
+    box-shadow: var(--shadow);
+  }
+  .privacidade-card h2 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--ink);
+    margin: 0 0 12px;
+  }
+  .privacidade-card p {
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--ink);
+    margin: 0 0 12px;
+  }
+  .privacidade-card p:last-child {
+    margin-bottom: 0;
+  }
+  .privacidade-action-card {
+    border-left: 4px solid var(--brand);
+    background: var(--surface-2);
+  }
+  .forget-actions {
+    margin-top: 18px;
+  }
+  .btn-forget {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--promo);
+    color: var(--btn-ink);
+    border: none;
+    padding: 12px 20px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+  .btn-forget:hover {
+    background: var(--brand-strong);
+  }
+  .forget-feedback {
+    margin-top: 12px;
+    padding: 10px 14px;
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    color: var(--ink);
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+</style>

@@ -1,0 +1,71 @@
+---
+import type { HomeEditorialData } from '@/lib/server/publicContent';
+import ArticleCard from './editorial/ArticleCard.astro';
+import GuideCard from './editorial/GuideCard.astro';
+
+interface Props {
+  data: HomeEditorialData | null;
+}
+
+const { data } = Astro.props;
+
+const hasArticles = Boolean(
+  data &&
+    data.settings.articles_enabled &&
+    (Boolean(data.featuredArticle) || data.recentArticles.length > 0),
+);
+const hasGuides = Boolean(
+  data && data.settings.guides_enabled && data.recentGuides.length > 0,
+);
+const shouldRender = Boolean(data && (hasArticles || hasGuides));
+---
+
+{shouldRender && data && (
+  <section id="artigos" class="sec" data-screen-label="Dicas e guias">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <p class="eyebrow">Dicas da loja</p>
+          <h2>Dicas e guias de limpeza</h2>
+          <p>Como usar cada produto, quanto rende e o que a gente testou na loja.</p>
+        </div>
+        <div class="links">
+          {hasArticles && (
+            <a class="link" href="/artigos">Ver todas as dicas <span aria-hidden="true">→</span></a>
+          )}
+          {hasGuides && (
+            <a class="link" href="/guias">Ver os guias <span aria-hidden="true">→</span></a>
+          )}
+        </div>
+      </div>
+
+      <!-- auto-fill (não auto-fit): com 1 ou 2 posts as colunas vazias ficam reservadas e o card não estica para a largura toda. -->
+      <div class="grid">
+        {hasArticles && data.featuredArticle && (
+          <ArticleCard article={data.featuredArticle} featured={true} />
+        )}
+        {hasArticles && data.recentArticles.map((article) => (
+          <ArticleCard article={article} featured={false} />
+        ))}
+        {hasGuides && data.recentGuides.map((guide) => (
+          <GuideCard guide={guide} />
+        ))}
+      </div>
+    </div>
+  </section>
+)}
+
+<style>
+  .links {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+    gap: 24px;
+    align-items: stretch;
+  }
+</style>

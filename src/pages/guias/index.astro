@@ -1,0 +1,150 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Nav from '@/components/Nav.astro';
+import Footer from '@/components/Footer.astro';
+import FloatingWhatsApp from '@/components/FloatingWhatsApp.astro';
+import GuideCard from '@/components/editorial/GuideCard.astro';
+import {
+  getPublicGuidesList,
+  getPublicSiteSettings,
+  PublicContentUnavailableError,
+} from '@/lib/server/publicContent';
+
+export const prerender = false;
+
+let settings;
+let guides = [];
+
+try {
+  settings = await getPublicSiteSettings();
+  if (!settings.guides_enabled) {
+    return new Response(null, { status: 404, statusText: "Not Found" });
+  }
+  guides = await getPublicGuidesList();
+} catch (err) {
+  if (err instanceof PublicContentUnavailableError) {
+    return new Response("503 Service Unavailable: Área de guias temporariamente indisponível", {
+      status: 503,
+      headers: { "Content-Type": "text/plain; charset=utf-8" },
+    });
+  }
+  throw err;
+}
+
+const siteUrl = Astro.site?.toString() || "https://falcaolimpeza.com.br";
+const canonical = new URL("/guias", siteUrl).href;
+---
+
+<BaseLayout
+  title={`Guias Práticos de Limpeza · ${settings.loja_nome}`}
+  description="Passo a passo testado para limpeza pesada, chapas, porcelanato, vidros e coifas industriais com os produtos certos."
+  canonical={canonical}
+>
+  <Nav
+    articlesEnabled={settings.articles_enabled}
+    guidesEnabled={settings.guides_enabled}
+    settings={settings}
+  />
+
+  <main class="guias-page">
+    <header class="guias-header wrap">
+      <nav aria-label="Navegação estrutural" class="breadcrumbs">
+        <a href="/">Início</a>
+        <span aria-hidden="true">/</span>
+        <span>Guias</span>
+      </nav>
+
+      <h1>Guias Práticos de Limpeza</h1>
+      <p>
+        Aprenda a limpar cada ambiente e superfície do jeito certo, com os produtos recomendados e sem esforço desnecessário.
+      </p>
+    </header>
+
+    <section class="guias-content wrap">
+      {guides.length === 0 ? (
+        <div class="empty-state">
+          <p>Nenhum guia publicado no momento. Volte em breve!</p>
+        </div>
+      ) : (
+        <div class="guias-grid">
+          {guides.map((guide) => (
+            <GuideCard guide={guide} />
+          ))}
+        </div>
+      )}
+    </section>
+  </main>
+
+  <Footer
+    articlesEnabled={settings.articles_enabled}
+    guidesEnabled={settings.guides_enabled}
+    settings={settings}
+  />
+
+  <FloatingWhatsApp settings={settings} />
+</BaseLayout>
+
+<style>
+  .guias-page {
+    background: var(--bg);
+    min-height: 80vh;
+    padding-bottom: 64px;
+  }
+
+  .guias-header {
+    padding-top: 40px;
+    padding-bottom: 32px;
+  }
+
+  .breadcrumbs {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--ink-3);
+    margin-bottom: 16px;
+  }
+
+  .breadcrumbs a {
+    color: var(--brand);
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .guias-header h1 {
+    font-family: var(--font-display, sans-serif);
+    font-size: clamp(28px, 4vw, 42px);
+    font-weight: 800;
+    color: var(--ink);
+    margin: 0 0 12px;
+    line-height: 1.15;
+  }
+
+  .guias-header p {
+    font-size: 17px;
+    color: var(--ink-2);
+    max-width: 680px;
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  .guias-content {
+    margin-top: 24px;
+  }
+
+  .guias-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
+    gap: 24px;
+    align-items: stretch;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 60px 24px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    color: var(--ink-3);
+  }
+</style>

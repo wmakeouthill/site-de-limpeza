@@ -1,0 +1,228 @@
+.page {
+  padding: 24px 28px;
+}
+
+.editor {
+  display: grid;
+  gap: 16px;
+}
+
+.header,
+.actions {
+  display: flex;
+  align-items: center;
+}
+
+.header {
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.header span,
+.modalHeader span {
+  color: var(--color-orange-700);
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.header h1 {
+  margin-top: 6px;
+  color: var(--color-dark-900);
+  font-size: 26px;
+  line-height: 1.15;
+}
+
+.actions {
+  gap: 8px;
+}
+
+.actions a,
+.actions button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 36px;
+  padding: 0 12px;
+  border: 1px solid rgba(3, 26, 43, 0.1);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--color-dark-900);
+  font-weight: 800;
+}
+
+.actions button[type="submit"] {
+  border-color: transparent;
+  background: var(--btn);
+  color: var(--btn-ink);
+}
+
+.actions button:disabled {
+  opacity: 0.55;
+}
+
+.message {
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: rgba(5, 162, 242, 0.1);
+  color: var(--color-dark-700);
+  font-weight: 700;
+}
+
+.meta {
+  display: grid;
+  gap: 14px;
+  max-width: 760px;
+}
+
+.section {
+  display: grid;
+  gap: 10px;
+}
+
+.sectionHeader h2 {
+  margin: 0;
+  color: var(--color-dark-900);
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.sectionHeader p {
+  margin: 4px 0 0;
+  color: var(--color-dark-700);
+  font-size: 13px;
+  line-height: 1.35;
+  opacity: 0.82;
+}
+
+.fields,
+.contentField {
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid rgba(3, 26, 43, 0.08);
+  border-radius: 8px;
+  background: var(--surface);
+}
+
+.twoColumns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.meta :global(input),
+.meta :global(textarea),
+.meta :global(select),
+.contentField :global(input),
+.contentField :global(textarea),
+.contentField :global(select) {
+  width: 100%;
+  min-height: 36px;
+  border: 1px solid rgba(3, 26, 43, 0.12);
+  border-radius: 8px;
+  padding: 8px 10px;
+  color: var(--color-dark-900);
+  font: inherit;
+  background: var(--surface);
+}
+
+.meta :global(textarea) {
+  min-height: 0;
+  resize: vertical;
+}
+
+.manualAuthorInput {
+  margin-top: 8px;
+}
+
+.imageField {
+  display: grid;
+  gap: 6px;
+}
+
+.fieldHint {
+  color: var(--color-dark-700);
+  font-size: 12px;
+  line-height: 1.35;
+  opacity: 0.78;
+}
+
+.previewCard {
+  width: 100%;
+  max-width: 420px;
+}
+
+.modalBackdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+  background: rgba(3, 26, 43, 0.58);
+}
+
+.modal {
+  display: grid;
+  width: min(100%, 520px);
+  max-height: min(92vh, 760px);
+  gap: 20px;
+  overflow: auto;
+  padding: 24px;
+  border-radius: 8px;
+  background: var(--surface-2);
+  box-shadow: 0 28px 80px rgba(3, 26, 43, 0.28);
+}
+
+.modalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.modalHeader h2 {
+  margin-top: 6px;
+  color: var(--color-dark-900);
+  font-size: 24px;
+  line-height: 1.2;
+}
+
+.modalHeader button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(3, 26, 43, 0.1);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--color-dark-900);
+}
+
+@media (max-width: 760px) {
+  .page {
+    padding: 20px;
+  }
+
+  .header,
+  .actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .twoColumns {
+    grid-template-columns: 1fr;
+  }
+
+  .modalBackdrop {
+    padding: 16px;
+  }
+
+  .modal {
+    padding: 16px;
+  }
+}

@@ -1,0 +1,263 @@
+---
+import type { PublicKit, PublicKitItem } from '@/lib/server/publicCatalog';
+import { AddKitToListButton } from './AddKitToListButton';
+import { buildGreeting, formatBrl } from '@/features/list/utils/whatsappFormatter';
+
+export interface Props {
+  kit: PublicKit;
+  lojaNome?: string;
+  whatsappNumero?: string;
+}
+
+const { kit, lojaNome = "Falcão Limpeza", whatsappNumero = "5521999999999" } = Astro.props;
+
+// Calcula o total do kit de balcão (soma de preco_atual * quantidade)
+let totalPreco = 0;
+let totalEconomia = 0;
+
+for (const item of kit.itens) {
+  if (item.produto) {
+    const unitPrice = parseFloat(item.produto.preco_atual.replace(",", "."));
+    const dePrice = parseFloat(item.produto.preco_de.replace(",", "."));
+    totalPreco += unitPrice * item.quantidade;
+    if (item.produto.promo_ativa) {
+      totalEconomia += (dePrice - unitPrice) * item.quantidade;
+    }
+  }
+}
+
+const cleanNumber = whatsappNumero.replace(/\D/g, "");
+const greeting = buildGreeting(lojaNome);
+const kitQuoteMsg = `${greeting} Queria a cotação do kit ${kit.nome}${kit.descricao ? ` (${kit.descricao})` : ""}.`;
+const waUrl = `https://wa.me/${cleanNumber}?text=${encodeURIComponent(kitQuoteMsg)}`;
+---
+
+<article class="kit-card">
+  <div class="kit-card-head">
+    <span class="kit-publico-badge">{kit.publico}</span>
+    <h3 class="kit-title">{kit.nome}</h3>
+    {kit.descricao && <p class="kit-desc">{kit.descricao}</p>}
+  </div>
+
+  <div class="kit-items-list-wrap">
+    <span class="kit-items-header">O que vem no kit:</span>
+    <ul class="kit-items-ul">
+      {kit.itens.map((it: PublicKitItem) => (
+        <li class="kit-item-row">
+          <span class="kit-item-qty">{it.quantidade}×</span>
+          <span class="kit-item-name">
+            {it.produto ? it.produto.nome : "Produto"}
+            {it.produto?.tamanho ? ` (${it.produto.tamanho})` : ""}
+          </span>
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  <div class="kit-card-footer">
+    <div class="kit-price-row">
+      <span class="kit-price-label">Valor estimado no balcão:</span>
+      <strong class="kit-total-val">{formatBrl(totalPreco)}</strong>
+      {totalEconomia > 0.01 && (
+        <span class="kit-eco-pill">
+          {formatBrl(totalEconomia)} a menos com ofertas da semana
+        </span>
+      )}
+    </div>
+
+    <div class="kit-cta-buttons">
+      <AddKitToListButton client:load kit={kit} />
+
+      <a
+        href={waUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="btn-kit-wa"
+        aria-label={`Pedir cotação do kit ${kit.nome} no WhatsApp`}
+      >
+        <svg
+          viewBox="0 0 24 24"
+          width="16"
+          height="16"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1 3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+        </svg>
+        Pedir cotação deste kit
+      </a>
+    </div>
+  </div>
+</article>
+
+<style>
+  .kit-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .kit-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+  }
+
+  .kit-publico-badge {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--brand);
+    background: color-mix(in srgb, var(--brand) 10%, transparent);
+    padding: 4px 10px;
+    border-radius: 999px;
+    margin-bottom: 10px;
+  }
+
+  .kit-title {
+    font-size: 1.25rem;
+    font-weight: 800;
+    margin: 0 0 6px;
+    color: var(--ink);
+  }
+
+  .kit-desc {
+    font-size: 0.88rem;
+    color: var(--ink-2);
+    margin: 0 0 16px;
+    line-height: 1.4;
+  }
+
+  .kit-items-list-wrap {
+    margin: 16px 0 20px;
+    padding: 14px 16px;
+    background: color-mix(in srgb, var(--line) 30%, transparent);
+    border-radius: 10px;
+  }
+
+  .kit-items-header {
+    display: block;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--ink-2);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    margin-bottom: 8px;
+  }
+
+  .kit-items-ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .kit-item-row {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    font-size: 0.88rem;
+    color: var(--ink);
+  }
+
+  .kit-item-qty {
+    font-weight: 800;
+    color: var(--brand);
+    font-size: 0.88rem;
+  }
+
+  .kit-item-name {
+    flex: 1;
+  }
+
+  .kit-card-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    border-top: 1px solid var(--line);
+    padding-top: 16px;
+  }
+
+  .kit-price-row {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .kit-price-label {
+    font-size: 0.78rem;
+    color: var(--ink-2);
+  }
+
+  .kit-total-val {
+    font-size: 1.35rem;
+    font-weight: 900;
+    color: var(--ink);
+  }
+
+  .kit-eco-pill {
+    font-size: 0.75rem;
+    color: var(--zap);
+    font-weight: 600;
+  }
+
+  .kit-cta-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  :global(.btn-add-kit) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 10px 16px;
+    background: var(--btn);
+    color: var(--btn-ink);
+    font-weight: 700;
+    font-size: 0.9rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+  }
+
+  :global(.btn-add-kit:hover) {
+    opacity: 0.92;
+  }
+
+  .btn-kit-wa {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 10px 16px;
+    background: transparent;
+    color: var(--ink);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.88rem;
+    text-decoration: none;
+    transition: background 0.2s ease;
+  }
+
+  .btn-kit-wa:hover {
+    background: color-mix(in srgb, var(--line) 40%, transparent);
+  }
+</style>

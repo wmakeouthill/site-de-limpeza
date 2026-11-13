@@ -1,0 +1,103 @@
+
+const CRUMB=(links,atual)=>`<nav class="crumbs" aria-label="Você está em">${links.map(([t,go,arg])=>`<a href="#" data-go="${go}"${arg?` data-arg="${arg}"`:''}>${t}</a><span aria-hidden="true">/</span>`).join('')}<span aria-current="page">${esc(atual)}</span></nav>`;
+
+/* catálogo */
+function filtrar(){const ws=norm(F.q).split(/\s+/).filter(Boolean);
+const r=P.filter(p=>{const hay=norm([p.nome,p.marca,p.tam,DEP[p.dep]?.nome,p.desc].join(' ')),v=varejo(p);
+if(ws.some(w=>!hay.includes(w)))return false;
+if(F.dep&&p.dep!==F.dep)return false;
+if(F.preco==='10'&&v>10)return false;
+if(F.preco==='30'&&(v<=10||v>30))return false;
+if(F.preco==='30+'&&v<=30)return false;
+if(F.oferta&&!promoOn(p))return false;
+if(F.grande&&!p.grande)return false;
+if(F.marcas.length&&!F.marcas.includes(p.marca))return false;
+return true});
+const S={pop:(a,b)=>a.pop-b.pop,menor:(a,b)=>varejo(a)-varejo(b),desc:(a,b)=>offPct(b)-offPct(a)||a.pop-b.pop,az:(a,b)=>a.nome.localeCompare(b.nome,'pt-BR')};
+return r.sort(S[F.ordem]||S.pop)}
+function renderFiltros(){const n=f=>P.filter(f).length;
+$('#f-dep').innerHTML=`<label class="opt"><input type="radio" name="dep" value="">Todos<span class="n">${P.length}</span></label>`+DEPS.map(d=>`<label class="opt"><input type="radio" name="dep" value="${d.id}">${d.nome}<span class="n">${n(p=>p.dep===d.id)}</span></label>`).join('');
+$('#f-marca').innerHTML=[...new Set(P.map(p=>p.marca))].sort((a,b)=>a.localeCompare(b,'pt-BR')).map(m=>`<label class="opt"><input type="checkbox" name="marca" value="${esc(m)}">${esc(m)}<span class="n">${n(p=>p.marca===m)}</span></label>`).join('');
+syncForm()}
+function syncForm(){const f=$('#f-form');
+$$('input[name="dep"]',f).forEach(i=>i.checked=i.value===F.dep);
+$$('input[name="preco"]',f).forEach(i=>i.checked=i.value===F.preco);
+f.elements.oferta.checked=F.oferta;f.elements.grande.checked=F.grande;
+$$('input[name="marca"]',f).forEach(i=>i.checked=F.marcas.includes(i.value));
+$('#f-ordem').value=F.ordem}
+function lerForm(){const f=$('#f-form'),v=n=>(f.querySelector(`input[name="${n}"]:checked`)||{}).value||'';
+F.dep=v('dep');F.preco=v('preco');F.oferta=f.elements.oferta.checked;F.grande=f.elements.grande.checked;
+F.marcas=$$('input[name="marca"]:checked',f).map(i=>i.value)}
+const PRECO_N={'10':'Até R$ 10','30':'R$ 10 a R$ 30','30+':'Acima de R$ 30'};
+function chips(){const c=[];
+if(F.q)c.push(['q',`“${F.q}”`]);
+if(F.dep)c.push(['dep',DEP[F.dep]?.nome||F.dep]);
+if(F.preco)c.push(['preco',PRECO_N[F.preco]]);
+if(F.oferta)c.push(['oferta','Só ofertas']);
+if(F.grande)c.push(['grande','Embalagem grande']);
+F.marcas.forEach(m=>c.push(['marca:'+m,m]));
+return c.map(([k,t])=>`<button type="button" class="chip" data-act="chip" data-k="${esc(k)}" aria-label="Tirar filtro: ${esc(t)}">${esc(t)}${ico('close')}</button>`).join('')+(c.length>1?`<button type="button" class="chip clear" data-act="chip" data-k="*">Limpar tudo</button>`:'')}
+function tiraChip(k){
+if(k==='*'){const o=F.ordem;F=F0();F.ordem=o;$('#q').value=''}
+else if(k==='q'){F.q='';$('#q').value=''}
+else if(k.startsWith('marca:'))F.marcas=F.marcas.filter(m=>'marca:'+m!==k);
+else if(k in F)F[k]=typeof F[k]==='boolean'?false:'';
+syncForm();renderGrid();($('#f-chips .chip')||$('#f-ordem')).focus()}
+function renderGrid(){const r=filtrar();
+$('#f-count').textContent=r.length===1?'1 produto':r.length+' produtos';
+$('#f-chips').innerHTML=chips();
+$('#f-grid').innerHTML=r.length?r.map(p=>card(p)).join(''):`<div class="empty"><h3>Nada com esses filtros</h3><p class="muted">A loja tem mais coisa do que cabe aqui. Se não achou, pergunte: a gente confere na prateleira.</p><div class="row"><button type="button" class="chip clear" data-act="chip" data-k="*">Limpar filtros</button><a class="btn btn-sec btn-sm" target="_blank" rel="noopener" href="${wa(`${oi()} Procurei no site e não achei: ${F.q||'um produto'}. Vocês têm?`)}">${ico('zap')}Perguntar à loja</a></div></div>`}
+
+/* produto */
+function renderProduto(){const p=byId(pd.id);if(!p)return;
+const info=DEP_INFO[p.dep]||{},g=p.guia&&guiaById(p.guia),v=varejo(p),off=offPct(p);
+const comb=P.filter(x=>x.id!==p.id&&(x.dep===p.dep||(p.guia&&x.guia===p.guia))).sort((a,b)=>a.pop-b.pop).slice(0,4);
+$('#pd-box').innerHTML=CRUMB([['Início','inicio'],[DEP[p.dep]?.nome||'Produtos','produtos','dep:'+p.dep]],p.nome)+
+`<div class="pd"><div class="pd-art tile" style="--c:${p.cor}">${art(p.forma)}${off?`<span class="off">−${off}%</span>`:''}</div>
+<div class="pd-info"><span class="marca">${esc(p.marca)} · ${esc(p.tam)}</span><h1 class="pd-h">${esc(p.nome)}</h1><p class="pd-desc">${esc(p.desc)}</p>${precoHTML(p)}
+${promoOn(p)?`<p class="pd-save">${p.ate?`Oferta até ${fmtDia(p.ate)}. `:''}Você economiza ${brl(p.de-p.por)} em cada um.</p>`:''}
+<div class="pd-buy"><div class="stepper"><button type="button" data-act="pd-dec" aria-label="Diminuir quantidade">${ico('minus')}</button><output id="pd-q" aria-live="polite">${pd.q}</output><button type="button" data-act="pd-inc" aria-label="Aumentar quantidade">${ico('plus')}</button></div><button type="button" class="btn" id="pd-add" data-act="pd-add">Pôr na lista</button></div>
+<p id="pd-sum"></p>
+<a class="link" target="_blank" rel="noopener" href="${wa(`${oi()} Tenho uma dúvida sobre ${p.nome} ${p.tam}.`)}">${ico('zap')}Tirar uma dúvida sobre ele</a>
+<div class="acc"><details open><summary>Como usar</summary><div class="acc-b"><p>${info.uso||'Siga as instruções do rótulo.'}</p></div></details><details><summary>Cuidados</summary><div class="acc-b"><p>${info.cuidado||'Mantenha fora do alcance de crianças.'}</p></div></details>${g?`<details><summary>Guia relacionado</summary><div class="acc-b"><p>${esc(g.resumo)}</p><a class="link" href="#" data-go="guia" data-arg="${g.id}">${esc(g.titulo)}${ico('arrow')}</a></div></details>`:''}</div>
+</div></div>
+${comb.length?`<section class="sec"><div class="sec-head"><div><p class="eyebrow">Pra completar</p><h2>Combina com</h2></div></div><div class="grid">${comb.map(x=>card(x)).join('')}</div></section>`:''}`;
+pdUpdate()}
+function pdUpdate(){const p=byId(pd.id);if(!p||!$('#pd-q'))return;const q=pd.q,u=varejo(p);
+$('#pd-q').textContent=q;
+$('#pd-sum').textContent=`${q} × ${brl(u)} = ${brl(u*q)}`;
+$('#pd-add').textContent=!lista[p.id]?'Pôr na lista':lista[p.id]===q?'Já está na lista':'Atualizar lista'}
+
+/* guias */
+function renderGuia(id){const g=guiaById(id);if(!g)return;
+const its=g.precisa.map(([i,q])=>[byId(i),q]).filter(x=>x[0]),tot=its.reduce((a,[p,q])=>a+varejo(p)*q,0);
+$('#guia-box').innerHTML=CRUMB([['Início','inicio'],['Como usar','guias']],g.tag)+
+`<div class="guia"><article class="art-txt"><p class="eyebrow">${esc(g.tag)} · ${esc(g.tempo)}</p><h1>${esc(g.titulo)}</h1><p class="lede">${esc(g.intro)}</p>
+${g.tabela?`<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Produto</th><th>Pra quê</th><th>Medida</th></tr></thead><tbody>${g.tabela.map(r=>`<tr>${r.map(c=>`<td>${esc(c)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`:''}
+${g.passos?.length?`<h2>Passo a passo</h2><ol class="passos">${g.passos.map(s=>`<li><span>${esc(s)}</span></li>`).join('')}</ol>`:''}
+${g.dica?`<div class="box dica">${ico('sparkle')}<p><b>Dica:</b> ${esc(g.dica)}</p></div>`:''}
+${g.alerta?`<div class="box alerta">${ico('alert')}<p><b>Atenção:</b> ${esc(g.alerta)}</p></div>`:''}
+</article>
+<aside class="precisa"><h2>Você vai precisar</h2>${its.map(([p,q])=>mini(p,q)).join('')}<div class="tudo"><span>Tudo junto</span><span>${brl(tot)}</span></div><button type="button" class="btn btn-soft btn-full" data-act="guia-lista" data-id="${g.id}">${ico('list')}Pôr tudo na lista</button></aside></div>`}
+const gcard=(g,cls='')=>`<a class="gcard ${cls}" href="#" data-go="guia" data-arg="${g.id}"><span class="g-ico">${ico(g.ico)}</span><span class="meta"><span>${esc(g.tag)}</span><span>${esc(g.tempo)}</span></span><h3>${esc(g.titulo)}</h3><p>${esc(g.resumo)}</p><span class="link">Ler o guia${ico('arrow')}</span></a>`;
+const TESTCARD=`<a class="gcard" href="#" data-go="testamos"><span class="g-ico">${ico('flask')}</span><span class="meta"><span>A gente testou</span><span>5 min de leitura</span></span><h3>Qual detergente rende mais pratos?</h3><p>Quatro marcas, louça de verdade e a conta de quanto sai cada lavada.</p><span class="link">Ver o teste${ico('arrow')}</span></a>`;
+
+/* kits */
+function kitCalc(k){const itens=k.itens.map(([id,q])=>{const p=byId(id);return p&&{p,q,u:varejo(p)}}).filter(Boolean);
+return {itens,total:itens.reduce((a,i)=>a+i.u*i.q,0),eco:itens.reduce((a,i)=>a+(i.p.de-i.u)*i.q,0)}}
+function renderKit(){const tabs=$('#kit-tabs'),panel=$('#kit-panel');
+if(!tabs.children.length)tabs.innerHTML=KITS.map(k=>`<button type="button" class="tab" role="tab" id="tab-${k.id}" aria-controls="kit-panel" data-act="kit" data-id="${k.id}">${esc(k.nome)}</button>`).join('');
+$$('.tab',tabs).forEach(b=>{const on=b.dataset.id===kitAtual;b.setAttribute('aria-selected',String(on));b.tabIndex=on?0:-1});
+const k=KITS.find(x=>x.id===kitAtual)||KITS[0],c=kitCalc(k);panel.setAttribute('aria-labelledby','tab-'+k.id);
+panel.innerHTML=`<div class="kit"><div class="tbl-wrap"><table class="tbl"><thead><tr><th>Item</th><th class="r">Qtd.</th><th class="r">Cada</th><th class="r">Subtotal</th></tr></thead><tbody>${c.itens.map(({p,q,u})=>`<tr><td><a href="#" data-go="produto" data-arg="${p.id}">${esc(p.nome)}</a> <span class="muted">${esc(p.tam)}</span></td><td class="r">${q}</td><td class="r">${u<p.de?`<s>${brl(p.de)}</s> `:''}${brl(u)}</td><td class="r">${brl(u*q)}</td></tr>`).join('')}</tbody></table></div>
+<div class="kit-tot"><p class="eyebrow">${esc(k.sub)}</p><span class="big">${brl(c.total)}</span>${c.eco>0.004?`<span class="eco">${brl(c.eco)} a menos com as ofertas da semana</span>`:''}<button type="button" class="btn" data-act="kit-lista" data-id="${k.id}">${ico('list')}Pôr o kit na lista</button><a class="btn btn-sec" target="_blank" rel="noopener" href="${wa(`${oi()} Queria a cotação do kit ${k.nome} (${k.sub}).`)}">${ico('zap')}Pedir cotação deste kit</a></div></div>`}
+
+/* início */
+function renderOfertas(){$('#home-ofertas').innerHTML=P.filter(promoOn).sort((a,b)=>offPct(b)-offPct(a)||a.pop-b.pop).slice(0,8).map(p=>card(p)).join('')}
+function renderHome(){
+$('#home-deps').innerHTML=DEPS.map(d=>`<a class="dep" href="#" data-go="produtos" data-arg="dep:${d.id}">${ico(d.ico)}<b>${d.nome}</b><span>${d.sub}</span></a>`).join('');
+renderOfertas();
+$('#home-kits').innerHTML=KITS.map(k=>`<a class="kitp" href="#" data-go="empresas" data-arg="${k.id}"><b>Kit ${esc(k.nome)}</b><small>${esc(k.sub)}</small><span class="v">${brl(kitCalc(k).total)}</span></a>`).join('');
+$('#home-guias').innerHTML=gcard(guiaById('diluicao'))+gcard(guiaById('mofo'),'only-casa')+gcard(guiaById('restaurante'),'only-emp')+TESTCARD;
+const h=P.filter(promoOn).sort((a,b)=>a.pop-b.pop)[0];
+$('#ha-note').innerHTML=h?`<b>Esta semana</b><span>${esc(h.nome)} ${esc(h.tam)}</span><span class="p"><s>${brl(h.de)}</s><span class="on">${brl(h.por)}</span></span>`:''}

@@ -1,0 +1,65 @@
+
+const NOME='Falcão Limpeza';
+const oi=()=>'Olá, '+NOME+'!';
+let modo=store.get('falcao-modo','casa')==='emp'?'emp':'casa';
+let lista=(()=>{const raw=store.get('falcao-lista',{}),o={};if(raw&&typeof raw==='object')for(const [k,v] of Object.entries(raw)){const q=Math.floor(Number(v));if(byId(k)&&q>=1)o[k]=Math.min(q,999)}return o})();
+let atual='inicio',kitAtual='condominio',pd={id:null,q:1};
+const F0=()=>({dep:'',preco:'',oferta:false,grande:false,marcas:[],q:'',ordem:'pop'});
+let F=F0();
+const dlg=$('#dlg-lista');
+
+function precoHTML(p){return promoOn(p)
+?`<div class="price"><span class="de">de <s>${brl(p.de)}</s></span><span class="por on"><small>por</small>${brl(p.por)}</span></div>`
+:`<div class="price"><span class="de" aria-hidden="true">&nbsp;</span><span class="por">${brl(p.de)}</span></div>`}
+const stepper=(p,q,long)=>`<div class="stepper"><button type="button" data-act="dec" data-id="${p.id}" aria-label="Tirar um: ${esc(p.nome)}">${ico('minus')}</button><output aria-live="polite">${long?q+' na lista':q}</output><button type="button" data-act="inc" data-id="${p.id}" aria-label="Pôr mais um: ${esc(p.nome)}">${ico('plus')}</button></div>`;
+const actsHTML=p=>lista[p.id]?stepper(p,lista[p.id],true):`<button type="button" class="btn btn-soft btn-sm" data-act="add" data-id="${p.id}">${ico('plus')}Pôr na lista</button>`;
+function card(p,o={}){const off=offPct(p),nav=o.preview?'':` data-go="produto" data-arg="${p.id}"`;
+return `<article class="card"><div class="tile"${nav} style="--c:${p.cor}">${art(p.forma)}${off?`<span class="off">−${off}%</span>`:''}</div><span class="marca">${esc(p.marca)}</span>${o.preview?`<span class="nm">${esc(p.nome)}</span>`:`<a class="nm" href="#"${nav}>${esc(p.nome)}</a>`}<span class="tam">${esc(p.tam)}</span>${precoHTML(p)}${o.preview?`<div class="acts"><button type="button" class="btn btn-soft btn-sm" disabled>${ico('plus')}Pôr na lista</button></div>`:`<div class="acts" data-acts="${p.id}">${actsHTML(p)}</div>`}</article>`}
+const mini=(p,q)=>`<a class="mini" href="#" data-go="produto" data-arg="${p.id}"><div class="tile" style="--c:${p.cor}">${art(p.forma)}</div><span><b>${q>1?q+'× ':''}${esc(p.nome)}</b><small>${esc(p.tam)}</small></span><span class="r">${brl(varejo(p)*q)}</span></a>`;
+
+const PAGES=['inicio','produtos','produto','empresas','guias','guia','testamos','loja','painel'];
+const GRUPO={produto:'produtos',guia:'guias',testamos:'guias'};
+function go(pg,arg,o={}){if(!PAGES.includes(pg))pg='inicio';
+if(dlg.open)dlg.close();
+if(pg==='produto'){const p=byId(arg);if(!p)pg='produtos';else{pd={id:p.id,q:lista[p.id]||1};renderProduto()}}
+if(pg==='guia'){if(!guiaById(arg))pg='guias';else renderGuia(arg)}
+if(pg==='produtos'){if(arg){const ordem=F.ordem;F=F0();F.ordem=ordem;if(arg==='oferta')F.oferta=true;else if(arg.startsWith('dep:'))F.dep=arg.slice(4);$('#q').value='';syncForm()}renderGrid()}
+atual=pg;
+$$('.page').forEach(s=>s.hidden=s.id!=='pg-'+pg);
+const g=GRUPO[pg]||pg;$$('[data-nav]').forEach(a=>a.dataset.nav===g?a.setAttribute('aria-current','page'):a.removeAttribute('aria-current'));
+if(pg==='empresas'&&KITS.some(k=>k.id===arg)){kitAtual=arg;renderKit();$('#kits').scrollIntoView({behavior:'instant'})}else window.scrollTo({top:0,behavior:'instant'});
+if(o.focus!==false){const h=$('#pg-'+pg+' h1');if(h){h.tabIndex=-1;h.focus({preventScroll:true})}}}
+
+function keepFocus(box,fn){const a=document.activeElement,had=a&&box.contains(a),act=had&&a.dataset.act,id=had&&a.dataset.id;fn();if(!had)return;
+const q=s=>box.querySelector(s),el=(act&&q(`[data-act="${act}"][data-id="${id}"]`))||q(`[data-act="inc"][data-id="${id}"]`)||q(`[data-act="add"][data-id="${id}"]`)||q('button');el&&el.focus()}
+function syncLista(){store.set('falcao-lista',lista);
+const n=Object.values(lista).reduce((a,b)=>a+b,0);
+$$('.badge').forEach(b=>{b.textContent=n>99?'99+':n;b.dataset.count=n});
+$('.lista-btn').setAttribute('aria-label',n?`Minha lista, ${n} ${n===1?'item':'itens'}`:'Minha lista');
+$$('[data-acts]').forEach(box=>{const p=byId(box.dataset.acts);if(p)keepFocus(box,()=>box.innerHTML=actsHTML(p))});
+if(dlg.open)renderLista();
+if(atual==='produto')pdUpdate()}
+function setQty(id,q){q=Math.max(0,Math.min(999,Math.floor(q)||0));if(q)lista[id]=q;else delete lista[id];syncLista()}
+function setModo(m){modo=m==='emp'?'emp':'casa';document.body.classList.toggle('mode-emp',modo==='emp');
+$$('[data-act="modo"]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.m===modo)));store.set('falcao-modo',modo);if(dlg.open)updMsg()}
+
+let toastT;
+function toast(msg){const t=$('#toast'),host=dlg.open?dlg:document.body;if(t.parentNode!==host)host.appendChild(t);
+t.textContent=msg;t.classList.add('on');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('on'),2400)}
+async function copiar(txt,sel){try{await navigator.clipboard.writeText(txt);toast('Copiado')}catch(e){
+if(sel){const d=sel.closest('details');if(d)d.open=true;const r=document.createRange();r.selectNodeContents(sel);const s=getSelection();s.removeAllRanges();s.addRange(r)}toast('Texto selecionado — é só copiar')}}
+
+function calcLista(){const itens=Object.entries(lista).map(([id,q])=>{const p=byId(id);if(!p)return null;const u=varejo(p);return {p,q,u,sub:Math.round(u*q*100)/100}}).filter(Boolean);
+const total=itens.reduce((a,i)=>a+i.sub,0),cheio=itens.reduce((a,i)=>a+i.p.de*i.q,0);return {itens,total,eco:cheio-total,n:itens.reduce((a,i)=>a+i.q,0)}}
+function renderLista(){const c=calcLista(),vazio=!c.itens.length;$('#l-vazio').hidden=!vazio;$('#l-cheia').hidden=vazio;if(vazio){if(dlg.open&&!dlg.contains(document.activeElement))$('#l-vazio .btn').focus();return}
+const ul=$('#l-itens');
+keepFocus(ul,()=>ul.innerHTML=c.itens.map(({p,q,u,sub})=>{
+return `<li class="li"><div class="tile" style="--c:${p.cor}">${art(p.forma)}</div><div><div class="li-n">${esc(p.nome)} <span class="li-m">${esc(p.tam)}</span></div><div class="li-m">${u<p.de?`<s>${brl(p.de)}</s>`:''}${brl(u)} cada</div><div class="li-ctl">${stepper(p,q)}<span class="li-sub">${brl(sub)}</span></div></div></li>`}).join(''));
+$('#l-tot').innerHTML=`<div><span>${c.n} ${c.n===1?'item':'itens'}</span><span>${brl(c.total+c.eco)}</span></div>${c.eco>0.004?`<div class="eco"><span>Ofertas da semana</span><span>− ${brl(c.eco)}</span></div>`:''}<div class="fim"><span>Total estimado</span><span>${brl(c.total)}</span></div>`;
+updMsg()}
+function msgLista(){const c=calcLista(),m=$('input[name="l-modo"]:checked').value,end=$('#l-end').value.trim(),nome=$('#l-nome').value.trim();
+const L=[`${oi()} Montei esta lista no site:`,'',...c.itens.map(i=>`• ${i.q}x ${i.p.nome} ${i.p.tam} — ${brl(i.u)} un. = ${brl(i.sub)}`),'',`Total estimado: ${brl(c.total)}`,'',m==='entrega'?`Vocês entregam em: ${end||'(meu bairro)'}?`:'Quero retirar na loja. Podem separar?'];
+if(nome||modo==='emp')L.push('',[nome&&`Nome: ${nome}`,modo==='emp'&&'(Compra para empresa)'].filter(Boolean).join(' '));
+return L.join('\n')}
+function updMsg(){$('#l-end-wrap').hidden=$('input[name="l-modo"]:checked').value!=='entrega';if($('#l-cheia').hidden)return;const t=msgLista();$('#l-pre').textContent=t;$('#l-wa').href=wa(t)}
+function abrirLista(){renderLista();if(!dlg.open)dlg.showModal()}

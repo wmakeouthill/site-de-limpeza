@@ -1,0 +1,71 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Nav from '@/components/Nav.astro';
+import Footer from '@/components/Footer.astro';
+import FloatingWhatsApp from '@/components/FloatingWhatsApp.astro';
+import ProductDetailView from '@/features/catalog/components/ProductDetailView.astro';
+import ProductJsonLd from '@/features/seo/components/ProductJsonLd.astro';
+
+import {
+  getPublicProdutoBySlug,
+  getPublicProdutos,
+  getPublicSiteSettings,
+} from '@/lib/server/publicCatalog';
+import { DEFAULT_SITE_SETTINGS } from '@/lib/server/publicSettings';
+
+export const prerender = false;
+
+const { slug } = Astro.params;
+
+if (!slug) {
+  return Astro.redirect('/404');
+}
+
+const [settingsResult, produtoResult] = await Promise.allSettled([
+  getPublicSiteSettings(),
+  getPublicProdutoBySlug(slug),
+]);
+
+const settings = settingsResult.status === "fulfilled" ? settingsResult.value : DEFAULT_SITE_SETTINGS;
+const produto = produtoResult.status === "fulfilled" ? produtoResult.value : null;
+
+if (!produto) {
+  Astro.response.status = 404;
+  return Astro.redirect('/404');
+}
+
+// Busca produtos relacionados do mesmo departamento (até 4)
+let relatedProdutos: typeof produto[] = [];
+if (produto.departamento_slug) {
+  const allInDept = await getPublicProdutos({ departamento_slug: produto.departamento_slug });
+  relatedProdutos = allInDept.filter((p) => p.id !== produto.id).slice(0, 4);
+}
+---
+
+<BaseLayout
+  title={`${produto.nome} · ${settings.loja_nome}`}
+  description={`${produto.nome} (${produto.tamanho}) - ${produto.descricao}. Veja preço e adicione à lista para retirar no Anil ou pedir pelo WhatsApp.`}
+>
+  <ProductJsonLd produto={produto} settings={settings} />
+  <Nav
+    articlesEnabled={settings.articles_enabled}
+    guidesEnabled={settings.guides_enabled}
+    settings={settings}
+  />
+
+  <main id="main" class="wrap">
+    <ProductDetailView
+      produto={produto}
+      relatedProdutos={relatedProdutos}
+      settings={settings}
+    />
+  </main>
+
+  <Footer
+    articlesEnabled={settings.articles_enabled}
+    guidesEnabled={settings.guides_enabled}
+    settings={settings}
+  />
+
+  <FloatingWhatsApp settings={settings} />
+</BaseLayout>

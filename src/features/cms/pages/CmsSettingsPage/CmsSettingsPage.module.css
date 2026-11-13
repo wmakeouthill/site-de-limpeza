@@ -1,0 +1,229 @@
+.page {
+  display: grid;
+  max-width: 840px;
+  gap: var(--gap);
+  color: var(--ink);
+}
+
+.state {
+  color: var(--ink-3);
+  font-size: 12px;
+}
+
+.form {
+  display: grid;
+  gap: 16px;
+}
+
+.card {
+  display: grid;
+  gap: 16px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.cardHead h2 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.cardHead p {
+  margin: 5px 0 0;
+  color: var(--ink-2);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.fieldGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 12px;
+}
+
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.fieldGroup label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--ink-2);
+}
+
+.input {
+  min-height: 32px;
+  padding: 0 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface-2);
+  color: var(--ink);
+  font: inherit;
+  font-size: 12px;
+}
+
+.input:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.toggleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  cursor: pointer;
+}
+
+.toggleLabel {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.switch {
+  position: relative;
+  display: inline-flex;
+  width: 42px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.switch input {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.slider {
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--ink-2) 30%, transparent);
+  transition: background 0.2s ease;
+}
+
+.slider::before {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--surface);
+  content: "";
+  transition: transform 0.2s ease;
+}
+
+.switch input:checked + .slider {
+  background: var(--btn);
+}
+
+.switch input:checked + .slider::before {
+  transform: translateX(18px);
+}
+
+.tagsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+
+.tagBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.tagRemoveBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--ink-3);
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+
+.tagRemoveBtn:hover {
+  color: var(--bad);
+}
+
+.bairroInputRow {
+  display: flex;
+  gap: 8px;
+}
+
+.addButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  justify-self: start;
+  height: 32px;
+  padding: 0 12px;
+  border: 1px dashed var(--line);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.addButton:hover {
+  background: var(--surface-2);
+}
+
+.error,
+.success {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.error {
+  color: var(--bad);
+}
+
+.success {
+  color: var(--ok);
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.saveButton {
+  height: 34px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--btn);
+  box-shadow: 0 1px 2px rgba(236, 78, 34, 0.35);
+  color: var(--btn-ink);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.saveButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

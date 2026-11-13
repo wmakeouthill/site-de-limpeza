@@ -1,0 +1,101 @@
+
+/* painel da equipe */
+const FORMA_N={galao:'Galão',garrafa:'Garrafa',spray:'Borrifador',deterg:'Frasco de detergente',caixa:'Caixa',rolo:'Rolo',saco:'Pacote',esponja:'Esponja',pano:'Pano',rodo:'Rodo',balde:'Balde'};
+const FORMAS=Object.keys(FORMA_N);
+function admInit(){$('#a-dep').innerHTML=DEPS.map(d=>`<option value="${d.id}">${d.nome}</option>`).join('');
+$('#a-forma').innerHTML=FORMAS.map(f=>`<option value="${f}">${FORMA_N[f]}</option>`).join('');
+$('#a-ate').min=isoLocal(HOJE);admPrev()}
+function admLer(){const f=$('#adm').elements,e=[],val=n=>f[n].value.trim();
+const nome=val('nome'),de=parsePrice(val('de')),por=parsePrice(val('por')),ate=val('ate');
+if(!nome)e.push('Dê um nome ao produto.');
+if(de==null)e.push('Informe o preço normal (“de”).');else if(Number.isNaN(de))e.push('Preço “de” inválido. Use algo como 12,90.');
+if(Number.isNaN(por))e.push('Preço “por” inválido. Use algo como 9,90.');else if(por!=null&&de>0&&!(por<de))e.push('O preço “por” precisa ser menor que o “de”.');
+if(ate&&!(por>0))e.push('A data de fim só vale para oferta com preço “por”.');else if(ate&&ate<isoLocal(HOJE))e.push('A oferta não pode terminar no passado.');
+const cor=/^#[0-9a-f]{6}$/i.test(val('cor'))?val('cor'):'#4C9CC2';
+const p={id:'novo-'+(P.length+1),nome:nome||'Nome do produto',marca:val('marca')||'Marca',dep:DEP[val('dep')]?val('dep'):'casa',tam:val('tam')||'Tamanho',
+de:de>0?de:0,por:por>0?por:undefined,ate:ate||undefined,forma:FORMAS.includes(val('forma'))?val('forma'):'garrafa',cor,pop:99,grande:f.grande.checked,desc:val('desc')||'Descrição curta do produto.'};
+return {p,e}}
+const admPrev=()=>{$('#adm-card').innerHTML=card(admLer().p,{preview:true})};
+
+/* mapa ilustrativo */
+const RD='M90 400 C150 320 220 270 300 210 S430 110 470 0';
+const mapa=s=>`<svg viewBox="0 0 600 400" role="img" aria-labelledby="mt-${s}"><title id="mt-${s}">Mapa ilustrativo: a loja fica na Estrada de Jacarepaguá, 5171, no Anil, no caminho entre a Freguesia e Rio das Pedras.</title>
+<rect width="600" height="400" fill="var(--map-bg)"/>
+<path fill="var(--map-green)" d="M430 0h170v190c-50 8-95-12-120-48S438 52 430 0z"/>
+<path fill="var(--map-green)" d="M0 200c45-14 92 4 108 42s-14 74-58 80S0 312 0 312z"/>
+<path fill="var(--map-water)" d="M600 296c-70-6-128 22-160 60s-34 44-34 44h194z"/>
+<g class="m-st"><path d="M300 210l150 70M300 210l-40 120M380 150l110 50M228 268l-120-40M170 330l70 70M410 110l-90-60"/></g>
+<path id="rd-${s}" class="m-edge" d="${RD}"/><path class="m-road" d="${RD}"/>
+<text class="m-rd" dy="3.5"><textPath href="#rd-${s}" startOffset="12%">ESTRADA DE JACAREPAGUÁ</textPath></text>
+<text class="m-lbl" x="488" y="84">FREGUESIA</text><text class="m-lbl" x="322" y="262">ANIL</text><text class="m-lbl" x="215" y="262" text-anchor="end">GARDÊNIA AZUL</text>
+<text class="m-lbl" x="30" y="110">CIDADE DE DEUS</text><text class="m-lbl" x="175" y="340">RIO DAS PEDRAS</text><text class="m-lbl" x="112" y="392">ITANHANGÁ</text>
+<g transform="translate(300 210)"><ellipse cx="0" cy="2" rx="9" ry="3.5" fill="rgba(15,38,56,.22)"/><path d="M0 0c-11-13-17-21-17-29a17 17 0 0 1 34 0c0 8-6 16-17 29z" fill="var(--brand)"/><circle cy="-29" r="6" fill="var(--surface)"/></g>
+<g transform="translate(96 140)"><rect width="180" height="50" rx="12" fill="var(--surface)"/><text class="m-b" x="14" y="22">${esc(NOME)}</text><text class="m-s" x="14" y="39">Estr. de Jacarepaguá, 5171</text></g></svg>`;
+
+/* eventos */
+const REDUZ=matchMedia('(prefers-reduced-motion: reduce)');
+document.addEventListener('click',e=>{const t=e.target.closest('[data-scroll],[data-go],[data-act]');if(!t)return;
+if(t.dataset.scroll){e.preventDefault();const el=$(t.dataset.scroll);if(el)el.scrollIntoView({behavior:REDUZ.matches?'auto':'smooth'});return}
+if(t.dataset.go){e.preventDefault();go(t.dataset.go,t.dataset.arg);return}
+const id=t.dataset.id,p=id&&byId(id);
+switch(t.dataset.act){
+case 'add':if(p){setQty(id,1);toast(`${p.nome} na lista`)}break;
+case 'inc':if(p)setQty(id,(lista[id]||0)+1);break;
+case 'dec':if(p)setQty(id,(lista[id]||0)-1);break;
+case 'lista':abrirLista();break;
+case 'fechar':dlg.close();break;
+case 'modo':setModo(t.dataset.m);break;
+case 'chip':tiraChip(t.dataset.k);break;
+case 'kit':kitAtual=id;renderKit();$('#tab-'+id).focus();break;
+case 'kit-lista':case 'guia-lista':{const its=t.dataset.act==='kit-lista'?(KITS.find(k=>k.id===id)||{}).itens:(guiaById(id)||{}).precisa;if(!its)break;
+its.forEach(([i,q])=>{if(byId(i))lista[i]=Math.max(lista[i]||0,q)});syncLista();toast('Itens na lista');break}
+case 'pd-inc':pd.q=Math.min(999,pd.q+1);pdUpdate();break;
+case 'pd-dec':pd.q=Math.max(1,pd.q-1);pdUpdate();break;
+case 'pd-add':setQty(pd.id,pd.q);toast('Lista atualizada');break;
+case 'copiar':{const el=$('#'+t.dataset.src);if(el)copiar(el.textContent,el);break}
+case 'copiar-end':copiar(ENDERECO,$('#end-txt'));break;
+case 'limpar':if(t.dataset.armed){lista={};syncLista();delete t.dataset.armed;t.textContent='Limpar lista';$('#l-vazio .btn').focus()}
+else{t.dataset.armed='1';t.textContent='Toque de novo pra limpar';setTimeout(()=>{delete t.dataset.armed;t.textContent='Limpar lista'},3000)}break}});
+dlg.addEventListener('click',e=>{if(e.target===dlg)dlg.close()});
+dlg.addEventListener('input',e=>{if(e.target.id==='l-nome')store.set('falcao-nome',e.target.value);updMsg()});
+dlg.addEventListener('change',updMsg);
+$('#kit-tabs').addEventListener('keydown',e=>{const i=KITS.findIndex(k=>k.id===kitAtual),n=KITS.length,j={ArrowRight:i+1,ArrowLeft:i-1,Home:0,End:n-1}[e.key];
+if(j==null)return;e.preventDefault();kitAtual=KITS[(j+n)%n].id;renderKit();$('#tab-'+kitAtual).focus()});
+$('#busca-form').addEventListener('submit',e=>{e.preventDefault();F.q=$('#q').value.trim();go('produtos',null,{focus:false});$('#f-count').scrollIntoView({block:'center'})});
+$('#q').addEventListener('input',e=>{F.q=e.target.value.trim();if(atual==='produtos')renderGrid()});
+$('#f-form').addEventListener('change',()=>{lerForm();renderGrid()});
+$('#f-form').addEventListener('submit',e=>e.preventDefault());
+$('#f-ordem').addEventListener('change',e=>{F.ordem=e.target.value;renderGrid()});
+$('#cot').addEventListener('submit',e=>{e.preventDefault();const f=e.target.elements,emp=f.empresa.value.trim(),err=$('#cot-err');
+if(!emp){f.empresa.setAttribute('aria-invalid','true');err.textContent='Diga o nome da empresa pra gente saber com quem fala.';err.hidden=false;f.empresa.focus();return}
+f.empresa.removeAttribute('aria-invalid');err.hidden=true;
+const L=[`${oi()} Quero uma cotação para empresa.`,'',`Empresa: ${emp}`];
+if(f.cnpj.value.trim())L.push(`CNPJ: ${f.cnpj.value.trim()}`);
+L.push(`Segmento: ${f.seg.value}`);if(f.bairro.value.trim())L.push(`Bairro: ${f.bairro.value.trim()}`);L.push(`Frequência: ${f.freq.value}`);
+if(f.itens.value.trim())L.push('','Preciso de:',f.itens.value.trim());
+const txt=L.join('\n');$('#cot-msg').textContent=txt;$('#cot-wa').href=wa(txt);$('#cot-ok').hidden=false;$('#cot-wa').focus()});
+$('#bairro-form').addEventListener('submit',e=>{e.preventDefault();const v=$('#bairro').value.trim(),res=$('#bairro-res');
+if(v.length<3){res.innerHTML='<div class="res"><p>Digite pelo menos 3 letras do bairro.</p></div>';return}
+const n=norm(v),hit=BAIRROS.find(b=>norm(b).includes(n)||n.includes(norm(b)));
+res.innerHTML=hit?`<div class="res"><p><b>${esc(hit)}</b> está na nossa rota de entrega. Combine dia e horário pelo WhatsApp.</p><div class="row"><a class="btn btn-zap btn-sm" target="_blank" rel="noopener" href="${wa(`${oi()} Moro em ${hit}. Como funciona a entrega?`)}">${ico('zap')}Combinar entrega</a></div></div>`
+:`<div class="res"><p>${esc(v)} ainda não está na lista, mas vale perguntar: dependendo do pedido, a gente leva.</p><div class="row"><a class="btn btn-sec btn-sm" target="_blank" rel="noopener" href="${wa(`${oi()} Vocês entregam em ${v}?`)}">${ico('zap')}Perguntar</a></div></div>`});
+$('#adm').addEventListener('input',admPrev);$('#adm').addEventListener('change',admPrev);
+$('#adm').addEventListener('submit',e=>{e.preventDefault();const {p,e:er}=admLer(),ul=$('#adm-err');
+if(er.length){ul.innerHTML=er.map(x=>`<li>${esc(x)}</li>`).join('');ul.hidden=false;ul.scrollIntoView({block:'nearest'});return}
+ul.hidden=true;P.push(p);renderFiltros();renderOfertas();toast(`${p.nome} entrou no catálogo`);e.target.reset();admPrev()});
+
+/* início */
+$$('a[data-maps]').forEach(a=>a.href=MAPS);
+if(matchMedia('(max-width:760px)').matches)$('#f-box').removeAttribute('open');
+$$('[data-sab]').forEach(el=>el.textContent=fmtDia(SAB));
+
+$$('[data-mapa]').forEach(m=>m.insertAdjacentHTML('afterbegin',mapa(m.dataset.mapa)));
+renderFiltros();renderHome();
+$('#g-list').innerHTML=GUIAS.map(g=>gcard(g)).join('')+TESTCARD;
+$('#t-prod').innerHTML=[['detergente-500',1],['detergente-5l',1]].map(([i,q])=>byId(i)&&mini(byId(i),q)).filter(Boolean).join('');
+$('#bairros-lista').innerHTML=BAIRROS.map(b=>`<li>${esc(b)}</li>`).join('');
+renderKit();admInit();
+$('#l-nome').value=store.get('falcao-nome','');
+setModo(modo);syncLista();
+$$('[data-wa]').forEach(a=>a.href=wa(`${oi()} Vim pelo site e queria tirar uma dúvida.`));
+})();</script>

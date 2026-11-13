@@ -1,0 +1,218 @@
+---
+import type { PublicGuideSummary } from '@/lib/server/publicContent';
+
+interface Props {
+  guide: PublicGuideSummary;
+}
+
+const { guide } = Astro.props;
+---
+
+<article class="guide-card">
+  {guide.cover_url ? (
+    <div class="card-thumb">
+      <img
+        src={guide.cover_url}
+        alt={guide.title}
+        loading="lazy"
+        decoding="async"
+      />
+    </div>
+  ) : (
+    <div class="card-thumb-placeholder">
+      <div class="icon-circle">
+        <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
+        </svg>
+      </div>
+    </div>
+  )}
+
+  <div class="card-body">
+    <div class="card-meta">
+      {guide.etiqueta && (
+        <span class="badge-etiqueta">{guide.etiqueta}</span>
+      )}
+      <span class="badge-tempo">{guide.tempo_display || `${guide.tempo_minutos} min`}</span>
+      {guide.dificuldade && (
+        <span class="badge-dificuldade">{guide.dificuldade}</span>
+      )}
+    </div>
+
+    <h3 class="card-title">
+      <a href={`/guias/${guide.slug}`} class="guide-title-link">
+        {guide.title}
+      </a>
+    </h3>
+
+    {guide.excerpt && (
+      <p class="card-excerpt">{guide.excerpt}</p>
+    )}
+
+    <div class="card-footer">
+      <a
+        href={`/guias/${guide.slug}`}
+        class="read-more-link"
+        aria-label={`Ver passo a passo completo: ${guide.title}`}
+      >
+        <span>Ver passo a passo</span>
+        <span aria-hidden="true">→</span>
+      </a>
+    </div>
+  </div>
+</article>
+
+<style>
+  .guide-card {
+    display: flex;
+    flex-direction: column;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    height: 100%;
+    box-shadow: var(--shadow);
+  }
+
+  .guide-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow);
+    border-color: var(--brand-line);
+  }
+
+  .card-thumb {
+    aspect-ratio: 16/9;
+    overflow: hidden;
+    background: var(--surface-2);
+  }
+
+  .card-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
+  }
+
+  .guide-card:hover .card-thumb img {
+    transform: scale(1.03);
+  }
+
+  .card-thumb-placeholder {
+    aspect-ratio: 16/9;
+    background: var(--brand-soft);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .icon-circle {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--surface);
+    color: var(--brand);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .card-body {
+    padding: 20px 24px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .card-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+  }
+
+  .badge-etiqueta {
+    background: var(--brand-soft);
+    color: var(--brand-strong);
+    font-weight: 700;
+    font-size: 11px;
+    padding: 3px 8px;
+    border-radius: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  .badge-tempo {
+    background: var(--surface-2);
+    color: var(--ink-2);
+    font-weight: 600;
+    font-size: 11px;
+    padding: 3px 8px;
+    border-radius: 6px;
+  }
+
+  .badge-dificuldade {
+    background: var(--bg);
+    border: 1px solid var(--line);
+    color: var(--ink-3);
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 6px;
+  }
+
+  .card-title {
+    margin: 0 0 10px;
+    font-family: var(--font-display, sans-serif);
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 1.3;
+    color: var(--ink);
+  }
+
+  .guide-title-link {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+
+  .guide-card:hover .guide-title-link {
+    color: var(--brand);
+  }
+
+  .card-excerpt {
+    margin: 0 0 16px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--ink-2);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .card-footer {
+    margin-top: auto;
+    padding-top: 14px;
+    border-top: 1px solid var(--line);
+  }
+
+  .read-more-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--brand);
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    transition: gap 0.15s ease;
+  }
+
+  .read-more-link:hover {
+    gap: 10px;
+    color: var(--brand-strong);
+  }
+</style>

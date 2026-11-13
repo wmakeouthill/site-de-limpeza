@@ -1,0 +1,65 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-falcao}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-falcao}
+      POSTGRES_DB: ${POSTGRES_DB:-falcao_limpeza}
+    ports:
+      # 5433 no host: a 5432 costuma estar ocupada por outro projeto local.
+      - "${POSTGRES_PORT:-5433}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-falcao} -d ${POSTGRES_DB:-falcao_limpeza}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      APP_NAME: ${APP_NAME:-Falcão Limpeza API}
+      ENVIRONMENT: ${ENVIRONMENT:-development}
+      # Fixo no host do serviço: o DATABASE_URL do .env aponta para localhost (dev fora do Docker).
+      DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-falcao}:${POSTGRES_PASSWORD:-falcao}@postgres:5432/${POSTGRES_DB:-falcao_limpeza}
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:4321,http://127.0.0.1:4321}
+      PUBLIC_SITE_BASE_URL: ${PUBLIC_SITE_BASE_URL:-http://localhost:4321}
+      CMS_FRONTEND_URL: ${CMS_FRONTEND_URL:-http://localhost:4321/cms}
+      CMS_UPLOAD_DIR: /data/cms-uploads
+      CMS_SESSION_SECRET: ${CMS_SESSION_SECRET:-dev-only-change-me-in-production-32bytes}
+      CMS_ALLOWED_EMAILS: ${CMS_ALLOWED_EMAILS:-}
+    ports:
+      - "${BACKEND_PORT:-8000}:8000"
+    volumes:
+      - cms_uploads:/data/cms-uploads
+
+  frontend:
+    build: .
+    restart: unless-stopped
+    depends_on:
+      - backend
+    environment:
+      API_INTERNAL_URL: http://backend:8000
+      # Bind mount vindo do Windows não propaga eventos de arquivo: polling para o hot reload.
+      # Só monte o que o front usa: polling no repo inteiro (backend/.venv, .git) trava o Vite.
+      CHOKIDAR_USEPOLLING: "true"
+      CHOKIDAR_INTERVAL: "1000"
+    ports:
+      - "${FRONTEND_PORT:-4321}:4321"
+    volumes:
+      - ./src:/app/src
+      - ./public:/app/public
+      - ./astro.config.mjs:/app/astro.config.mjs
+      - ./tsconfig.json:/app/tsconfig.json
+
+volumes:
+  postgres_data:
+  cms_uploads:

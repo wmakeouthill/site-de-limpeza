@@ -1,0 +1,16 @@
+---
+import type { PublicProduto } from '@/lib/server/publicCatalog';
+import type { PublicSiteSettings } from '@/lib/server/publicSettings';
+import { buildProductJsonLd } from '../utils/jsonLdBuilder';
+
+export interface Props {
+  produto: PublicProduto;
+  settings: PublicSiteSettings;
+  canonicalUrl?: string;
+}
+
+const { produto, settings, canonicalUrl = Astro.url.href } = Astro.props;
+const schema = buildProductJsonLd({ produto, settings, canonicalUrl });
+---
+
+<script is:inline type="application/ld+json" set:html={JSON.stringify(schema)} />

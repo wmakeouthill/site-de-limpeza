@@ -1,0 +1,6 @@
+.venv
+.cms-uploads
+.pytest_cache
+.ruff_cache
+**/__pycache__
+tests

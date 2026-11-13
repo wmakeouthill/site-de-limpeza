@@ -1,0 +1,14 @@
+.git
+node_modules
+dist
+.astro
+.vercel
+backend
+tests
+playwright-report
+test-results
+*.zip
+*.png
+*.jpeg
+.env
+.env.*

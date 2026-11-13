@@ -1,0 +1,224 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import MobileNav from '../components/MobileNav.astro';
+import FloatingWhatsApp from '../components/FloatingWhatsApp.astro';
+import PrivacyControls from '../components/PrivacyControls.astro';
+import { ListContainer } from '../features/list/components/ListContainer';
+import { EntryPromotionPopup } from '../features/promotions';
+import { getPublicSiteSettings, type PublicSiteSettings } from '../lib/server/publicSettings';
+
+export interface Props {
+  title?: string;
+  description?: string;
+  canonical?: string;
+  ogImage?: string;
+  ogType?: "website" | "article";
+  publishedTime?: string | null;
+  modifiedTime?: string | null;
+  authorName?: string | null;
+  section?: string | null;
+  tags?: string[];
+  showHeader?: boolean;
+  showFooter?: boolean;
+  settings?: PublicSiteSettings;
+}
+
+const {
+  title = "Falcão Limpeza · Loja de Produtos de Limpeza em Jacarepaguá / Anil",
+  description = "Produtos de limpeza para casa e empresa em Jacarepaguá, Anil e Rio das Pedras. Monte sua lista e envie pelo WhatsApp para entrega rápida ou retirada.",
+  canonical,
+  ogImage: customOgImage,
+  ogType = "website",
+  publishedTime = null,
+  modifiedTime = null,
+  authorName = null,
+  section = null,
+  tags = [],
+  showHeader = false,
+  showFooter = false,
+  settings: propSettings,
+} = Astro.props;
+
+const settings: PublicSiteSettings = propSettings || await getPublicSiteSettings();
+
+const siteUrl = Astro.site || 'https://falcaolimpeza.com.br';
+const canonicalURL = canonical ? new URL(canonical, siteUrl) : new URL(Astro.url.pathname, siteUrl);
+const ogImage = customOgImage ? new URL(customOgImage, siteUrl).href : new URL('/brand/simbolo.png', siteUrl).href;
+
+const storeSchema = {
+  "@context": "https://schema.org",
+  "@type": "Store",
+  "name": settings.loja_nome,
+  "image": ogImage,
+  "description": description,
+  "url": canonicalURL.href,
+  "telephone": `+${settings.whatsapp_numero}`,
+  "priceRange": "$$",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": settings.endereco,
+    "addressLocality": "Rio de Janeiro",
+    "addressRegion": "RJ",
+    "addressCountry": "BR"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": "-22.9667",
+    "longitude": "-43.3411"
+  },
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+      "opens": "08:00",
+      "closes": "19:00"
+    }
+  ]
+};
+
+const schemas: Record<string, any>[] = [storeSchema];
+
+if (ogType === "article") {
+  schemas.push({
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": title,
+    "description": description,
+    "image": ogImage,
+    "url": canonicalURL.href,
+    ...(publishedTime ? { "datePublished": publishedTime } : {}),
+    ...(modifiedTime || publishedTime ? { "dateModified": modifiedTime || publishedTime } : {}),
+    ...(authorName ? {
+      "author": {
+        "@type": "Person",
+        "name": authorName
+      }
+    } : {}),
+    "publisher": {
+      "@type": "Organization",
+      "name": settings.loja_nome,
+      "logo": {
+        "@type": "ImageObject",
+        "url": new URL('/brand/simbolo.png', siteUrl).href
+      }
+    }
+  });
+}
+---
+
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="canonical" href={canonicalURL.href} />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Anti-flicker do modo Casa / Empresa (CA-25) -->
+    <script is:inline>
+      (function() {
+        try {
+          var params = new URLSearchParams(window.location.search);
+          var modoParam = params.get('modo');
+          if (modoParam === 'empresa' || modoParam === 'casa') {
+            localStorage.setItem('talimpo-modo', modoParam);
+          }
+          var modo = localStorage.getItem('talimpo-modo') || 'casa';
+          if (modo === 'empresa') {
+            document.documentElement.classList.add('mode-emp');
+            if (document.body) document.body.classList.add('mode-emp');
+          }
+        } catch (e) {}
+      })();
+    </script>
+
+    <!-- Open Graph / WhatsApp -->
+    <meta property="og:type" content={ogType} />
+    <meta property="og:url" content={canonicalURL.href} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:site_name" content={settings.loja_nome} />
+    <meta property="og:locale" content="pt_BR" />
+
+    {ogType === "article" && publishedTime && (
+      <meta property="article:published_time" content={publishedTime} />
+    )}
+    {ogType === "article" && modifiedTime && (
+      <meta property="article:modified_time" content={modifiedTime} />
+    )}
+    {ogType === "article" && authorName && (
+      <meta property="article:author" content={authorName} />
+    )}
+    {ogType === "article" && section && (
+      <meta property="article:section" content={section} />
+    )}
+    {ogType === "article" && tags && tags.map((tag) => (
+      <meta property="article:tag" content={tag} />
+    ))}
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={canonicalURL.href} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <!-- Schema.org JSON-LD -->
+    {schemas.map((schema) => (
+      <script is:inline type="application/ld+json" set:html={JSON.stringify(schema)} />
+    ))}
+
+    <!-- Falcão Analytics Tracking Script -->
+    <script is:inline src="/api/public/track.js" data-site="falcao" defer></script>
+  </head>
+  <body>
+    <a href="#main" class="skip">Pular para o conteúdo</a>
+
+    {showHeader && <Header settings={settings} />}
+
+    <slot />
+
+    {showFooter && <Footer settings={settings} />}
+
+    {showHeader && <MobileNav settings={settings} />}
+    {showHeader && <FloatingWhatsApp settings={settings} />}
+
+    <ListContainer
+      client:load
+      lojaNome={settings.loja_nome}
+      whatsappNumero={settings.whatsapp_numero}
+    />
+
+    <!-- Popup de Promoções de Entrada (CA-13 a CA-16) -->
+    <EntryPromotionPopup client:load />
+
+    <!-- Toast Notification Container -->
+    <div id="toast" role="status" aria-live="polite"></div>
+
+    <!-- Controles de Privacidade LGPD -->
+    <PrivacyControls />
+
+    <!-- Toast helper script -->
+    <script is:inline>
+      window.showToast = function(msg) {
+        var el = document.getElementById('toast');
+        if (!el) return;
+        el.textContent = msg;
+        el.classList.add('on');
+        clearTimeout(window.__toastTimer);
+        window.__toastTimer = setTimeout(function() {
+          el.classList.remove('on');
+        }, 2500);
+      };
+    </script>
+  </body>
+</html>

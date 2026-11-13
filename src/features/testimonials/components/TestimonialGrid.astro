@@ -1,0 +1,184 @@
+---
+import type { PublicTestimonial } from '@/lib/server/publicContent';
+
+interface Props {
+  testimonials: PublicTestimonial[];
+  title?: string;
+  subtitle?: string;
+}
+
+const {
+  testimonials = [],
+  title = "O que nossos clientes dizem",
+  subtitle = "Famílias e empresas do Anil e Jacarepaguá que confiam no atendimento e na qualidade da Falcão Limpeza.",
+} = Astro.props;
+
+if (!testimonials || testimonials.length === 0) {
+  // CA-21: omite completamente o componente do DOM quando não houver depoimentos ativos
+  return null;
+}
+---
+
+<section class="testimonials-section" aria-labelledby="testimonials-title">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">Quem compra recomenda</p>
+      <h2 id="testimonials-title">{title}</h2>
+      {subtitle && <p class="sec-sub">{subtitle}</p>}
+    </div>
+
+    <div class="testimonials-grid">
+      {testimonials.map((t) => (
+        <article class="testimonial-card">
+          <div class="stars" aria-label="Avaliação 5 estrelas">
+            {"★★★★★"}
+          </div>
+          <blockquote class="quote">
+            &ldquo;{t.quote}&rdquo;
+          </blockquote>
+          <footer class="author-area">
+            {t.avatar_url ? (
+              <img src={t.avatar_url} alt={t.author} class="avatar" loading="lazy" />
+            ) : (
+              <div class="avatar-fallback" aria-hidden="true">
+                {t.author.charAt(0).toUpperCase()}
+              </div>
+            )}
+            <div>
+              <cite class="author-name">{t.author}</cite>
+              {(t.role || t.company) && (
+                <span class="author-meta">
+                  {[t.role, t.company].filter(Boolean).join(" · ")}
+                </span>
+              )}
+            </div>
+          </footer>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .testimonials-section {
+    padding: 72px 0;
+    background: var(--surface-2);
+    border-top: 1px solid var(--line);
+  }
+
+  .sec-head {
+    text-align: center;
+    max-width: 680px;
+    margin: 0 auto 48px;
+  }
+
+  .eyebrow {
+    font-family: var(--font-display, sans-serif);
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--brand);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin: 0 0 8px;
+  }
+
+  .sec-head h2 {
+    font-family: var(--font-display, sans-serif);
+    font-size: clamp(28px, 3.5vw, 38px);
+    font-weight: 800;
+    color: var(--ink);
+    margin: 0 0 12px;
+    line-height: 1.2;
+  }
+
+  .sec-sub {
+    font-size: 16px;
+    color: var(--ink-2);
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+    gap: 24px;
+    align-items: stretch;
+  }
+
+  .testimonial-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--shadow);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .testimonial-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+  }
+
+  .stars {
+    color: var(--brand);
+    font-size: 18px;
+    letter-spacing: 2px;
+    margin-bottom: 16px;
+  }
+
+  .quote {
+    margin: 0 0 20px;
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--ink-2);
+    font-style: italic;
+    flex: 1;
+  }
+
+  .author-area {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+  }
+
+  .avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .avatar-fallback {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: var(--btn);
+    color: var(--btn-ink);
+    font-family: var(--font-display, sans-serif);
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+
+  .author-name {
+    display: block;
+    font-family: var(--font-display, sans-serif);
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--ink);
+    font-style: normal;
+  }
+
+  .author-meta {
+    display: block;
+    font-size: 12px;
+    color: var(--ink-2);
+  }
+</style>

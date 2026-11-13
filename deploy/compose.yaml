@@ -1,0 +1,53 @@
+# Produção (VM Oracle). Sobe pelo deploy/deploy.ps1; no servidor fica como compose.yaml + .env.
+# Só o frontend é publicado, e só em 127.0.0.1: o nginx do host termina o HTTPS na frente.
+# Postgres e API ficam na rede interna do compose.
+name: falcao-limpeza
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:?defina POSTGRES_USER no .env}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?defina POSTGRES_PASSWORD no .env}
+      POSTGRES_DB: ${POSTGRES_DB:?defina POSTGRES_DB no .env}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    image: falcao-limpeza-backend:latest
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    env_file: .env
+    environment:
+      ENVIRONMENT: production
+      # A senha entra crua na URL: use só [A-Za-z0-9] (ex.: openssl rand -hex 24).
+      DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+      CMS_UPLOAD_DIR: /data/cms-uploads
+      CMS_SESSION_SECRET: ${CMS_SESSION_SECRET:?defina CMS_SESSION_SECRET no .env}
+      CMS_ALLOWED_EMAILS: ${CMS_ALLOWED_EMAILS:?defina CMS_ALLOWED_EMAILS no .env}
+      CMS_COOKIE_SECURE: "true"
+    volumes:
+      - cms_uploads:/data/cms-uploads
+
+  frontend:
+    image: falcao-limpeza-frontend:latest
+    restart: unless-stopped
+    depends_on:
+      - backend
+    environment:
+      API_INTERNAL_URL: http://backend:8000
+      INDEXNOW_KEY: ${INDEXNOW_KEY:-}
+    ports:
+      - "127.0.0.1:4321:4321"
+
+volumes:
+  postgres_data:
+  cms_uploads:

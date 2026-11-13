@@ -1,0 +1,20 @@
+---
+import Header from './Header.astro';
+import { getPublicSiteSettings, type PublicSiteSettings } from '../lib/server/publicSettings';
+
+export interface Props {
+  articlesEnabled?: boolean;
+  guidesEnabled?: boolean;
+  settings?: PublicSiteSettings;
+}
+
+const { articlesEnabled, guidesEnabled, settings: propSettings } = Astro.props;
+const baseSettings = propSettings || await getPublicSiteSettings();
+const settings: PublicSiteSettings = {
+  ...baseSettings,
+  articles_enabled: articlesEnabled !== undefined ? articlesEnabled : baseSettings.articles_enabled,
+  guides_enabled: guidesEnabled !== undefined ? guidesEnabled : baseSettings.guides_enabled,
+};
+---
+
+<Header settings={settings} />

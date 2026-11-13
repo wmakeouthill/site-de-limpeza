@@ -1,0 +1,191 @@
+.card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 0;
+  /* Altura um pouco maior que o Figma (308) para caber título longo + 3 KPIs
+     do CMS sem clipar; o auto-fit ainda comprime tipografia/gaps se precisar. */
+  height: 340px;
+  min-height: 340px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+  overflow: hidden;
+  background: var(--color-white);
+}
+
+.cardBody {
+  display: flex;
+  flex-direction: column;
+  /* --body-gap é reduzido pelo auto-fit quando título + KPIs não cabem. */
+  gap: var(--body-gap, 24px);
+  min-height: 0;
+  overflow: hidden;
+  padding: 32px 28px;
+}
+
+.cardIntro {
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.cardTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 34px;
+  max-height: 16px;
+  overflow: hidden;
+}
+
+.cardTag {
+  color: var(--color-ink-50);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.cardTitle {
+  display: -webkit-box;
+  max-width: 584px;
+  overflow: hidden;
+  color: var(--color-dark-900);
+  /* --title-size/--title-lines: auto-fit reduz a fonte com moderação (ex. 22→20→18)
+     mantendo 3 linhas, para liberar altura aos KPIs; só sobe o clamp se ainda
+     truncar no piso tipográfico. */
+  font-size: var(--title-size, 22px);
+  font-weight: 600;
+  line-height: 1.2;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: var(--title-lines, 3);
+}
+
+.metrics {
+  display: grid;
+  flex: 1 1 auto;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-content: start;
+  /* row-gap (vertical) é ajustado pelo auto-fit; column-gap (entre os 2 KPIs) é
+     fixo e proporcional ao respiro lateral do card (28px) — um pouco menor, para
+     os KPIs lerem como um par dentro de margens simétricas. */
+  gap: var(--metric-gap, 20px) 20px;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.metric {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.metricValue {
+  flex: 0 0 auto;
+  background: linear-gradient(90deg, #031a2b 0%, #05a2f2 100%);
+  background-clip: text;
+  color: var(--color-blue-500);
+  font-size: var(--metric-value-size, 36px);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0;
+  white-space: nowrap;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.metricPrefix {
+  color: inherit;
+  -webkit-text-fill-color: inherit;
+}
+
+.metricLabel {
+  display: -webkit-box;
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  color: var(--color-ink);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.2;
+  -webkit-box-orient: vertical;
+  /* --metric-label-lines cai para 1 só como último recurso do auto-fit. */
+  -webkit-line-clamp: var(--metric-label-lines, 2);
+}
+
+.link {
+  align-self: flex-start;
+  flex: 0 0 auto;
+  color: var(--color-amber-600);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.2;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.cardMedia {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  height: 340px;
+  min-height: 340px;
+  overflow: hidden;
+  background:
+    linear-gradient(0deg, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)),
+    #253882;
+}
+
+.cardMedia img,
+.cardMediaFallback {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.cardMedia img {
+  object-fit: contain;
+  object-position: var(--image-position, 50% 50%);
+  transform: scale(var(--image-zoom, 1));
+  transform-origin: var(--image-position, 50% 50%);
+}
+
+.cardMediaFallback {
+  background: linear-gradient(92.49deg, #243782 1.15%, #3b8d98 91.46%, #43aaa0 121.92%);
+}
+
+@media (max-width: 900px) {
+  .card {
+    height: auto;
+    grid-template-columns: 1fr;
+  }
+
+  .cardMedia {
+    height: 320px;
+    min-height: 320px;
+  }
+
+}
+
+@media (max-width: 560px) {
+  .cardBody {
+    padding: 25px 22px;
+  }
+
+  .metrics {
+    grid-template-columns: 1fr;
+    gap: var(--metric-gap, 16px);
+  }
+
+  .metric {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .cardTitle {
+    font-size: var(--title-size, 20px);
+  }
+}

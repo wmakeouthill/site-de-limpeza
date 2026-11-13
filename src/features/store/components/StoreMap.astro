@@ -1,0 +1,339 @@
+---
+// Mapa real e navegável: MapLibre (open source) + tiles vetoriais do OpenFreeMap (grátis, sem chave),
+// recolorido com os tokens --map-* do tema. Pontos de interesse vêm do próprio OpenStreetMap.
+// CSS no frontmatter: com inlineStylesheets 'always' um import() de CSS no script vira 404 no build.
+import "maplibre-gl/dist/maplibre-gl.css";
+
+export interface Props {
+  nome: string;
+  endereco: string;
+}
+
+const { nome, endereco } = Astro.props;
+
+// O OSM não tem o nº 5171: ponto no trecho da Estrada de Jacarepaguá no Anil (CEP 22753-033),
+// colado em Rio das Pedras, tirado uma vez do Nominatim/Photon. Loja mudou? Troque aqui.
+const LOJA = { lng: -43.335247, lat: -22.9594847 };
+---
+
+<div
+  class="mapa"
+  data-store-map
+  data-lng={LOJA.lng}
+  data-lat={LOJA.lat}
+  role="region"
+  aria-label={`Mapa interativo: ${nome}, ${endereco}`}
+>
+  <div class="tela"></div>
+
+  <div class="pin" role="img" aria-label={`${nome}, ${endereco}`}>
+    <span class="pulso" aria-hidden="true"></span>
+    <span class="cabeca"><img src="/brand/simbolo-80.webp" alt="" width="40" height="40" /></span>
+    <span class="ponta" aria-hidden="true"></span>
+    <span class="etiqueta"><b>{nome}</b><small>{endereco}</small></span>
+  </div>
+
+  <button class="voltar" type="button">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3" /><path d="M12 2v3M12 19v3M2 12h3M19 12h3" /><circle cx="12" cy="12" r="7" /></svg>
+    Voltar para a loja
+  </button>
+</div>
+
+<script>
+  import type { LayerSpecification, Map as MapaGL, StyleSpecification } from "maplibre-gl";
+
+  const ESTILO = "https://tiles.openfreemap.org/styles/positron";
+  const ZOOM = 16;
+  type Cores = Record<"bg" | "rua" | "via" | "borda" | "verde" | "agua" | "predio" | "texto" | "texto2", string>;
+
+  function lerCores(el: HTMLElement): Cores {
+    const css = getComputedStyle(el);
+    const v = (nome: string) => css.getPropertyValue(nome).trim();
+    return {
+      bg: v("--map-bg"), rua: v("--map-street"), via: v("--map-road"), borda: v("--map-edge"),
+      verde: v("--map-green"), agua: v("--map-water"), predio: v("--surface-2"), texto: v("--ink-2"), texto2: v("--ink-3"),
+    };
+  }
+
+  // Cor de cada camada do Positron pelo id/tipo; o que não casa fica como veio.
+  function pinturaDa(l: LayerSpecification, c: Cores): Record<string, string> {
+    const id = l.id;
+    if (l.type === "background") return { "background-color": c.bg };
+    if (l.type === "symbol") return { "text-color": id.startsWith("poi") ? c.texto2 : c.texto, "text-halo-color": c.bg };
+    if (l.type === "fill") {
+      if (/park|wood/.test(id)) return { "fill-color": c.verde };
+      if (id === "water") return { "fill-color": c.agua };
+      if (id === "building") return { "fill-color": c.predio, "fill-outline-color": c.borda };
+      return { "fill-color": c.bg };
+    }
+    if (l.type === "line") {
+      if (id === "waterway") return { "line-color": c.agua };
+      if (/casing|subtle|railway|boundary/.test(id)) return { "line-color": c.borda };
+      if (/inner|runway|taxiway/.test(id)) return { "line-color": c.via };
+      return { "line-color": c.rua };
+    }
+    return {};
+  }
+
+  // Camadas de POI do estilo Liberty do OpenFreeMap (mesmo sprite), com nome em português quando houver.
+  function camadasPoi(): LayerSpecification[] {
+    const nome = ["coalesce", ["get", "name:pt"], ["get", "name"]];
+    const ponto = ["match", ["geometry-type"], ["MultiPoint", "Point"], true, false];
+    const layout = {
+      "icon-image": ["match", ["get", "subclass"], ["florist", "furniture"], ["get", "subclass"], ["get", "class"]],
+      "text-field": nome, "text-font": ["Noto Sans Regular"], "text-size": 11,
+      "text-anchor": "top", "text-offset": [0, 0.7], "text-max-width": 9, "text-optional": true,
+    };
+    const poi = (id: string, minzoom: number, rank: unknown[]) =>
+      ({ id, type: "symbol", source: "openmaptiles", "source-layer": "poi", minzoom, filter: ["all", ponto, ...rank], layout, paint: {} });
+    return [
+      poi("poi_r20", 17, [[">=", ["get", "rank"], 20]]),
+      poi("poi_r7", 16, [[">=", ["get", "rank"], 7], ["<", ["get", "rank"], 20]]),
+      poi("poi_r1", 15, [[">=", ["get", "rank"], 1], ["<", ["get", "rank"], 7]]),
+      {
+        id: "poi_transit", type: "symbol", source: "openmaptiles", "source-layer": "poi", minzoom: 15,
+        filter: ["match", ["get", "class"], ["bus", "rail"], true, false],
+        layout: { ...layout, "icon-image": ["to-string", ["get", "class"]], "icon-size": 0.8, "text-anchor": "left", "text-offset": [0.9, 0] },
+        paint: {},
+      },
+    ] as LayerSpecification[];
+  }
+
+  async function iniciar(el: HTMLElement) {
+    const loja: [number, number] = [Number(el.dataset.lng), Number(el.dataset.lat)];
+    const [{ default: maplibregl }, estilo] = await Promise.all([
+      import("maplibre-gl"),
+      fetch(ESTILO).then((r) => r.json() as Promise<StyleSpecification>),
+    ]);
+
+    const rotulos = estilo.layers.findIndex((l) => l.id === "highway-name-path");
+    estilo.layers.splice(rotulos, 0, ...camadasPoi());
+    const cores = lerCores(el);
+    for (const l of estilo.layers) Object.assign((l as { paint?: object }).paint ??= {}, pinturaDa(l, cores));
+
+    const parado = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const mapa: MapaGL = new maplibregl.Map({
+      container: el.querySelector<HTMLElement>(".tela")!,
+      style: estilo,
+      center: loja,
+      zoom: ZOOM,
+      minZoom: 13,
+      maxZoom: 18.5,
+      // ponytail: ~4 km em volta da loja; amplie se quiserem mostrar a região toda.
+      maxBounds: [[loja[0] - 0.045, loja[1] - 0.04], [loja[0] + 0.045, loja[1] + 0.04]],
+      cooperativeGestures: true, // a rolagem da página não fica presa no mapa
+      dragRotate: false,
+      pitchWithRotate: false,
+      attributionControl: { compact: true },
+      locale: {
+        "CooperativeGesturesHandler.WindowsHelpText": "Use Ctrl + rolagem para aproximar o mapa",
+        "CooperativeGesturesHandler.MacHelpText": "Use ⌘ + rolagem para aproximar o mapa",
+        "CooperativeGesturesHandler.MobileHelpText": "Use dois dedos para mover o mapa",
+        "NavigationControl.ZoomIn": "Aproximar",
+        "NavigationControl.ZoomOut": "Afastar",
+        "AttributionControl.ToggleAttribution": "Créditos do mapa",
+      },
+    });
+    mapa.touchZoomRotate.disableRotation();
+    // O sprite do Positron não tem todos os ícones do Liberty: sem ícone, o POI fica só com o nome.
+    mapa.on("styleimagemissing", (e) => mapa.addImage(e.id, { width: 1, height: 1, data: new Uint8Array(4) }));
+    mapa.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-right");
+
+    const botao = el.querySelector<HTMLButtonElement>(".voltar")!;
+    mapa.on("moveend", () => {
+      const longe = mapa.getCenter().distanceTo(new maplibregl.LngLat(...loja)) > 120 || Math.abs(mapa.getZoom() - ZOOM) > 0.75;
+      el.toggleAttribute("data-longe", longe);
+    });
+    botao.addEventListener("click", () => mapa.flyTo({ center: loja, zoom: ZOOM, duration: parado ? 0 : 1200 }));
+
+    // Tema claro/escuro: repinta com os tokens novos.
+    const repintar = () => {
+      const c = lerCores(el);
+      for (const l of mapa.getStyle().layers) {
+        for (const [prop, valor] of Object.entries(pinturaDa(l, c))) mapa.setPaintProperty(l.id, prop, valor);
+      }
+    };
+    new MutationObserver(repintar).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+    matchMedia("(prefers-color-scheme: dark)").addEventListener("change", repintar);
+
+    // O pin do placeholder vira o marcador só agora, no mesmo ponto (centro), sem piscar.
+    mapa.once("load", () => {
+      new maplibregl.Marker({ element: el.querySelector<HTMLElement>(".pin")!, anchor: "bottom" }).setLngLat(loja).addTo(mapa);
+      el.classList.add("pronto");
+    });
+  }
+
+  // Só baixa o MapLibre (~250 kB) quando o mapa chega perto da tela.
+  const observador = new IntersectionObserver(
+    (entradas) => {
+      for (const e of entradas) {
+        if (!e.isIntersecting) continue;
+        observador.unobserve(e.target);
+        iniciar(e.target as HTMLElement).catch(() => e.target.classList.add("falhou"));
+      }
+    },
+    { rootMargin: "300px" },
+  );
+  document.querySelectorAll<HTMLElement>("[data-store-map]").forEach((el) => observador.observe(el));
+</script>
+
+<style>
+  .mapa {
+    position: relative;
+    width: 100%; /* sem isso o min-height alarga o mapa (aspect-ratio) e estoura a tela no celular */
+    aspect-ratio: 3 / 2;
+    min-height: 300px;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    background: var(--map-bg);
+    isolation: isolate;
+  }
+
+  .tela {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+  .pronto .tela { opacity: 1; }
+
+  /* Antes do mapa carregar (ou se falhar) o pin fica no centro, onde o mapa vai pôr a loja. */
+  .mapa:not(.pronto) .pin:not(.maplibregl-marker) {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -100%);
+  }
+
+  .pin {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 2;
+    cursor: default;
+  }
+
+  .cabeca {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: var(--surface);
+    box-shadow: 0 0 0 3px var(--brand), 0 10px 22px -8px rgb(16 27 61 / 0.55);
+  }
+  .cabeca img {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: block;
+  }
+
+  .ponta {
+    width: 14px;
+    height: 14px;
+    margin-top: -8px;
+    background: var(--brand);
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+  }
+
+  .pulso {
+    position: absolute;
+    left: 50%;
+    bottom: -6px;
+    width: 18px;
+    height: 8px;
+    margin-left: -9px;
+    border-radius: 50%;
+    background: var(--brand);
+    opacity: 0.35;
+    animation: pulso 2.4s ease-out infinite;
+  }
+
+  @keyframes pulso {
+    0% { transform: scale(0.6); opacity: 0.45; }
+    100% { transform: scale(3.2); opacity: 0; }
+  }
+
+  .etiqueta {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 50%;
+    transform: translateX(-50%);
+    display: grid;
+    gap: 1px;
+    padding: 7px 12px;
+    border-radius: 12px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow);
+    white-space: nowrap;
+    text-align: center;
+    font-family: var(--font-sans);
+  }
+  .etiqueta b { font-size: 0.86rem; font-weight: 800; color: var(--ink); }
+  .etiqueta small { font-size: 0.72rem; font-weight: 600; color: var(--ink-2); }
+
+  .voltar {
+    position: absolute;
+    left: 12px;
+    bottom: 12px;
+    z-index: 3;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 40px;
+    padding: 0 16px 0 12px;
+    border: 0;
+    border-radius: var(--radius-full);
+    background: var(--btn);
+    color: var(--btn-ink);
+    font: 800 0.86rem/1 var(--font-sans);
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(8px);
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+  }
+  .voltar svg {
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+  }
+  .mapa[data-longe] .voltar {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+  }
+  .voltar:hover { filter: brightness(1.08); }
+  .voltar:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+
+  /* Controles do MapLibre no visual do site. */
+  .mapa :global(.maplibregl-ctrl-group) {
+    background: var(--surface);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--line);
+    overflow: hidden;
+  }
+  .mapa :global(.maplibregl-ctrl-group button) { width: 36px; height: 36px; }
+  .mapa :global(.maplibregl-ctrl-group button + button) { border-top: 1px solid var(--line); }
+  .mapa :global(.maplibregl-ctrl-attrib) { font: 500 0.68rem var(--font-sans); background: var(--surface); color: var(--ink-2); }
+  .mapa :global(.maplibregl-ctrl-attrib a) { color: var(--ink-2); }
+  .mapa :global(.maplibregl-cooperative-gesture-screen) { font: 700 1rem var(--font-sans); }
+  :global(:root[data-theme="dark"]) .mapa :global(.maplibregl-ctrl-icon) { filter: invert(1); }
+  @media (prefers-color-scheme: dark) {
+    :global(:root:not([data-theme="light"])) .mapa :global(.maplibregl-ctrl-icon) { filter: invert(1); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pulso { animation: none; }
+    .tela, .voltar { transition: none; }
+  }
+</style>

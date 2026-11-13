@@ -1,0 +1,212 @@
+.wrapper {
+  display: grid;
+  gap: 8px;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 34px;
+}
+
+.toolbarHint {
+  color: var(--ink-2);
+  font-size: 13px;
+}
+
+.dispositionBar {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px;
+  border: 1px solid rgba(3, 26, 43, 0.12);
+  border-radius: 8px;
+  background: var(--surface);
+}
+
+.floatingDispositionBar {
+  position: fixed;
+  z-index: 1100;
+  box-shadow: 0 12px 32px rgba(3, 26, 43, 0.18);
+}
+
+.dispositionLabel {
+  margin: 0 4px;
+  color: var(--ink-2);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.dispositionButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--color-dark-700, #1b3a4b);
+  cursor: pointer;
+}
+
+.dispositionButton:hover {
+  background: rgba(3, 26, 43, 0.06);
+}
+
+.dispositionButtonActive,
+.dispositionButtonActive:hover {
+  background: var(--brand-soft);
+  color: var(--color-orange-700, #c23a18);
+}
+
+.previewButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border: 1px solid rgba(3, 26, 43, 0.16);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--color-dark-900, #031a2b);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.previewButton:hover {
+  border-color: var(--focus);
+  color: var(--color-orange-700, #c23a18);
+}
+
+.modalBackdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 40px 20px;
+  background: rgba(3, 26, 43, 0.55);
+  overflow-y: auto;
+}
+
+.modal {
+  width: min(840px, 100%);
+  border-radius: 14px;
+  background: var(--surface);
+  box-shadow: 0 24px 60px rgba(3, 26, 43, 0.3);
+}
+
+.modalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  border-bottom: 1px solid rgba(3, 26, 43, 0.1);
+  font-weight: 700;
+}
+
+.modalHeader button {
+  display: inline-flex;
+  border: none;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+
+.modalBody {
+  padding: 28px 32px 40px;
+}
+
+.editor {
+  border: 1px solid rgba(3, 26, 43, 0.12);
+  border-radius: 8px;
+  background: #fff;
+  cursor: text;
+  padding: 8px 0;
+  min-height: 360px;
+}
+
+.editor:focus-within {
+  border-color: var(--focus);
+  box-shadow: 0 0 0 3px var(--brand-soft);
+}
+
+/* Alinha o conteudo do BlockNote ao restante dos campos do CMS. */
+.editor :global(.bn-container),
+.editor :global(.bn-editor) {
+  min-height: 340px;
+}
+
+.editor :global(.bn-editor) {
+  outline: none;
+  padding-inline: 12px;
+  /* Quebra palavras/URLs longas em vez de crescer infinitamente para a direita. */
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+.editor :global(.bn-block-content) {
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+.editor :global(.bn-editor h1),
+.editor :global(.bn-editor [data-content-type="heading"][data-level="1"] *) {
+  font-size: 24px !important;
+  line-height: 1.25 !important;
+}
+
+.editor :global(.bn-editor h2),
+.editor :global(.bn-editor [data-content-type="heading"][data-level="2"] *) {
+  font-size: 21px !important;
+  line-height: 1.3 !important;
+}
+
+.editor :global(.bn-editor h3),
+.editor :global(.bn-editor [data-content-type="heading"][data-level="3"] *) {
+  font-size: 18px !important;
+  line-height: 1.35 !important;
+}
+
+.editor :global(.bn-editor p),
+.editor :global(.bn-editor [data-content-type="paragraph"] *) {
+  font-size: 15px !important;
+  line-height: 1.65 !important;
+}
+
+/* Seletor de linguagem do bloco de codigo. O BlockNote renderiza um <select>
+   sem estilo, que herda texto preto sobre o fundo escuro do codigo (ilegivel).
+   Aqui damos um visual de "pill" legivel, no canto superior. */
+.editor :global(.bn-container [data-content-type="codeBlock"] select) {
+  margin: 0 0 8px;
+  padding: 2px 8px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 6px;
+  background: rgba(3, 26, 43, 0.85) !important;
+  color: #c8d0d8 !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12px;
+  opacity: 1 !important;
+  transition-delay: 0s !important;
+  cursor: pointer;
+}
+
+.editor :global(.bn-container [data-content-type="codeBlock"]:hover select),
+.editor :global(.bn-container [data-content-type="codeBlock"] select:hover),
+.editor :global(.bn-container [data-content-type="codeBlock"] select:focus) {
+  color: #c8d0d8 !important;
+  opacity: 1 !important;
+  transition-delay: 0s !important;
+}
+
+/* As <option> abrem no popup nativo do SO (fundo claro), entao precisam de
+   texto escuro para nao ficarem branco-sobre-branco. */
+.editor :global(.bn-container [data-content-type="codeBlock"] select option) {
+  background: #fff;
+  color: #101b3d;
+}

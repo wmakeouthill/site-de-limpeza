@@ -1,0 +1,81 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getPublicSiteSettings } from '../lib/server/publicSettings';
+
+const settings = await getPublicSiteSettings();
+---
+
+<BaseLayout
+  title={`Minha Lista · ${settings.loja_nome}`}
+  description={`Consulte os itens da sua lista e envie para o WhatsApp da ${settings.loja_nome}.`}
+  showHeader={true}
+  showFooter={true}
+  settings={settings}
+>
+  <section class="lista-fallback-wrap">
+    <div class="wrap">
+      <div class="lista-fallback-card">
+        <h1>Minha Lista</h1>
+        <p>A janela da lista foi aberta para você conferir seus produtos e enviar para o WhatsApp.</p>
+        <button type="button" class="btn-abrir-lista" data-open-list>
+          Abrir minha lista
+        </button>
+        <a href="/produtos" class="link-voltar">Ou continue explorando o catálogo</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script is:inline>
+  if (typeof window !== 'undefined') {
+    setTimeout(function() {
+      window.dispatchEvent(new CustomEvent('talimpo:open-list'));
+    }, 100);
+  }
+</script>
+
+<style>
+  .lista-fallback-wrap {
+    padding: 60px 0;
+    min-height: 50vh;
+    display: flex;
+    align-items: center;
+  }
+  .lista-fallback-card {
+    max-width: 480px;
+    margin: 0 auto;
+    text-align: center;
+    background: var(--surface);
+    padding: 32px 24px;
+    border-radius: 12px;
+    border: 1px solid var(--line);
+  }
+  .lista-fallback-card h1 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 12px;
+    color: var(--ink);
+  }
+  .lista-fallback-card p {
+    font-size: 0.95rem;
+    color: var(--ink-2);
+    margin-bottom: 24px;
+  }
+  .btn-abrir-lista {
+    display: inline-block;
+    background: var(--btn);
+    color: var(--btn-ink);
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 16px;
+  }
+  .link-voltar {
+    display: block;
+    font-size: 0.88rem;
+    color: var(--brand);
+    text-decoration: underline;
+  }
+</style>

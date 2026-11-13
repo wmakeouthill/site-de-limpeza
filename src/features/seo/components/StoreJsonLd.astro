@@ -1,0 +1,14 @@
+---
+import type { PublicSiteSettings } from '@/lib/server/publicSettings';
+import { buildStoreJsonLd } from '../utils/jsonLdBuilder';
+
+export interface Props {
+  settings: PublicSiteSettings;
+  canonicalUrl?: string;
+}
+
+const { settings, canonicalUrl = Astro.url.href } = Astro.props;
+const schema = buildStoreJsonLd({ settings, canonicalUrl });
+---
+
+<script is:inline type="application/ld+json" set:html={JSON.stringify(schema)} />
