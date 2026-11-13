@@ -503,6 +503,21 @@ const initialOferta = searchParams.get('oferta') === 'true' || searchParams.get(
     border-color: var(--brand);
   }
 
+  /* "Ver mais" abaixo do grid */
+  .catalog-more {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-top: 28px;
+  }
+
+  .catalog-more p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--ink-2);
+  }
+
   /* Empty state */
   .catalog-empty {
     text-align: center;

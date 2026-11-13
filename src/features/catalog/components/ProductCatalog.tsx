@@ -5,6 +5,9 @@ import { ProductFilters } from "./ProductFilters";
 import { filterAndSortProducts, type FilterProductsParams } from "../utils/productSearch";
 import { trackBusca } from "@/features/analytics/services/trackEvent";
 
+// Múltiplo de 2, 3 e 4: a última linha do grid fecha cheia no celular e no desktop.
+const LOTE = 24;
+
 export interface ProductCatalogProps {
   initialProdutos: PublicProduto[];
   departamentos: PublicDepartamento[];
@@ -28,6 +31,7 @@ export function ProductCatalog({
   const [embalagemGrande, setEmbalagemGrande] = useState(false);
   const [selectedMarcas, setSelectedMarcas] = useState<string[]>([]);
   const [ordem, setOrdem] = useState<"pop" | "menor" | "desc" | "az">("pop");
+  const [visiveis, setVisiveis] = useState(LOTE);
 
   // Lê parâmetros da URL no cliente (se houver hidratação)
   useEffect(() => {
@@ -112,6 +116,11 @@ export function ProductCatalog({
     selectedMarcas,
     ordem,
   ]);
+
+  // Filtro, busca ou ordem novos recomeçam do primeiro lote.
+  useEffect(() => {
+    setVisiveis(LOTE);
+  }, [searchTerm, selectedDept, selectedPreco, soOfertas, embalagemGrande, selectedMarcas, ordem]);
 
   function handleToggleMarca(marca: string) {
     setSelectedMarcas((prev) =>
@@ -283,11 +292,27 @@ export function ProductCatalog({
 
         {/* Grid de Produtos */}
         {filteredProdutos.length > 0 ? (
-          <div className="products-grid">
-            {filteredProdutos.map((produto) => (
-              <ProductCard key={produto.id} produto={produto} />
-            ))}
-          </div>
+          <>
+            <div className="products-grid">
+              {filteredProdutos.slice(0, visiveis).map((produto) => (
+                <ProductCard key={produto.id} produto={produto} />
+              ))}
+            </div>
+            {filteredProdutos.length > visiveis && (
+              <div className="catalog-more">
+                <p aria-live="polite">
+                  Mostrando {visiveis} de {filteredProdutos.length} produtos
+                </p>
+                <button
+                  type="button"
+                  className="btn btn-sec"
+                  onClick={() => setVisiveis((n) => n + LOTE)}
+                >
+                  Ver mais produtos
+                </button>
+              </div>
+            )}
+          </>
         ) : (
           <div className="catalog-empty">
             <svg

@@ -80,6 +80,40 @@ it("renderiza a lista de produtos e o contador com aria-live", async () => {
   expect(container.textContent).toContain("Detergente Neutro 500 ml");
 });
 
+it("mostra 24 por vez, 'Ver mais' revela o resto e a busca volta ao primeiro lote", async () => {
+  const muitos = Array.from({ length: 30 }, (_, i) => ({
+    ...mockProdutos[1],
+    id: `p${i}`,
+    slug: `produto-${i}`,
+    nome: `Produto ${i}`,
+  }));
+  await act(async () => {
+    createRoot(container).render(
+      <ProductCatalog initialProdutos={muitos} departamentos={mockDepartamentos} />
+    );
+  });
+  const cards = () => container.querySelector(".products-grid")!.children.length;
+  const verMais = () =>
+    [...container.querySelectorAll("button")].find((b) => b.textContent === "Ver mais produtos");
+
+  expect(cards()).toBe(24);
+  expect(container.textContent).toContain("Mostrando 24 de 30 produtos");
+
+  await act(async () => verMais()!.click());
+  expect(cards()).toBe(30);
+  expect(verMais()).toBeUndefined();
+
+  const searchInput = container.querySelector('input[type="search"]') as HTMLInputElement;
+  await act(async () => {
+    Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value")?.set?.call(
+      searchInput,
+      "produto"
+    );
+    searchInput.dispatchEvent(new Event("input", { bubbles: true }));
+  });
+  expect(cards()).toBe(24);
+});
+
 it("filtra produtos por busca textual case-insensitive e sem acento", async () => {
   await act(async () => {
     createRoot(container).render(
